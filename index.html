@@ -167,7 +167,7 @@
                 <div class="space-y-2 max-w-2xl">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-400/30 text-orange-300 text-xs font-semibold">
                         <span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>
-                        <span data-i18n="hero_badge">Версия 0.4.2а • Полный перевод</span>
+                        <span data-i18n="hero_badge">Версия 0.4.4а • Полный перевод</span>
                     </div>
                     <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
                         <span data-i18n="hero_title_prefix">Добро пожаловать в</span> <span class="text-orange-400">usrishnost games</span>
@@ -409,25 +409,6 @@
             </div>
         </section>
 
-        <!-- ВКЛАДКА CHANGELOG -->
-        <section id="view-changelog" class="hidden max-w-4xl mx-auto space-y-6">
-            <div class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
-                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
-                    <div>
-                        <h2 data-i18n="cl_title" class="text-2xl font-extrabold text-white">История обновлений (ChangeLog)</h2>
-                        <p data-i18n="cl_subtitle" class="text-sm text-zinc-400 mt-1">Полный путь развития портала usrishnost games от первой альфы до 0.4.0</p>
-                    </div>
-                    <span class="px-3.5 py-1.5 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-extrabold shrink-0">
-                        Актуальная: v0.4.0
-                    </span>
-                </div>
-
-                <div id="changelog-list" class="space-y-4">
-                    <!-- Заполняется через JS -->
-                </div>
-            </div>
-        </section>
-
         <!-- ВКЛАДКА 3: АККАУНТ (Видна только после входа) -->
         <section id="view-account" class="hidden max-w-3xl mx-auto space-y-6">
             <div class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
@@ -598,11 +579,16 @@
                     <div class="flex flex-wrap items-center justify-between gap-3">
                         <div>
                             <h3 data-i18n="cl_title" class="text-lg sm:text-xl font-extrabold text-white">📜 История обновлений (ChangeLog)</h3>
-                            <p data-i18n="cl_subtitle" class="text-xs sm:text-sm text-zinc-400 mt-0.5">Полный путь развития портала usrishnost games от первой альфы до 0.4.2а</p>
+                            <p data-i18n="cl_subtitle" class="text-xs sm:text-sm text-zinc-400 mt-0.5">Полный путь развития портала usrishnost games от первой альфы до 0.4.4а</p>
                         </div>
-                        <span data-i18n="cl_current_badge" class="px-3 py-1 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-extrabold shrink-0">
-                            Актуальная: v0.4.2а
-                        </span>
+                        <div class="flex items-center gap-2 shrink-0">
+                            <button type="button" onclick="toggleChangelogPanel()" data-i18n="cl_open_btn" class="px-3 py-1 rounded-xl bg-orange-500/20 hover:bg-orange-500/35 border border-orange-400/40 text-orange-200 text-xs font-bold transition-colors cursor-pointer">
+                                📖 Открыть журнал изменений
+                            </button>
+                            <span data-i18n="cl_current_badge" class="px-3 py-1 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-extrabold">
+                                Актуальная: v0.4.4а
+                            </span>
+                        </div>
                     </div>
 
                     <div id="changelog-list" class="space-y-3.5 max-h-[460px] overflow-y-auto pr-1">
@@ -621,9 +607,13 @@
                 <img src="usrishnost.jpg" alt="usrishnost" class="w-5 h-5 rounded-md object-cover border border-white/15" onerror="this.style.display='none'">
                 <span>© 2026 <strong class="text-zinc-200">usrishnost games</strong> — <span data-i18n="footer_rights">Все права усришены.</span></span>
             </div>
-            <div class="flex items-center gap-3">
+            <div class="flex flex-wrap items-center gap-2.5 sm:gap-3">
                 <button onclick="openChangelogInSettings()" class="hover:text-orange-300 transition-colors cursor-pointer font-semibold">
-                    <span data-i18n="footer_version">Версия 0.4.2а</span>
+                    <span data-i18n="footer_version">Версия 0.4.4а</span>
+                </button>
+                <span>•</span>
+                <button onclick="openChangelogInSettings()" data-i18n="footer_changelog_btn" class="px-2.5 py-0.5 rounded-md bg-white/10 hover:bg-orange-500/25 border border-white/10 hover:border-orange-400/40 text-zinc-200 hover:text-orange-200 transition-colors cursor-pointer font-semibold">
+                    📜 Журнал изменений
                 </button>
                 <span>•</span>
                 <button onclick="openSosiyaEasterEgg()" data-i18n-title="footer_secret_hint" title="Что тут спрятано?" class="px-2 py-0.5 rounded-md bg-white/5 hover:bg-pink-500/20 text-zinc-400 hover:text-pink-300 transition-colors cursor-pointer">
@@ -710,7 +700,7 @@
                 nav_settings: '⚙️ Настройки',
                 btn_login: 'Войти',
                 btn_logout: 'Выйти',
-                hero_badge: 'Версия 0.4.2а • Полный перевод',
+                hero_badge: 'Версия 0.4.4а • Полный перевод',
                 hero_title_prefix: 'Добро пожаловать в',
                 hero_desc_1: 'Здесь собираются лучшие браузерные миниигры. Пока что',
                 hero_desc_2: 'разработчиков настраивают усришность на полную мощность — заходи в настройки, ищи пасхалки и собирай ачивки!',
@@ -785,10 +775,12 @@
                 set_reset_ach: 'Сбросить прогресс ачивок',
                 set_reset_bg: 'Сбросить фон по умолчанию',
                 cl_title: '📜 История обновлений (ChangeLog)',
-                cl_subtitle: 'Полный путь развития портала usrishnost games от первой альфы до 0.4.2а',
-                cl_current_badge: 'Актуальная: v0.4.2а',
+                cl_subtitle: 'Полный путь развития портала usrishnost games от первой альфы до 0.4.4а',
+                cl_open_btn: '📖 Открыть журнал изменений',
+                cl_current_badge: 'Актуальная: v0.4.4а',
                 footer_rights: 'Все права усришены.',
-                footer_version: 'Версия 0.4.2а',
+                footer_version: 'Версия 0.4.4а',
+                footer_changelog_btn: '📜 Журнал изменений',
                 footer_secret_hint: 'Что тут спрятано?',
                 sosiya_title: 'Секретная переписка найдена!',
                 sosiya_btn: 'Понял, ти вопще 😄',
@@ -854,8 +846,27 @@
                 },
                 cl: [
                     {
+                        version: '0.4.4а',
+                        date: 'Текущая сборка',
+                        badge: 'АЛЬФА',
+                        badgeColor: 'bg-orange-500/20 text-orange-300 border-orange-400/40',
+                        items: [
+                            'Добавлена кнопка открытия журнала изменений в футере и в разделе настроек.',
+                            'Версия портала обновлена до 0.4.4а, добавлена запись о версии 0.4.3а.'
+                        ]
+                    },
+                    {
+                        version: '0.4.3а',
+                        date: 'Хотфикс',
+                        badge: 'ХОТФИКС',
+                        badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-400/30',
+                        items: [
+                            'Исправлен критический баг.'
+                        ]
+                    },
+                    {
                         version: '0.4.2а',
-                        date: 'Текущий патч',
+                        date: 'Патч',
                         badge: 'ПАТЧ',
                         badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
                         items: [
@@ -900,7 +911,7 @@
                         badge: 'ХОТФИКС',
                         badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-400/30',
                         items: [
-                            'Оптимизирована верхняя панель навигации: убрана лишняя вкладка кликера, запуск игры оставлен через карточку в каталоге.',
+                            'Оптимизована верхняя панель навигации: убрана лишняя вкладка кликера, запуск игры оставлен через карточку в каталоге.',
                             'Улучшена компактность шапки на мобильных экранах.'
                         ]
                     },
@@ -958,7 +969,7 @@
                 nav_settings: '⚙️ Налаштування',
                 btn_login: 'Увійти',
                 btn_logout: 'Вийти',
-                hero_badge: 'Версія 0.4.2а • Повний переклад',
+                hero_badge: 'Версія 0.4.4а • Повний переклад',
                 hero_title_prefix: 'Ласкаво просимо до',
                 hero_desc_1: 'Тут збираються найкращі браузерні мініігри. Поки що',
                 hero_desc_2: 'розробників налаштовують усрішність на повну потужність — заходь у налаштування, шукай пасхалки та збирай ачівки!',
@@ -1033,10 +1044,12 @@
                 set_reset_ach: 'Скинути прогрес ачівок',
                 set_reset_bg: 'Скинути фон за замовчуванням',
                 cl_title: '📜 Історія оновлень (ChangeLog)',
-                cl_subtitle: 'Повний шлях розвитку порталу usrishnost games від першої альфи до 0.4.2а',
-                cl_current_badge: 'Актуальна: v0.4.2а',
+                cl_subtitle: 'Повний шлях розвитку порталу usrishnost games від першої альфи до 0.4.4а',
+                cl_open_btn: '📖 Відкрити журнал змін',
+                cl_current_badge: 'Актуальна: v0.4.4а',
                 footer_rights: 'Усі права усрішені.',
-                footer_version: 'Версія 0.4.2а',
+                footer_version: 'Версія 0.4.4а',
+                footer_changelog_btn: '📜 Журнал змін',
                 footer_secret_hint: 'Що тут заховано?',
                 sosiya_title: 'Секретне листування знайдено!',
                 sosiya_btn: 'Зрозумів, ти вопще 😄',
@@ -1102,8 +1115,27 @@
                 },
                 cl: [
                     {
+                        version: '0.4.4а',
+                        date: 'Поточна збірка',
+                        badge: 'АЛЬФА',
+                        badgeColor: 'bg-orange-500/20 text-orange-300 border-orange-400/40',
+                        items: [
+                            'Додано кнопку відкриття журналу змін у футері та в розділі налаштувань.',
+                            'Версію порталу оновлено до 0.4.4а, додано запис про версію 0.4.3а.'
+                        ]
+                    },
+                    {
+                        version: '0.4.3а',
+                        date: 'Хотфікс',
+                        badge: 'ХОТФІКС',
+                        badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-400/30',
+                        items: [
+                            'Виправлено критичний баг.'
+                        ]
+                    },
+                    {
                         version: '0.4.2а',
-                        date: 'Поточний патч',
+                        date: 'Патч',
                         badge: 'ПАТЧ',
                         badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
                         items: [
@@ -1192,7 +1224,7 @@
                         badgeColor: 'bg-zinc-700/60 text-zinc-300 border-white/15',
                         items: [
                             'Запущено головну сторінку порталу «usrishnost games» зі скляним дизайном.',
-                            'Встановлено «усрішність» на задній план із налаштуваннями плитки, пікселізації, розмиття та затемнення.',
+                            'Встановлено «усрішность» на задній план із налаштуваннями плитки, пікселізації, розмиття та затемнення.',
                             'Додано базовий вхід в акаунт за ніком і паролем.'
                         ]
                     }
@@ -1206,7 +1238,7 @@
                 nav_settings: '⚙️ Settings',
                 btn_login: 'Log In',
                 btn_logout: 'Log Out',
-                hero_badge: 'Version 0.4.2a • Full Translation',
+                hero_badge: 'Version 0.4.4a • Full Translation',
                 hero_title_prefix: 'Welcome to',
                 hero_desc_1: 'The finest browser minigames gather here. Right now',
                 hero_desc_2: 'developers are tuning usrishnost to full power — open settings, hunt Easter eggs, and collect achievements!',
@@ -1281,10 +1313,12 @@
                 set_reset_ach: 'Reset Achievements',
                 set_reset_bg: 'Reset Background Defaults',
                 cl_title: '📜 Update History (ChangeLog)',
-                cl_subtitle: 'The complete evolution of usrishnost games from the first alpha to 0.4.2a',
-                cl_current_badge: 'Current: v0.4.2a',
+                cl_subtitle: 'The complete evolution of usrishnost games from the first alpha to 0.4.4a',
+                cl_open_btn: '📖 Open Changelog',
+                cl_current_badge: 'Current: v0.4.4a',
                 footer_rights: 'All rights usrished.',
-                footer_version: 'Version 0.4.2a',
+                footer_version: 'Version 0.4.4a',
+                footer_changelog_btn: '📜 Changelog',
                 footer_secret_hint: 'What is hidden here?',
                 sosiya_title: 'Secret chat log discovered!',
                 sosiya_btn: 'Got it, ty vopshche 😄',
@@ -1350,8 +1384,27 @@
                 },
                 cl: [
                     {
+                        version: '0.4.4a',
+                        date: 'Current Build',
+                        badge: 'ALPHA',
+                        badgeColor: 'bg-orange-500/20 text-orange-300 border-orange-400/40',
+                        items: [
+                            'Added a button to open the changelog from the footer and settings section.',
+                            'Updated portal version to 0.4.4a and added entry for version 0.4.3a.'
+                        ]
+                    },
+                    {
+                        version: '0.4.3a',
+                        date: 'Hotfix',
+                        badge: 'HOTFIX',
+                        badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-400/30',
+                        items: [
+                            'Fixed a critical bug.'
+                        ]
+                    },
+                    {
                         version: '0.4.2a',
-                        date: 'Current Patch',
+                        date: 'Patch',
                         badge: 'PATCH',
                         badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
                         items: [
@@ -1823,10 +1876,22 @@
         // Переход к секции ChangeLog внутри вкладки «Настройки»
         function openChangelogInSettings() {
             switchTab('settings');
+            const listEl = document.getElementById('changelog-list');
+            if (listEl) listEl.classList.remove('hidden');
             setTimeout(() => {
                 const sec = document.getElementById('settings-changelog-section');
                 if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 60);
+        }
+
+        function toggleChangelogPanel() {
+            playClickSound(520);
+            const listEl = document.getElementById('changelog-list');
+            if (!listEl) return;
+            listEl.classList.toggle('hidden');
+            if (!listEl.classList.contains('hidden')) {
+                renderChangelog();
+            }
         }
 
         // Отрисовка шапки профиля и видимости вкладки «Аккаунт»
@@ -2048,7 +2113,7 @@
                 showToast(t('toast_apple_spin'));
             }
         }
-// ... existing code ... -->
+
         function handleFakeLogin(event) {
             event.preventDefault();
             const usernameInput = document.getElementById('login-username');
@@ -2077,7 +2142,7 @@
             renderAuthArea();
             showToast(t('toast_logout_ok', { name: oldName }));
         }
-// ... existing code ... -->
+
         function selectAvatar(filename) {
             state.avatar = filename;
             playClickSound(580);
@@ -2110,7 +2175,7 @@
             playClickSound(380);
             showToast(t('toast_ach_reset'));
         }
-// ... existing code ... -->
+
         // ==========================================
         // ИНТЕГРАЦИЯ ИГРЫ «УСРО-КЛИКЕР»
         // ==========================================
@@ -2335,7 +2400,7 @@
             bProstl.textContent = `${clickerState.prostlCost}`;
             bProstl.disabled = clickerState.score < clickerState.prostlCost;
         }
-// ... existing code ... -->
+
         // Пасхалка кликера №1: 3 клика по загадочному значку «??»
         function handleClickerSecretBadge() {
             clickerSecretBadgeClicks++;
@@ -2495,6 +2560,9 @@
             renderClickerFeed();
             renderClickerUI();
         });
+    </script>
+</body>
+</html>
     </script>
 </body>
 </html>
