@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>usrishnost games — Браузерные миниигры</title>
+    <link rel="icon" type="image/jpeg" href="usrishnost.jpg">
+    <link rel="shortcut icon" type="image/jpeg" href="usrishnost.jpg">
+    <link rel="apple-touch-icon" href="usrishnost.jpg">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -125,24 +128,24 @@
                     <span class="font-black text-lg sm:text-xl tracking-tight bg-gradient-to-r from-orange-400 via-amber-300 to-rose-400 bg-clip-text text-transparent block leading-none">
                         usrishnost games
                     </span>
-                    <span class="text-[11px] text-zinc-400 font-medium tracking-wide">портал браузерных миниигр</span>
+                    <span data-i18n="portal_subtitle" class="text-[11px] text-zinc-400 font-medium tracking-wide">портал браузерных миниигр</span>
                 </div>
             </button>
 
             <!-- Навигационные вкладки -->
             <nav class="flex flex-wrap items-center gap-1.5 bg-zinc-900/70 p-1.5 rounded-xl border border-white/10 order-3 sm:order-2 w-full sm:w-auto justify-center">
-                <button id="tab-btn-games" onclick="switchTab('games')" class="flex-1 sm:flex-initial px-3.5 py-2 rounded-lg text-sm font-semibold transition-all bg-orange-500 text-white shadow-sm cursor-pointer">
-                    🎮 Игры
+                <button id="tab-btn-games" onclick="switchTab('games')" class="flex-1 sm:flex-initial px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-orange-500 text-white shadow-sm cursor-pointer">
+                    <span data-i18n="nav_games">🎮 Игры</span>
                 </button>
-                <button id="tab-btn-achievements" onclick="switchTab('achievements')" class="flex-1 sm:flex-initial px-3.5 py-2 rounded-lg text-sm font-semibold transition-all text-zinc-300 hover:text-white hover:bg-white/10 cursor-pointer flex items-center justify-center gap-1.5">
-                    <span>🏆 Ачивки</span>
-                    <span id="nav-ach-badge" class="text-[11px] px-1.5 py-0.5 rounded-md bg-white/10 text-amber-300 font-bold">0/10</span>
+                <button id="tab-btn-achievements" onclick="switchTab('achievements')" class="flex-1 sm:flex-initial px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-zinc-300 hover:text-white hover:bg-white/10 cursor-pointer flex items-center justify-center gap-1.5">
+                    <span data-i18n="nav_ach">🏆 Ачивки</span>
+                    <span id="nav-ach-badge" class="text-[11px] px-1.5 py-0.5 rounded-md bg-white/10 text-amber-300 font-bold">0/14</span>
                 </button>
-                <button id="tab-btn-account" onclick="switchTab('account')" class="hidden flex-1 sm:flex-initial px-3.5 py-2 rounded-lg text-sm font-semibold transition-all text-zinc-300 hover:text-white hover:bg-white/10 cursor-pointer">
-                    👤 Аккаунт
+                <button id="tab-btn-account" onclick="switchTab('account')" class="hidden flex-1 sm:flex-initial px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-zinc-300 hover:text-white hover:bg-white/10 cursor-pointer">
+                    <span data-i18n="nav_account">👤 Аккаунт</span>
                 </button>
-                <button id="tab-btn-settings" onclick="switchTab('settings')" class="flex-1 sm:flex-initial px-3.5 py-2 rounded-lg text-sm font-semibold transition-all text-zinc-300 hover:text-white hover:bg-white/10 cursor-pointer">
-                    ⚙️ Настройки
+                <button id="tab-btn-settings" onclick="switchTab('settings')" class="flex-1 sm:flex-initial px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-zinc-300 hover:text-white hover:bg-white/10 cursor-pointer">
+                    <span data-i18n="nav_settings">⚙️ Настройки</span>
                 </button>
             </nav>
 
@@ -164,13 +167,13 @@
                 <div class="space-y-2 max-w-2xl">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-400/30 text-orange-300 text-xs font-semibold">
                         <span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>
-                        Альфа-версия портала
+                        <span data-i18n="hero_badge">Версия 0.4.2а • Полный перевод</span>
                     </div>
                     <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
-                        Добро пожаловать в <span class="text-orange-400">usrishnost games</span>
+                        <span data-i18n="hero_title_prefix">Добро пожаловать в</span> <span class="text-orange-400">usrishnost games</span>
                     </h1>
                     <p class="text-zinc-300 text-sm sm:text-base leading-relaxed">
-                        Здесь скоро появятся лучшие браузерные миниигры. Пока что <span onclick="triggerTomatoEasterEgg()" title="Нажми на семёрку!" class="text-orange-300 font-bold cursor-pointer hover:underline decoration-dotted">7</span> разработчиков настраивают усришность на полную мощность — заходи в настройки, ищи пасхалки и собирай ачивки!
+                        <span data-i18n="hero_desc_1">Здесь собираются лучшие браузерные миниигры. Пока что</span> <span onclick="triggerTomatoEasterEgg()" data-i18n-title="tomato_hint" title="Нажми на семёрку!" class="text-orange-300 font-bold cursor-pointer hover:underline decoration-dotted">7</span> <span data-i18n="hero_desc_2">разработчиков настраивают усришность на полную мощность — заходи в настройки, ищи пасхалки и собирай ачивки!</span>
                     </p>
                 </div>
 
@@ -178,17 +181,17 @@
                 <div class="bg-zinc-900/80 border border-white/10 rounded-2xl p-4 w-full md:w-64 shrink-0 flex items-center gap-3.5">
                     <img src="eto7tprostl.jpg" alt="это7тпростл" onclick="triggerTomatoEasterEgg()" class="w-14 h-14 rounded-xl object-cover border border-white/15 shrink-0 cursor-pointer hover:scale-105 transition-transform" onerror="this.src='https://placehold.co/100x100/27272a/fb923c?text=7'">
                     <div class="text-xs space-y-1">
-                        <div class="font-bold text-zinc-200">Статус серверов:</div>
-                        <div class="text-emerald-400 font-semibold">● Усришность в норме</div>
-                        <div class="text-zinc-400">Доступно: 1 игра + 1 анонс</div>
+                        <div data-i18n="status_title" class="font-bold text-zinc-200">Статус серверов:</div>
+                        <div data-i18n="status_ok" class="text-emerald-400 font-semibold">● Усришность в норме</div>
+                        <div data-i18n="status_avail" class="text-zinc-400">Доступно: 1 игра + 1 анонс</div>
                     </div>
                 </div>
             </div>
 
             <!-- Заголовок каталога -->
             <div class="flex items-center justify-between px-1">
-                <h2 class="text-lg sm:text-xl font-bold text-white drop-shadow">Каталог миниигр</h2>
-                <span class="text-xs font-medium px-3 py-1 rounded-lg bg-black/50 text-zinc-300 border border-white/10">
+                <h2 data-i18n="catalog_title" class="text-lg sm:text-xl font-bold text-white drop-shadow">Каталог миниигр</h2>
+                <span data-i18n="catalog_badge" class="text-xs font-medium px-3 py-1 rounded-lg bg-black/50 text-zinc-300 border border-white/10">
                     1 игра готова • 1 скоро
                 </span>
             </div>
@@ -201,16 +204,16 @@
                     <div class="relative h-52 sm:h-60 bg-zinc-900/90 overflow-hidden group">
                         <img src="usrishnost.jpg" alt="УСРО-КЛИКЕР" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x240/18181b/ea580c?text=USRO+CLICKER'">
                         <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/30 to-transparent"></div>
-                        <span class="absolute top-3.5 right-3.5 px-3 py-1 rounded-lg bg-emerald-500/20 border border-emerald-400/40 text-xs font-bold text-emerald-300">
+                        <span data-i18n="card_play_now" class="absolute top-3.5 right-3.5 px-3 py-1 rounded-lg bg-emerald-500/20 border border-emerald-400/40 text-xs font-bold text-emerald-300">
                             ИГРАТЬ СЕЙЧАС
                         </span>
                     </div>
                     <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4">
                         <div>
-                            <h3 class="font-bold text-xl text-white">УСРО-КЛИКЕР</h3>
-                            <p class="text-sm text-zinc-400 mt-1.5 leading-relaxed">Качай уровень, переключай мемы («УСРИШНОСТЬ», «ЭТО7ТПРОСТЛ», «сислі», «сосія»), лови комбо x2 и ищи скрытые пасхалки!</p>
+                            <h3 data-i18n="card1_title" class="font-bold text-xl text-white">УСРО-КЛИКЕР</h3>
+                            <p data-i18n="card1_desc" class="text-sm text-zinc-400 mt-1.5 leading-relaxed">Качай уровень, переключай мемы («УСРИШНОСТЬ», «ЭТО7ТПРОСТЛ», «сислі», «сосія»), лови комбо x2 и ищи скрытые пасхалки!</p>
                         </div>
-                        <button onclick="switchTab('clicker')" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white text-sm font-bold shadow-lg shadow-orange-500/25 transition-all cursor-pointer">
+                        <button onclick="switchTab('clicker')" data-i18n="card1_btn" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white text-sm font-bold shadow-lg shadow-orange-500/25 transition-all cursor-pointer">
                             ▶ Запустить УСРО-КЛИКЕР
                         </button>
                     </div>
@@ -221,16 +224,16 @@
                     <div class="relative h-52 sm:h-60 bg-zinc-900/90 overflow-hidden group">
                         <img src="eto7tprostl.jpg" alt="Это7тпростл: Побег" class="w-full h-full object-cover opacity-65 group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x240/18181b/52525b?text=ETO7TPROSTL'">
                         <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/30 to-transparent"></div>
-                        <span class="absolute top-3.5 right-3.5 px-3 py-1 rounded-lg bg-zinc-900/90 border border-white/15 text-xs font-bold text-amber-400">
+                        <span data-i18n="card_soon" class="absolute top-3.5 right-3.5 px-3 py-1 rounded-lg bg-zinc-900/90 border border-white/15 text-xs font-bold text-amber-400">
                             СКОРО...
                         </span>
                     </div>
                     <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4">
                         <div>
-                            <h3 class="font-bold text-xl text-white">Это7тпростл: Побег</h3>
-                            <p class="text-sm text-zinc-400 mt-1.5 leading-relaxed">Динамичный раннер за суровый пиксельный томат. Пока что игра полируется, но ты уже можешь заглянуть в кликер.</p>
+                            <h3 data-i18n="card2_title" class="font-bold text-xl text-white">Это7тпростл: Побег</h3>
+                            <p data-i18n="card2_desc" class="text-sm text-zinc-400 mt-1.5 leading-relaxed">Динамичный раннер за суровый пиксельный томат. Пока что игра полируется, но ты уже можешь заглянуть в кликер.</p>
                         </div>
-                        <button onclick="handleGameCardClick('Это7тпростл: Побег')" class="w-full py-3 px-4 rounded-xl bg-white/10 hover:bg-orange-500/25 hover:border-orange-400/50 text-zinc-200 text-sm font-semibold border border-white/10 transition-all cursor-pointer">
+                        <button onclick="handleGameCardClick()" data-i18n="card2_btn" class="w-full py-3 px-4 rounded-xl bg-white/10 hover:bg-orange-500/25 hover:border-orange-400/50 text-zinc-200 text-sm font-semibold border border-white/10 transition-all cursor-pointer">
                             🕒 Ожидается релиз
                         </button>
                     </div>
@@ -246,14 +249,14 @@
                 <div class="flex flex-wrap items-center justify-between gap-3">
                     <div>
                         <h2 class="text-xl sm:text-2xl font-black text-white flex items-center gap-2">
-                            <span>🍎🍅 УСРО-КЛИКЕР</span>
-                            <span id="clicker-secret-badge" onclick="handleClickerSecretBadge()" title="Хм... что это за значок?" class="text-xs px-2.5 py-0.5 rounded-full bg-white/10 hover:bg-amber-500/25 text-zinc-300 hover:text-amber-300 border border-white/10 cursor-pointer transition-colors">
+                            <span data-i18n="clicker_title">🍎🍅 УСРО-КЛИКЕР</span>
+                            <span id="clicker-secret-badge" onclick="handleClickerSecretBadge()" data-i18n-title="clicker_secret_hint" title="Хм... что это за значок?" class="text-xs px-2.5 py-0.5 rounded-full bg-white/10 hover:bg-amber-500/25 text-zinc-300 hover:text-amber-300 border border-white/10 cursor-pointer transition-colors">
                                 ??
                             </span>
                         </h2>
-                        <p class="text-xs sm:text-sm text-zinc-400">Качай уровень, лови реплики и запускай режим УСРИШНОСТЬ x2</p>
+                        <p data-i18n="clicker_subtitle" class="text-xs sm:text-sm text-zinc-400">Качай уровень, лови реплики и запускай режим УСРИШНОСТЬ x2</p>
                     </div>
-                    <button onclick="switchTab('games')" class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-xs font-bold text-zinc-200 transition-colors cursor-pointer">
+                    <button onclick="switchTab('games')" data-i18n="clicker_back" class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/15 border border-white/15 text-xs font-bold text-zinc-200 transition-colors cursor-pointer">
                         ← К списку игр
                     </button>
                 </div>
@@ -261,7 +264,7 @@
                 <!-- Шкала уровня -->
                 <div class="bg-zinc-900/75 border border-white/10 rounded-xl p-3.5 space-y-2">
                     <div class="flex justify-between items-center text-xs sm:text-sm gap-2 flex-wrap">
-                        <span>Уровень <strong id="clicker-level-num" class="text-orange-400">1</strong> — <span id="clicker-level-rank" class="text-emerald-400 font-bold">Новичок чата</span></span>
+                        <span><span data-i18n="clicker_level_word">Уровень</span> <strong id="clicker-level-num" class="text-orange-400">1</strong> — <span id="clicker-level-rank" class="text-emerald-400 font-bold">Новичок чата</span></span>
                         <span id="clicker-level-progress" class="font-mono text-xs text-zinc-300">0 / 25</span>
                     </div>
                     <div class="w-full h-2.5 bg-zinc-950 rounded-full overflow-hidden border border-white/10">
@@ -276,19 +279,19 @@
             <!-- Статистика кликера -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                 <div class="glass-panel rounded-2xl p-3.5 text-center">
-                    <div class="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">Очки</div>
+                    <div data-i18n="clicker_stat_score" class="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">Очки</div>
                     <div id="clicker-score" class="text-xl sm:text-2xl font-black text-white mt-0.5">0</div>
                 </div>
                 <div class="glass-panel rounded-2xl p-3.5 text-center">
-                    <div class="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">За клик</div>
+                    <div data-i18n="clicker_stat_per_click" class="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">За клик</div>
                     <div id="clicker-per-click" class="text-xl sm:text-2xl font-black text-orange-400 mt-0.5">1</div>
                 </div>
                 <div class="glass-panel rounded-2xl p-3.5 text-center">
-                    <div class="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">В секунду</div>
+                    <div data-i18n="clicker_stat_per_sec" class="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">В секунду</div>
                     <div id="clicker-per-sec" class="text-xl sm:text-2xl font-black text-emerald-400 mt-0.5">0</div>
                 </div>
                 <div class="glass-panel rounded-2xl p-3.5 text-center">
-                    <div class="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">Множитель</div>
+                    <div data-i18n="clicker_stat_mult" class="text-[11px] uppercase tracking-wider text-zinc-400 font-semibold">Множитель</div>
                     <div id="clicker-mult" class="text-xl sm:text-2xl font-black text-amber-300 mt-0.5">x1</div>
                 </div>
             </div>
@@ -303,7 +306,7 @@
                     </div>
 
                     <!-- Главная кнопка клика (использует только картинки из файлов) -->
-                    <button id="clicker-target" type="button" aria-label="Кликнуть по мему" class="w-48 h-48 sm:w-52 sm:h-52 rounded-3xl bg-zinc-950/90 border-2 border-white/15 hover:border-orange-400/60 flex items-center justify-center p-3 shadow-xl transition-transform active:scale-95 cursor-pointer overflow-hidden">
+                    <button id="clicker-target" type="button" aria-label="Click meme" class="w-48 h-48 sm:w-52 sm:h-52 rounded-3xl bg-zinc-950/90 border-2 border-white/15 hover:border-orange-400/60 flex items-center justify-center p-3 shadow-xl transition-transform active:scale-95 cursor-pointer overflow-hidden">
                         <img id="clicker-meme-img" src="usrishnost.jpg" alt="УСРИШНОСТЬ" class="w-full h-full object-contain rounded-2xl pointer-events-none select-none" onerror="this.src='https://placehold.co/180x180/18181b/fb923c?text=USRISHNOST'">
                     </button>
 
@@ -328,8 +331,8 @@
                 <div class="md:col-span-7 space-y-3">
                     <div class="glass-panel rounded-2xl p-4 flex items-center justify-between gap-3">
                         <div>
-                            <div class="font-bold text-sm sm:text-base text-white">Сила «ти вопще»</div>
-                            <div class="text-xs text-zinc-400">+1 к базовому клику</div>
+                            <div data-i18n="upg_click_t" class="font-bold text-sm sm:text-base text-white">Сила «ти вопще»</div>
+                            <div data-i18n="upg_click_d" class="text-xs text-zinc-400">+1 к базовому клику</div>
                         </div>
                         <button id="buy-click" type="button" class="px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-400 disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-extrabold min-w-[82px] transition-all active:scale-95 cursor-pointer">
                             10
@@ -338,8 +341,8 @@
 
                     <div class="glass-panel rounded-2xl p-4 flex items-center justify-between gap-3">
                         <div>
-                            <div class="font-bold text-sm sm:text-base text-white">Авто-сислі «Чого»</div>
-                            <div class="text-xs text-zinc-400">+1 очко в секунду</div>
+                            <div data-i18n="upg_auto_t" class="font-bold text-sm sm:text-base text-white">Авто-сислі «Чого»</div>
+                            <div data-i18n="upg_auto_d" class="text-xs text-zinc-400">+1 очко в секунду</div>
                         </div>
                         <button id="buy-auto" type="button" class="px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-400 disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-extrabold min-w-[82px] transition-all active:scale-95 cursor-pointer">
                             25
@@ -348,8 +351,8 @@
 
                     <div class="glass-panel rounded-2xl p-4 flex items-center justify-between gap-3">
                         <div>
-                            <div class="font-bold text-sm sm:text-base text-white">Эффект «не сосія»</div>
-                            <div class="text-xs text-zinc-400">+0.25 к множителю клика</div>
+                            <div data-i18n="upg_mult_t" class="font-bold text-sm sm:text-base text-white">Эффект «не сосія»</div>
+                            <div data-i18n="upg_mult_d" class="text-xs text-zinc-400">+0.25 к множителю клика</div>
                         </div>
                         <button id="buy-mult" type="button" class="px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-400 disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-extrabold min-w-[82px] transition-all active:scale-95 cursor-pointer">
                             80
@@ -358,8 +361,8 @@
 
                     <div class="glass-panel rounded-2xl p-4 flex items-center justify-between gap-3">
                         <div>
-                            <div class="font-bold text-sm sm:text-base text-white">Генератор «ЭТО7ТПРОСТЛ»</div>
-                            <div class="text-xs text-zinc-400">+5 очков в секунду</div>
+                            <div data-i18n="upg_prostl_t" class="font-bold text-sm sm:text-base text-white">Генератор «ЭТО7ТПРОСТЛ»</div>
+                            <div data-i18n="upg_prostl_d" class="text-xs text-zinc-400">+5 очков в секунду</div>
                         </div>
                         <button id="buy-prostl" type="button" class="px-4 py-2.5 rounded-xl bg-orange-500 hover:bg-orange-400 disabled:opacity-40 disabled:cursor-not-allowed text-white text-xs sm:text-sm font-extrabold min-w-[82px] transition-all active:scale-95 cursor-pointer">
                             200
@@ -368,13 +371,13 @@
                 </div>
             </div>
 
-            <!-- Лента реплик и сброс кликера -->
-            <div class="glass-panel rounded-2xl p-5 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-                <div class="space-y-2 flex-1">
-                    <div class="text-xs font-bold uppercase tracking-wider text-zinc-400">Лента реплик кликера</div>
+            <!-- Нижняя панель кликера: лента реплик + сброс -->
+            <div class="glass-panel rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="space-y-1.5 flex-1 w-full">
+                    <div class="text-xs font-bold uppercase tracking-wider text-zinc-400" data-i18n="clicker_feed_title">Лента реплик кликера</div>
                     <div id="clicker-feed-list" class="space-y-1 text-xs sm:text-sm text-zinc-200"></div>
                 </div>
-                <button id="clicker-reset-btn" type="button" class="px-4 py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 text-rose-300 text-xs font-bold shrink-0 transition-colors cursor-pointer">
+                <button id="clicker-reset-btn" type="button" data-i18n="clicker_reset" class="px-4 py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 text-rose-300 text-xs font-bold shrink-0 transition-colors cursor-pointer">
                     Сбросить кликер
                 </button>
             </div>
@@ -385,12 +388,12 @@
             <div class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
                     <div>
-                        <h2 class="text-2xl font-extrabold text-white">Достижения и пасхалки</h2>
-                        <p class="text-sm text-zinc-400 mt-1">Исследуй сайт, кликай по секретам и собери полную коллекцию!</p>
+                        <h2 data-i18n="ach_title" class="text-2xl font-extrabold text-white">Достижения и пасхалки</h2>
+                        <p data-i18n="ach_subtitle" class="text-sm text-zinc-400 mt-1">Исследуй сайт, кликай по секретам и собери полную коллекцию!</p>
                     </div>
                     <div class="bg-zinc-900/80 border border-white/10 rounded-xl px-4 py-2.5 text-right shrink-0">
-                        <div class="text-xs text-zinc-400">Открыто ачивок</div>
-                        <div id="ach-progress-text" class="text-lg font-black text-amber-400">0 из 10 (0%)</div>
+                        <div data-i18n="ach_opened_label" class="text-xs text-zinc-400">Открыто ачивок</div>
+                        <div id="ach-progress-text" class="text-lg font-black text-amber-400">0 из 14 (0%)</div>
                     </div>
                 </div>
 
@@ -401,6 +404,25 @@
 
                 <!-- Список карточек ачивок -->
                 <div id="achievements-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <!-- Заполняется через JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- ВКЛАДКА CHANGELOG -->
+        <section id="view-changelog" class="hidden max-w-4xl mx-auto space-y-6">
+            <div class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-5">
+                    <div>
+                        <h2 data-i18n="cl_title" class="text-2xl font-extrabold text-white">История обновлений (ChangeLog)</h2>
+                        <p data-i18n="cl_subtitle" class="text-sm text-zinc-400 mt-1">Полный путь развития портала usrishnost games от первой альфы до 0.4.0</p>
+                    </div>
+                    <span class="px-3.5 py-1.5 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-extrabold shrink-0">
+                        Актуальная: v0.4.0
+                    </span>
+                </div>
+
+                <div id="changelog-list" class="space-y-4">
                     <!-- Заполняется через JS -->
                 </div>
             </div>
@@ -418,13 +440,13 @@
                         </span>
                     </div>
                     <div class="text-center sm:text-left flex-1 space-y-1.5">
-                        <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 text-xs font-bold">
+                        <div data-i18n="acc_badge" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 text-xs font-bold">
                             🍎 Истинный усришник
                         </div>
                         <h2 id="acc-username-title" class="text-2xl sm:text-3xl font-black text-white">Игрок</h2>
                         <p id="acc-reg-date" class="text-xs text-zinc-400">Дата регистрации: сегодня</p>
                     </div>
-                    <button onclick="logoutUser()" class="px-4 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/35 border border-rose-500/30 text-rose-300 text-xs font-bold transition-colors cursor-pointer">
+                    <button onclick="logoutUser()" data-i18n="acc_logout" class="px-4 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/35 border border-rose-500/30 text-rose-300 text-xs font-bold transition-colors cursor-pointer">
                         Выйти из аккаунта
                     </button>
                 </div>
@@ -432,15 +454,15 @@
                 <!-- Мини-статистика -->
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3.5">
                     <div class="bg-zinc-900/75 border border-white/10 rounded-xl p-4">
-                        <div class="text-xs text-zinc-400">Открыто ачивок</div>
-                        <div id="acc-stat-ach" class="text-xl font-extrabold text-amber-400 mt-1">0 / 8</div>
+                        <div data-i18n="acc_stat_ach_label" class="text-xs text-zinc-400">Открыто ачивок</div>
+                        <div id="acc-stat-ach" class="text-xl font-extrabold text-amber-400 mt-1">0 / 14</div>
                     </div>
                     <div class="bg-zinc-900/75 border border-white/10 rounded-xl p-4">
-                        <div class="text-xs text-zinc-400">Найдено пасхалок</div>
-                        <div id="acc-stat-easter" class="text-xl font-extrabold text-orange-400 mt-1">0 / 3</div>
+                        <div data-i18n="acc_stat_easter_label" class="text-xs text-zinc-400">Найдено пасхалок</div>
+                        <div id="acc-stat-easter" class="text-xl font-extrabold text-orange-400 mt-1">0 / 5</div>
                     </div>
                     <div class="bg-zinc-900/75 border border-white/10 rounded-xl p-4 col-span-2 sm:col-span-1">
-                        <div class="text-xs text-zinc-400">Время на портале</div>
+                        <div data-i18n="acc_stat_time_label" class="text-xs text-zinc-400">Время на портале</div>
                         <div id="acc-stat-time" class="text-xl font-extrabold text-emerald-400 mt-1">0 мин 0 сек</div>
                     </div>
                 </div>
@@ -448,8 +470,8 @@
                 <!-- Быстрая смена аватарки прямо в аккаунте -->
                 <div class="space-y-3">
                     <div class="flex items-center justify-between">
-                        <label class="text-sm font-bold text-zinc-200">Быстрая смена аватарки</label>
-                        <span class="text-xs text-zinc-400">Выбери мем-образ</span>
+                        <label data-i18n="acc_avatar_title" class="text-sm font-bold text-zinc-200">Быстрая смена аватарки</label>
+                        <span data-i18n="acc_avatar_sub" class="text-xs text-zinc-400">Выбери мем-образ</span>
                     </div>
                     <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                         <button type="button" onclick="selectAvatar('usrishnost.jpg')" data-avatar="usrishnost.jpg" class="avatar-option p-2 rounded-xl border-2 border-orange-500 bg-zinc-900/80 flex flex-col items-center gap-2 transition-all cursor-pointer">
@@ -473,29 +495,57 @@
             </div>
         </section>
 
-        <!-- ВКЛАДКА 4: НАСТРОЙКИ -->
+        <!-- ВКЛАДКА 4: НАСТРОЙКИ (Включая ChangeLog внутри) -->
         <section id="view-settings" class="hidden max-w-3xl mx-auto space-y-6">
             <div class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
                 <div class="border-b border-white/10 pb-4">
-                    <h2 class="text-2xl font-extrabold text-white">Настройки портала</h2>
-                    <p class="text-sm text-zinc-400 mt-1">Настрой отображение усришности на фоне, звуки и профиль</p>
+                    <h2 data-i18n="set_title" class="text-2xl font-extrabold text-white">Настройки портала</h2>
+                    <p data-i18n="set_subtitle" class="text-sm text-zinc-400 mt-1">Настрой язык интерфейса, отображение усришности на фоне, звуки и профиль</p>
+                </div>
+
+                <!-- Настройка 0: Язык интерфейса -->
+                <div class="space-y-3">
+                    <label data-i18n="set_lang_label" class="block text-sm font-bold text-zinc-200">Язык интерфейса / Мова / Language</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                        <button type="button" onclick="setLanguage('ru')" id="lang-btn-ru" class="lang-btn p-3.5 rounded-xl border border-orange-500 bg-orange-500/20 text-left transition-all cursor-pointer flex items-center gap-3">
+                            <span class="text-xl">🇷🇺</span>
+                            <div>
+                                <div class="font-bold text-sm text-white">Русский</div>
+                                <div class="text-xs text-zinc-400">Основной язык</div>
+                            </div>
+                        </button>
+                        <button type="button" onclick="setLanguage('uk')" id="lang-btn-uk" class="lang-btn p-3.5 rounded-xl border border-white/10 bg-zinc-900/60 hover:bg-zinc-800/80 text-left transition-all cursor-pointer flex items-center gap-3">
+                            <span class="text-xl">🇺🇦</span>
+                            <div>
+                                <div class="font-bold text-sm text-white">Українська</div>
+                                <div class="text-xs text-zinc-400">Солов'їна версія</div>
+                            </div>
+                        </button>
+                        <button type="button" onclick="setLanguage('en')" id="lang-btn-en" class="lang-btn p-3.5 rounded-xl border border-white/10 bg-zinc-900/60 hover:bg-zinc-800/80 text-left transition-all cursor-pointer flex items-center gap-3">
+                            <span class="text-xl">🇬🇧</span>
+                            <div>
+                                <div class="font-bold text-sm text-white">English</div>
+                                <div class="text-xs text-zinc-400">International mode</div>
+                            </div>
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Настройка 1: Режим фона -->
                 <div class="space-y-3">
-                    <label class="block text-sm font-bold text-zinc-200">Режим отображения фона («усришность»)</label>
+                    <label data-i18n="set_bg_mode" class="block text-sm font-bold text-zinc-200">Режим отображения фона («усришность»)</label>
                     <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                        <button type="button" onclick="setBgMode('cover')" id="bg-mode-cover" class="bg-mode-btn p-3.5 rounded-xl border border-orange-500 bg-orange-500/20 text-left transition-all">
-                            <div class="font-bold text-sm text-white">На весь экран</div>
-                            <div class="text-xs text-zinc-400 mt-0.5">Одна большая усришность</div>
+                        <button type="button" onclick="setBgMode('cover')" id="bg-mode-cover" class="bg-mode-btn p-3.5 rounded-xl border border-orange-500 bg-orange-500/20 text-left transition-all cursor-pointer">
+                            <div data-i18n="set_bg_cover_t" class="font-bold text-sm text-white">На весь экран</div>
+                            <div data-i18n="set_bg_cover_d" class="text-xs text-zinc-400 mt-0.5">Одна большая усришность</div>
                         </button>
-                        <button type="button" onclick="setBgMode('tile')" id="bg-mode-tile" class="bg-mode-btn p-3.5 rounded-xl border border-white/10 bg-zinc-900/60 hover:bg-zinc-800/80 text-left transition-all">
-                            <div class="font-bold text-sm text-white">Плиткой</div>
-                            <div class="text-xs text-zinc-400 mt-0.5">Много усришности везде</div>
+                        <button type="button" onclick="setBgMode('tile')" id="bg-mode-tile" class="bg-mode-btn p-3.5 rounded-xl border border-white/10 bg-zinc-900/60 hover:bg-zinc-800/80 text-left transition-all cursor-pointer">
+                            <div data-i18n="set_bg_tile_t" class="font-bold text-sm text-white">Плиткой</div>
+                            <div data-i18n="set_bg_tile_d" class="text-xs text-zinc-400 mt-0.5">Много усришности везде</div>
                         </button>
-                        <button type="button" onclick="setBgMode('pixel')" id="bg-mode-pixel" class="bg-mode-btn p-3.5 rounded-xl border border-white/10 bg-zinc-900/60 hover:bg-zinc-800/80 text-left transition-all">
-                            <div class="font-bold text-sm text-white">Чёткие пиксели</div>
-                            <div class="text-xs text-zinc-400 mt-0.5">Без размытия шакалов</div>
+                        <button type="button" onclick="setBgMode('pixel')" id="bg-mode-pixel" class="bg-mode-btn p-3.5 rounded-xl border border-white/10 bg-zinc-900/60 hover:bg-zinc-800/80 text-left transition-all cursor-pointer">
+                            <div data-i18n="set_bg_pixel_t" class="font-bold text-sm text-white">Чёткие пиксели</div>
+                            <div data-i18n="set_bg_pixel_d" class="text-xs text-zinc-400 mt-0.5">Без размытия шакалов</div>
                         </button>
                     </div>
                 </div>
@@ -503,20 +553,20 @@
                 <!-- Настройка 2: Затемнение фона -->
                 <div class="space-y-3">
                     <div class="flex justify-between items-center">
-                        <label for="dim-slider" class="text-sm font-bold text-zinc-200">Затемнение фона (чтобы текст читался)</label>
+                        <label for="dim-slider" data-i18n="set_dim_label" class="text-sm font-bold text-zinc-200">Затемнение фона (чтобы текст читался)</label>
                         <span id="dim-value-label" class="text-xs font-mono px-2.5 py-1 rounded-lg bg-zinc-900 border border-white/10 text-orange-400">45%</span>
                     </div>
                     <input id="dim-slider" type="range" min="0" max="85" value="45" oninput="updateBgDim(this.value)" class="w-full accent-orange-500 cursor-pointer h-2 bg-zinc-800 rounded-lg">
                     <div class="flex justify-between text-[11px] text-zinc-400">
-                        <span>0% (Чистая усришность)</span>
-                        <span>85% (Тёмный режим)</span>
+                        <span data-i18n="set_dim_min">0% (Чистая усришность)</span>
+                        <span data-i18n="set_dim_max">85% (Тёмный режим)</span>
                     </div>
                 </div>
 
                 <!-- Настройка 3: Размытие фона -->
                 <div class="space-y-3">
                     <div class="flex justify-between items-center">
-                        <label for="blur-slider" class="text-sm font-bold text-zinc-200">Размытие фона</label>
+                        <label for="blur-slider" data-i18n="set_blur_label" class="text-sm font-bold text-zinc-200">Размытие фона</label>
                         <span id="blur-value-label" class="text-xs font-mono px-2.5 py-1 rounded-lg bg-zinc-900 border border-white/10 text-orange-400">0 px</span>
                     </div>
                     <input id="blur-slider" type="range" min="0" max="16" value="0" oninput="updateBgBlur(this.value)" class="w-full accent-orange-500 cursor-pointer h-2 bg-zinc-800 rounded-lg">
@@ -525,8 +575,8 @@
                 <!-- Настройка 4: Звуки интерфейса -->
                 <div class="flex items-center justify-between p-4 rounded-xl bg-zinc-900/70 border border-white/10">
                     <div>
-                        <div class="font-bold text-sm text-white">Звуковые эффекты кликов</div>
-                        <div class="text-xs text-zinc-400 mt-0.5">Приятные ретро-пики при нажатии на кнопки</div>
+                        <div data-i18n="set_sound_t" class="font-bold text-sm text-white">Звуковые эффекты кликов</div>
+                        <div data-i18n="set_sound_d" class="text-xs text-zinc-400 mt-0.5">Приятные ретро-пики при нажатии на кнопки</div>
                     </div>
                     <button id="sound-toggle-btn" type="button" onclick="toggleSound()" aria-label="Переключить звук" class="w-12 h-6 rounded-full bg-orange-500 p-1 transition-colors relative cursor-pointer">
                         <span id="sound-toggle-knob" class="block w-4 h-4 rounded-full bg-white transition-transform translate-x-6"></span>
@@ -535,12 +585,29 @@
 
                 <!-- Кнопка сброса настроек и ачивок -->
                 <div class="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
-                    <button onclick="resetAchievements()" class="px-4 py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 text-xs font-semibold border border-rose-500/30 transition-colors cursor-pointer">
+                    <button onclick="resetAchievements()" data-i18n="set_reset_ach" class="px-4 py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 text-xs font-semibold border border-rose-500/30 transition-colors cursor-pointer">
                         Сбросить прогресс ачивок
                     </button>
-                    <button onclick="resetSettings()" class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs font-semibold border border-white/10 transition-colors cursor-pointer">
+                    <button onclick="resetSettings()" data-i18n="set_reset_bg" class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs font-semibold border border-white/10 transition-colors cursor-pointer">
                         Сбросить фон по умолчанию
                     </button>
+                </div>
+
+                <!-- Пункт в настройках: История обновлений (ChangeLog) -->
+                <div id="settings-changelog-section" class="pt-6 border-t border-white/10 space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-3">
+                        <div>
+                            <h3 data-i18n="cl_title" class="text-lg sm:text-xl font-extrabold text-white">📜 История обновлений (ChangeLog)</h3>
+                            <p data-i18n="cl_subtitle" class="text-xs sm:text-sm text-zinc-400 mt-0.5">Полный путь развития портала usrishnost games от первой альфы до 0.4.2а</p>
+                        </div>
+                        <span data-i18n="cl_current_badge" class="px-3 py-1 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-extrabold shrink-0">
+                            Актуальная: v0.4.2а
+                        </span>
+                    </div>
+
+                    <div id="changelog-list" class="space-y-3.5 max-h-[460px] overflow-y-auto pr-1">
+                        <!-- Заполняется через JS -->
+                    </div>
                 </div>
             </div>
         </section>
@@ -550,11 +617,16 @@
     <!-- Футер (с секретной пасхалкой №2) -->
     <footer class="px-4 py-5 sm:px-6 mt-auto">
         <div class="max-w-6xl mx-auto glass-panel rounded-2xl px-5 py-3.5 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-zinc-400">
-            <div>© 2026 <strong class="text-zinc-200">usrishnost games</strong> — Все права усришены.</div>
+            <div class="flex items-center gap-2">
+                <img src="usrishnost.jpg" alt="usrishnost" class="w-5 h-5 rounded-md object-cover border border-white/15" onerror="this.style.display='none'">
+                <span>© 2026 <strong class="text-zinc-200">usrishnost games</strong> — <span data-i18n="footer_rights">Все права усришены.</span></span>
+            </div>
             <div class="flex items-center gap-3">
-                <span>Версия 0.3.1 альфа</span>
+                <button onclick="openChangelogInSettings()" class="hover:text-orange-300 transition-colors cursor-pointer font-semibold">
+                    <span data-i18n="footer_version">Версия 0.4.2а</span>
+                </button>
                 <span>•</span>
-                <button onclick="openSosiyaEasterEgg()" title="Что тут спрятано?" class="px-2 py-0.5 rounded-md bg-white/5 hover:bg-pink-500/20 text-zinc-400 hover:text-pink-300 transition-colors cursor-pointer">
+                <button onclick="openSosiyaEasterEgg()" data-i18n-title="footer_secret_hint" title="Что тут спрятано?" class="px-2 py-0.5 rounded-md bg-white/5 hover:bg-pink-500/20 text-zinc-400 hover:text-pink-300 transition-colors cursor-pointer">
                     🍅 сислі?
                 </button>
             </div>
@@ -567,12 +639,12 @@
             <button onclick="closeSosiyaModal()" class="absolute top-3.5 right-3.5 w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center text-zinc-300 hover:text-white transition-colors cursor-pointer">
                 ✕
             </button>
-            <div class="text-xs font-bold uppercase tracking-wider text-pink-400">Секретная переписка найдена!</div>
+            <div data-i18n="sosiya_title" class="text-xs font-bold uppercase tracking-wider text-pink-400">Секретная переписка найдена!</div>
             <div class="space-y-3 bg-zinc-950/80 p-4 rounded-xl border border-white/10">
                 <img src="ba90d5bb-cfdb-4ce5-9031-3fc703cde91c.png" alt="сислі Чого" class="rounded-xl w-full max-w-[260px] shadow-md border border-white/10" onerror="this.src='https://placehold.co/260x90/18181b/f472b6?text=сислі:+Чого'">
                 <img src="c23b4526-88ca-4086-862d-c2639a4046bf.png" alt="сосія не сосія ти вопще" class="rounded-xl w-full max-w-[280px] ml-auto shadow-md border border-white/10" onerror="this.src='https://placehold.co/280x90/18181b/4ade80?text=сосія+не+сосія:+ти+вопще'">
             </div>
-            <button onclick="closeSosiyaModal()" class="w-full py-2.5 rounded-xl bg-pink-500/25 hover:bg-pink-500/35 border border-pink-400/40 text-pink-200 text-sm font-bold transition-colors cursor-pointer">
+            <button onclick="closeSosiyaModal()" data-i18n="sosiya_btn" class="w-full py-2.5 rounded-xl bg-pink-500/25 hover:bg-pink-500/35 border border-pink-400/40 text-pink-200 text-sm font-bold transition-colors cursor-pointer">
                 Понял, ти вопще 😄
             </button>
         </div>
@@ -596,27 +668,27 @@
             <div class="flex items-center gap-3">
                 <img src="usrishnost.jpg" alt="Avatar" class="w-12 h-12 rounded-xl object-cover border border-white/20" onerror="this.src='https://placehold.co/80x80/ea580c/fff?text=UG'">
                 <div>
-                    <h3 class="text-xl font-extrabold text-white">Вход в аккаунт</h3>
-                    <p class="text-xs text-zinc-400">Введи любой ник и любой пароль</p>
+                    <h3 data-i18n="login_title" class="text-xl font-extrabold text-white">Вход в аккаунт</h3>
+                    <p data-i18n="login_subtitle" class="text-xs text-zinc-400">Введи любой ник и любой пароль</p>
                 </div>
             </div>
 
             <form onsubmit="handleFakeLogin(event)" class="space-y-4">
                 <div>
-                    <label for="login-username" class="block text-xs font-bold text-zinc-300 mb-1.5">Твой никнейм</label>
-                    <input id="login-username" type="text" required maxlength="24" placeholder="Например: УсришныйИгрок" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900/90 border border-white/15 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-orange-500">
+                    <label for="login-username" data-i18n="login_nick_label" class="block text-xs font-bold text-zinc-300 mb-1.5">Твой никнейм</label>
+                    <input id="login-username" type="text" required maxlength="24" data-i18n-placeholder="login_nick_ph" placeholder="Например: УсришныйИгрок" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900/90 border border-white/15 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-orange-500">
                 </div>
 
                 <div>
-                    <label for="login-password" class="block text-xs font-bold text-zinc-300 mb-1.5">Пароль (любой)</label>
+                    <label for="login-password" data-i18n="login_pass_label" class="block text-xs font-bold text-zinc-300 mb-1.5">Пароль (любой)</label>
                     <input id="login-password" type="password" required placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900/90 border border-white/15 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-orange-500">
                 </div>
 
                 <div class="pt-1 flex gap-2.5">
-                    <button type="button" onclick="closeLoginModal()" class="flex-1 py-2.5 px-4 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-sm font-semibold transition-colors">
+                    <button type="button" onclick="closeLoginModal()" data-i18n="login_cancel" class="flex-1 py-2.5 px-4 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-sm font-semibold transition-colors">
                         Отмена
                     </button>
-                    <button type="submit" class="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white text-sm font-bold shadow-lg shadow-orange-500/25 transition-all">
+                    <button type="submit" data-i18n="login_submit" class="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white text-sm font-bold shadow-lg shadow-orange-500/25 transition-all">
                         Войти
                     </button>
                 </div>
@@ -628,128 +700,829 @@
     <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-xs w-full pointer-events-none"></div>
 
     <script>
-        // Список всех достижений портала (включая ачивки за УСРО-КЛИКЕР и его пасхалки)
-        const ACHIEVEMENTS = [
-            {
-                id: 'welcome',
-                title: 'Добро пожаловать в Усришность',
-                desc: 'Впервые заглянуть на портал usrishnost games.',
-                icon: '🍎',
-                isEaster: false
+        // Полный словарь переводов всего контента сайта и миниигры (Русский, Українська, English)
+        const I18N = {
+            ru: {
+                portal_subtitle: 'портал браузерных миниигр',
+                nav_games: '🎮 Игры',
+                nav_ach: '🏆 Ачивки',
+                nav_account: '👤 Аккаунт',
+                nav_settings: '⚙️ Настройки',
+                btn_login: 'Войти',
+                btn_logout: 'Выйти',
+                hero_badge: 'Версия 0.4.2а • Полный перевод',
+                hero_title_prefix: 'Добро пожаловать в',
+                hero_desc_1: 'Здесь собираются лучшие браузерные миниигры. Пока что',
+                hero_desc_2: 'разработчиков настраивают усришность на полную мощность — заходи в настройки, ищи пасхалки и собирай ачивки!',
+                tomato_hint: 'Нажми на семёрку!',
+                status_title: 'Статус серверов:',
+                status_ok: '● Усришность в норме',
+                status_avail: 'Доступно: 1 игра + 1 анонс',
+                catalog_title: 'Каталог миниигр',
+                catalog_badge: '1 игра готова • 1 скоро',
+                card_play_now: 'ИГРАТЬ СЕЙЧАС',
+                card1_title: 'УСРО-КЛИКЕР',
+                card1_desc: 'Качай уровень, переключай мемы («УСРИШНОСТЬ», «ЭТО7ТПРОСТЛ», «сислі», «сосія»), лови комбо x2 и ищи скрытые пасхалки!',
+                card1_btn: '▶ Запустить УСРО-КЛИКЕР',
+                card_soon: 'СКОРО...',
+                card2_title: 'Это7тпростл: Побег',
+                card2_desc: 'Динамичный раннер за суровый пиксельный томат. Пока что игра полируется, но ты уже можешь заглянуть в кликер.',
+                card2_btn: '🕒 Ожидается релиз',
+                clicker_title: '🍎🍅 УСРО-КЛИКЕР',
+                clicker_secret_hint: 'Хм... что это за значок?',
+                clicker_subtitle: 'Качай уровень, лови реплики и запускай режим УСРИШНОСТЬ x2',
+                clicker_back: '← К списку игр',
+                clicker_level_word: 'Уровень',
+                clicker_stat_score: 'Очки',
+                clicker_stat_per_click: 'За клик',
+                clicker_stat_per_sec: 'В секунду',
+                clicker_stat_mult: 'Множитель',
+                clicker_combo_label: 'Комбо-шкала',
+                clicker_frenzy_label: '🔥 УСРИШНОСТЬ x2 ({sec}с)',
+                upg_click_t: 'Сила «ти вопще»',
+                upg_click_d: '+1 к базовому клику',
+                upg_auto_t: 'Авто-сислі «Чого»',
+                upg_auto_d: '+1 очко в секунду',
+                upg_mult_t: 'Эффект «не сосія»',
+                upg_mult_d: '+0.25 к множителю клика',
+                upg_prostl_t: 'Генератор «ЭТО7ТПРОСТЛ»',
+                upg_prostl_d: '+5 очков в секунду',
+                clicker_feed_title: 'Лента реплик кликера',
+                clicker_reset: 'Сбросить кликер',
+                ach_title: 'Достижения и пасхалки',
+                ach_subtitle: 'Исследуй сайт, кликай по секретам и собери полную коллекцию!',
+                ach_opened_label: 'Открыто ачивок',
+                ach_out_of: 'из',
+                ach_status_open: 'Открыто',
+                ach_status_closed: 'Закрыто',
+                acc_badge: '🍎 Истинный усришник',
+                acc_reg_prefix: 'В клубе усришности с: ',
+                acc_today: 'сегодня',
+                acc_logout: 'Выйти из аккаунта',
+                acc_stat_ach_label: 'Открыто ачивок',
+                acc_stat_easter_label: 'Найдено пасхалок',
+                acc_stat_time_label: 'Время на портале',
+                acc_time_fmt: '{m} мин {s} сек',
+                acc_avatar_title: 'Быстрая смена аватарки',
+                acc_avatar_sub: 'Выбери мем-образ',
+                acc_open_title: 'Открыть вкладку Аккаунт',
+                set_title: 'Настройки портала',
+                set_subtitle: 'Настрой язык интерфейса, отображение усришности на фоне, звуки и профиль',
+                set_lang_label: 'Язык интерфейса / Мова / Language',
+                set_bg_mode: 'Режим отображения фона («усришность»)',
+                set_bg_cover_t: 'На весь экран',
+                set_bg_cover_d: 'Одна большая усришность',
+                set_bg_tile_t: 'Плиткой',
+                set_bg_tile_d: 'Много усришности везде',
+                set_bg_pixel_t: 'Чёткие пиксели',
+                set_bg_pixel_d: 'Без размытия шакалов',
+                set_dim_label: 'Затемнение фона (чтобы текст читался)',
+                set_dim_min: '0% (Чистая усришность)',
+                set_dim_max: '85% (Тёмный режим)',
+                set_blur_label: 'Размытие фона',
+                set_sound_t: 'Звуковые эффекты кликов',
+                set_sound_d: 'Приятные ретро-пики при нажатии на кнопки',
+                set_reset_ach: 'Сбросить прогресс ачивок',
+                set_reset_bg: 'Сбросить фон по умолчанию',
+                cl_title: '📜 История обновлений (ChangeLog)',
+                cl_subtitle: 'Полный путь развития портала usrishnost games от первой альфы до 0.4.2а',
+                cl_current_badge: 'Актуальная: v0.4.2а',
+                footer_rights: 'Все права усришены.',
+                footer_version: 'Версия 0.4.2а',
+                footer_secret_hint: 'Что тут спрятано?',
+                sosiya_title: 'Секретная переписка найдена!',
+                sosiya_btn: 'Понял, ти вопще 😄',
+                login_title: 'Вход в аккаунт',
+                login_subtitle: 'Введи любой ник и любой пароль',
+                login_nick_label: 'Твой никнейм',
+                login_nick_ph: 'Например: УсришныйИгрок',
+                login_pass_label: 'Пароль (любой)',
+                login_cancel: 'Отмена',
+                login_submit: 'Войти',
+                toast_ach_unlocked: '🏆 Ачивка получена: «{title}»!',
+                toast_game_wip: 'Игра «{name}» ещё в разработке! Загляни позже 🍎',
+                toast_apple_spin: '🍎 Усришность раскручена на максимум!',
+                toast_login_ok: 'Привет, {name}! Вы успешно вошли в аккаунт.',
+                toast_logout_ok: 'Вы вышли из аккаунта ({name}).',
+                toast_avatar_ok: 'Аватарка обновлена!',
+                toast_bg_reset: 'Настройки фона сброшены по умолчанию.',
+                toast_ach_reset: 'Прогресс достижений сброшен.',
+                toast_clicker_secret: '🕵️ Секрет кликера раскрыт! +{bonus} очков',
+                toast_clicker_reset: 'Прогресс «УСРО-КЛИКЕР» сброшен.',
+                log_welcome: 'Добро пожаловать в УСРО-КЛИКЕР!',
+                log_switched: 'Переключились на «{label}»',
+                log_secret: '🕵️ Нашёл секретный «??»! Бонус +{bonus} очков!',
+                log_frenzy: '🔥 Активирован режим УСРИШНОСТЬ x2 на 8 секунд!',
+                log_upg_click: 'Прокачана «Сила ти вопще»',
+                log_upg_auto: 'Нанят «Авто-сислі Чого»',
+                log_upg_mult: 'Усилен эффект «не сосія»',
+                log_upg_prostl: 'Запущен «Генератор ЭТО7ТПРОСТЛ» (+5/сек)',
+                log_event_catch: 'Поймано событие! Получено +{reward} очков',
+                log_reset: 'Прогресс кликера сброшен. Начинаем заново!',
+                event_t1: '⚡ Внезапное «Чого»! Забрать +{reward}',
+                event_t2: '⚡ «ти вопще» в чате! Забрать +{reward}',
+                event_t3: '⚡ Редкая «не сосія»! Забрать +{reward}',
+                ranks: [
+                    'Новичок чата',
+                    'Свидетель усришности',
+                    'Мастер «Чого»',
+                    'Почётный «не сосія»',
+                    'Повелитель 7ТПРОСТЛ',
+                    'Легенда локальных мемов'
+                ],
+                memes: {
+                    usrishnost: { label: '🍎 УСРИШНОСТЬ', who: 'УСРИШНОСТЬ', tag: '', phrases: ['УСРИШНОСТЬ!', 'Абсолютная усришность', 'Яблоко одобряет'] },
+                    eto7tprostl: { label: '🍅 ЭТО7ТПРОСТЛ', who: 'ЭТО7ТПРОСТЛ', tag: '', phrases: ['ЭТО7ТПРОСТЛ', 'Просто помидор', '7ТПРОСТЛ момент'] },
+                    sisli: { label: 'сислі — Чого', who: 'сислі', tag: '', phrases: ['Чого', 'Чого??', 'сислі на связи'] },
+                    sosia: { label: 'сосія — ти вопще', who: 'сосія', tag: 'не сосія', phrases: ['ти вопще', 'не сосія', 'ти вопще??'] }
+                },
+                ach: {
+                    welcome: { title: 'Добро пожаловать в Усришность', desc: 'Впервые заглянуть на портал usrishnost games.' },
+                    login_user: { title: 'Свой человек', desc: 'Войти в свой аккаунт на сайте.' },
+                    curious_player: { title: 'Любопытная Варвара', desc: 'Нажать на карточку миниигры в разработке.' },
+                    bg_designer: { title: 'Дизайнер от бога', desc: 'Изменить режим или параметры усришности в «Настройках».' },
+                    polyglot: { title: 'Полиглот усришности', desc: 'Сменить язык интерфейса на любой другой во вкладке «Настройки».' },
+                    clicker_first_100: { title: 'Сотня усришности', desc: 'Набрать 100 очков в игре «УСРО-КЛИКЕР».' },
+                    clicker_frenzy: { title: 'Режим УСРИШНОСТЬ x2', desc: 'Заполнить комбо-шкалу до 100% и активировать ускорение в кликере.' },
+                    clicker_reset_ach: { title: 'Начать с чистого яблока', desc: 'Сбросить очки и прогресс в первой миниигре «УСРО-КЛИКЕР».' },
+                    easter_apple: { title: 'Яблочный сомелье', desc: 'Пасхалка: покликать 5 раз подряд по логотипу в шапке.' },
+                    easter_sosiya: { title: 'Сосія чи не сосія?', desc: 'Пасхалка: отыскать секретную кнопку внизу страницы.' },
+                    easter_tomato: { title: 'Это7тпростл!', desc: 'Пасхалка: нажать на семёрку в тексте или клавишу «7» на клавиатуре.' },
+                    easter_clicker_badge: { title: 'Тайный знаток «??»', desc: 'Пасхалка в кликере: 3 раза нажать на загадочный значок «??» в шапке кликера.' },
+                    easter_clicker_meme_tour: { title: 'Музей локальных мемов', desc: 'Пасхалка в кликере: переключить все 4 мема за одну сессию.' },
+                    legend: { title: 'Легенда usrishnost games', desc: 'Собрать все остальные 13 достижений портала!' }
+                },
+                cl: [
+                    {
+                        version: '0.4.2а',
+                        date: 'Текущий патч',
+                        badge: 'ПАТЧ',
+                        badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
+                        items: [
+                            'Вкладка «ChangeLog» перемещена внутрь вкладки «Настройки» для более чистой навигации.',
+                            'Исправлен баг с непереведённым контентом игры: теперь при смене языка полностью переводятся все элементы «УСРО-КЛИКЕРА», ачивки, уведомления и профили.',
+                            'Скорректированы статусы прошлых сборок в истории версий.'
+                        ]
+                    },
+                    {
+                        version: '0.4.1а',
+                        date: 'Хотфикс',
+                        badge: 'ХОТФИКС',
+                        badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-400/30',
+                        items: [
+                            'Исправлен баг с пропаданием кнопки «Купить Генератор ЭТО7ТПРОСТЛ» в УСРО-КЛИКЕРЕ.'
+                        ]
+                    },
+                    {
+                        version: '0.4.0а',
+                        date: 'Крупная альфа',
+                        badge: 'АЛЬФА',
+                        badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-400/30',
+                        items: [
+                            'Добавлена смена языка интерфейса во вкладке «Настройки» (Русский, Українська, English).',
+                            'Добавлена история обновлений (ChangeLog) со всеми прошлыми версиями портала.',
+                            'Добавлены 2 новые ачивки: «Полиглот усришности» (за смену языка) и «Начать с чистого яблока» (за сброс очков в УСРО-КЛИКЕРЕ).'
+                        ]
+                    },
+                    {
+                        version: '0.3.2а',
+                        date: 'Патч-сборка',
+                        badge: 'ПАТЧ',
+                        badgeColor: 'bg-sky-500/20 text-sky-300 border-sky-400/30',
+                        items: [
+                            'Добавлена фирменная иконка «усришности» (favicon) во вкладку браузера и футер сайта.',
+                            'Обновлена маркировка версии в нижнем колонтитуле.'
+                        ]
+                    },
+                    {
+                        version: '0.3.1а',
+                        date: 'Хотфикс',
+                        badge: 'ХОТФИКС',
+                        badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-400/30',
+                        items: [
+                            'Оптимизирована верхняя панель навигации: убрана лишняя вкладка кликера, запуск игры оставлен через карточку в каталоге.',
+                            'Улучшена компактность шапки на мобильных экранах.'
+                        ]
+                    },
+                    {
+                        version: '0.3.0а',
+                        date: 'Крупное альфа-обновление',
+                        badge: 'MAJOR ALPHA',
+                        badgeColor: 'bg-orange-500/20 text-orange-300 border-orange-400/40',
+                        items: [
+                            'Добавлена первая полноценная браузерная миниигра — «УСРО-КЛИКЕР», полностью интегрированная в дизайн портала.',
+                            'В кликер добавлены 4 переключаемых мема, система уровней, комбо-режим x2, улучшения и 2 секретные пасхалки.',
+                            'Общий список ачивок расширен достижениями из кликера.'
+                        ]
+                    },
+                    {
+                        version: '0.2.1а',
+                        date: 'Хотфикс',
+                        badge: 'ХОТФИКС',
+                        badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-400/30',
+                        items: [
+                            'Исправлена критическая ошибка инициализации переключателя звуковых эффектов в настройках.',
+                            'Добавлены защитные проверки при загрузке сохранённых параметров фона.'
+                        ]
+                    },
+                    {
+                        version: '0.2.0а',
+                        date: 'Альфа-сборка',
+                        badge: 'АЛЬФА',
+                        badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-400/30',
+                        items: [
+                            'Добавлена вкладка «Аккаунт» с профилем игрока, таймером времени на сайте и быстрой сменой аватарки.',
+                            'Добавлена система достижений («Ачивки») с прогресс-баром и фанфарами.',
+                            'Спрятаны первые 3 пасхалки на главной странице («Яблочный сомелье», «Сосія чи не сосія?» и «Это7тпростл!»).',
+                            'Каталог игр приведён к формату двух основных карточек.'
+                        ]
+                    },
+                    {
+                        version: '0.1.0а',
+                        date: 'Самый первый запуск',
+                        badge: 'GENESIS',
+                        badgeColor: 'bg-zinc-700/60 text-zinc-300 border-white/15',
+                        items: [
+                            'Запущена главная страница портала «usrishnost games» со стеклянным дизайном.',
+                            'Установлена «усришность» на задний план с настройками плитки, пикселизации, размытия и затемнения.',
+                            'Добавлен базовый вход в аккаунт по нику и паролю.'
+                        ]
+                    }
+                ]
             },
-            {
-                id: 'login_user',
-                title: 'Свой человек',
-                desc: 'Войти в свой аккаунт на сайте.',
-                icon: '👤',
-                isEaster: false
+            uk: {
+                portal_subtitle: 'портал браузерних мініігор',
+                nav_games: '🎮 Ігри',
+                nav_ach: '🏆 Ачівки',
+                nav_account: '👤 Акаунт',
+                nav_settings: '⚙️ Налаштування',
+                btn_login: 'Увійти',
+                btn_logout: 'Вийти',
+                hero_badge: 'Версія 0.4.2а • Повний переклад',
+                hero_title_prefix: 'Ласкаво просимо до',
+                hero_desc_1: 'Тут збираються найкращі браузерні мініігри. Поки що',
+                hero_desc_2: 'розробників налаштовують усрішність на повну потужність — заходь у налаштування, шукай пасхалки та збирай ачівки!',
+                tomato_hint: 'Натисни на сімку!',
+                status_title: 'Статус серверів:',
+                status_ok: '● Усрішність у нормі',
+                status_avail: 'Доступно: 1 гра + 1 анонс',
+                catalog_title: 'Каталог мініігор',
+                catalog_badge: '1 гра готова • 1 скоро',
+                card_play_now: 'ГРАТИ ЗАРАЗ',
+                card1_title: 'УСРО-КЛІКЕР',
+                card1_desc: 'Качай рівень, перемикай меми («УСРИШНОСТЬ», «ЭТО7ТПРОСТЛ», «сислі», «сосія»), лови комбо x2 та шукай приховані пасхалки!',
+                card1_btn: '▶ Запустити УСРО-КЛІКЕР',
+                card_soon: 'СКОРО...',
+                card2_title: 'Это7тпростл: Втеча',
+                card2_desc: 'Динамічний раннер за суворий піксельний томат. Поки що гра полірується, але ти вже можеш зазирнути у клікер.',
+                card2_btn: '🕒 Очікується реліз',
+                clicker_title: '🍎🍅 УСРО-КЛІКЕР',
+                clicker_secret_hint: 'Хм... що це за значок?',
+                clicker_subtitle: 'Качай рівень, лови репліки та запускай режим УСРИШНОСТЬ x2',
+                clicker_back: '← До списку ігор',
+                clicker_level_word: 'Рівень',
+                clicker_stat_score: 'Очки',
+                clicker_stat_per_click: 'За клік',
+                clicker_stat_per_sec: 'За секунду',
+                clicker_stat_mult: 'Множник',
+                clicker_combo_label: 'Комбо-шкала',
+                clicker_frenzy_label: '🔥 УСРИШНОСТЬ x2 ({sec}с)',
+                upg_click_t: 'Сила «ти вопще»',
+                upg_click_d: '+1 до базового кліку',
+                upg_auto_t: 'Авто-сислі «Чого»',
+                upg_auto_d: '+1 очко за секунду',
+                upg_mult_t: 'Ефект «не сосія»',
+                upg_mult_d: '+0.25 до множника кліку',
+                upg_prostl_t: 'Генератор «ЭТО7ТПРОСТЛ»',
+                upg_prostl_d: '+5 очок за секунду',
+                clicker_feed_title: 'Стрічка реплік клікера',
+                clicker_reset: 'Скинути клікер',
+                ach_title: 'Досягнення та пасхалки',
+                ach_subtitle: 'Досліджуй сайт, клікай по секретах і збери повну колекцію!',
+                ach_opened_label: 'Відкрито ачівок',
+                ach_out_of: 'з',
+                ach_status_open: 'Відкрито',
+                ach_status_closed: 'Закрито',
+                acc_badge: '🍎 Справжній усрішник',
+                acc_reg_prefix: 'У клубі усрішності з: ',
+                acc_today: 'сьогодні',
+                acc_logout: 'Вийти з акаунта',
+                acc_stat_ach_label: 'Відкрито ачівок',
+                acc_stat_easter_label: 'Знайдено пасхалок',
+                acc_stat_time_label: 'Час на порталі',
+                acc_time_fmt: '{m} хв {s} сек',
+                acc_avatar_title: 'Швидка зміна аватарки',
+                acc_avatar_sub: 'Обери мем-образ',
+                acc_open_title: 'Відкрити вкладку Акаунт',
+                set_title: 'Налаштування порталу',
+                set_subtitle: 'Налаштуй мову інтерфейсу, відображення усрішності на фоні, звуки та профіль',
+                set_lang_label: 'Язык интерфейса / Мова / Language',
+                set_bg_mode: 'Режим відображення фону («усрішність»)',
+                set_bg_cover_t: 'На весь екран',
+                set_bg_cover_d: 'Одна велика усрішність',
+                set_bg_tile_t: 'Плиткою',
+                set_bg_tile_d: 'Багато усрішності всюди',
+                set_bg_pixel_t: 'Чіткі пікселі',
+                set_bg_pixel_d: 'Без розмиття шакалів',
+                set_dim_label: 'Затемнення фону (щоб текст читався)',
+                set_dim_min: '0% (Чиста усрішність)',
+                set_dim_max: '85% (Темний режим)',
+                set_blur_label: 'Розмиття фону',
+                set_sound_t: 'Звукові ефекти кліків',
+                set_sound_d: 'Приємні ретро-піки при натисканні на кнопки',
+                set_reset_ach: 'Скинути прогрес ачівок',
+                set_reset_bg: 'Скинути фон за замовчуванням',
+                cl_title: '📜 Історія оновлень (ChangeLog)',
+                cl_subtitle: 'Повний шлях розвитку порталу usrishnost games від першої альфи до 0.4.2а',
+                cl_current_badge: 'Актуальна: v0.4.2а',
+                footer_rights: 'Усі права усрішені.',
+                footer_version: 'Версія 0.4.2а',
+                footer_secret_hint: 'Що тут заховано?',
+                sosiya_title: 'Секретне листування знайдено!',
+                sosiya_btn: 'Зрозумів, ти вопще 😄',
+                login_title: 'Вхід в акаунт',
+                login_subtitle: 'Введи будь-який нік і будь-який пароль',
+                login_nick_label: 'Твій нікнейм',
+                login_nick_ph: 'Наприклад: УсрішнийГравець',
+                login_pass_label: 'Пароль (будь-який)',
+                login_cancel: 'Скасувати',
+                login_submit: 'Увійти',
+                toast_ach_unlocked: '🏆 Ачівку отримано: «{title}»!',
+                toast_game_wip: 'Гра «{name}» ще в розробці! Зазирни пізніше 🍎',
+                toast_apple_spin: '🍎 Усрішність розкручено на максимум!',
+                toast_login_ok: 'Привіт, {name}! Ви успішно увійшли в акаунт.',
+                toast_logout_ok: 'Ви вийшли з акаунта ({name}).',
+                toast_avatar_ok: 'Аватарку оновлено!',
+                toast_bg_reset: 'Налаштування фону скинуто за замовчуванням.',
+                toast_ach_reset: 'Прогрес досягнень скинуто.',
+                toast_clicker_secret: '🕵️ Секрет клікера розкрито! +{bonus} очок',
+                toast_clicker_reset: 'Прогрес «УСРО-КЛІКЕР» скинуто.',
+                log_welcome: 'Ласкаво просимо до УСРО-КЛІКЕРА!',
+                log_switched: 'Перемкнулися на «{label}»',
+                log_secret: '🕵️ Знайшов секретний «??»! Бонус +{bonus} очок!',
+                log_frenzy: '🔥 Активовано режим УСРИШНОСТЬ x2 на 8 секунд!',
+                log_upg_click: 'Прокачано «Сила ти вопще»',
+                log_upg_auto: 'Найнято «Авто-сислі Чого»',
+                log_upg_mult: 'Посилено ефект «не сосія»',
+                log_upg_prostl: 'Запущено «Генератор ЭТО7ТПРОСТЛ» (+5/сек)',
+                log_event_catch: 'Спіймано подію! Отримано +{reward} очок',
+                log_reset: 'Прогрес клікера скинуто. Починаємо заново!',
+                event_t1: '⚡ Раптове «Чого»! Забрати +{reward}',
+                event_t2: '⚡ «ти вопще» у чаті! Забрати +{reward}',
+                event_t3: '⚡ Рідкісна «не сосія»! Забрати +{reward}',
+                ranks: [
+                    'Новачок чату',
+                    'Свідок усрішності',
+                    'Майстер «Чого»',
+                    'Почесний «не сосія»',
+                    'Володар 7ТПРОСТЛ',
+                    'Легенда локальних мемів'
+                ],
+                memes: {
+                    usrishnost: { label: '🍎 УСРИШНОСТЬ', who: 'УСРИШНОСТЬ', tag: '', phrases: ['УСРИШНОСТЬ!', 'Абсолютна усрішність', 'Яблуко схвалює'] },
+                    eto7tprostl: { label: '🍅 ЭТО7ТПРОСТЛ', who: 'ЭТО7ТПРОСТЛ', tag: '', phrases: ['ЭТО7ТПРОСТЛ', 'Просто помідор', '7ТПРОСТЛ момент'] },
+                    sisli: { label: 'сислі — Чого', who: 'сислі', tag: '', phrases: ['Чого', 'Чого??', 'сислі на звʼязку'] },
+                    sosia: { label: 'сосія — ти вопще', who: 'сосія', tag: 'не сосія', phrases: ['ти вопще', 'не сосія', 'ти вопще??'] }
+                },
+                ach: {
+                    welcome: { title: 'Ласкаво просимо до Усрішності', desc: 'Вперше зазирнути на портал usrishnost games.' },
+                    login_user: { title: 'Своя людина', desc: 'Увійти у свій акаунт на сайті.' },
+                    curious_player: { title: 'Цікава Варвара', desc: 'Натиснути на картку мініігри в розробці.' },
+                    bg_designer: { title: 'Дизайнер від бога', desc: 'Змінити режим або параметри усрішності в «Налаштуваннях».' },
+                    polyglot: { title: 'Поліглот усрішності', desc: 'Змінити мову інтерфейсу на будь-яку іншу у вкладці «Налаштування».' },
+                    clicker_first_100: { title: 'Сотня усрішності', desc: 'Набрати 100 очок у грі «УСРО-КЛІКЕР».' },
+                    clicker_frenzy: { title: 'Режим УСРИШНОСТЬ x2', desc: 'Заповнити комбо-шкалу до 100% і активувати прискорення в клікері.' },
+                    clicker_reset_ach: { title: 'Почати з чистого яблука', desc: 'Скинути очки та прогрес у першій мініігрі «УСРО-КЛІКЕР».' },
+                    easter_apple: { title: 'Яблучний сомельє', desc: 'Пасхалка: поклікати 5 разів поспіль по логотипу в шапці.' },
+                    easter_sosiya: { title: 'Сосія чи не сосія?', desc: 'Пасхалка: відшукати секретну кнопку внизу сторінки.' },
+                    easter_tomato: { title: 'Это7тпростл!', desc: 'Пасхалка: натиснути на сімку в тексті або клавішу «7» на клавіатурі.' },
+                    easter_clicker_badge: { title: 'Таємний знавець «??»', desc: 'Пасхалка в клікері: 3 рази натиснути на загадковий значок «??» у шапці клікера.' },
+                    easter_clicker_meme_tour: { title: 'Музей локальних мемів', desc: 'Пасхалка в клікері: перемкнути всі 4 меми за одну сесію.' },
+                    legend: { title: 'Легенда usrishnost games', desc: 'Зібрати всі інші 13 досягнень порталу!' }
+                },
+                cl: [
+                    {
+                        version: '0.4.2а',
+                        date: 'Поточний патч',
+                        badge: 'ПАТЧ',
+                        badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
+                        items: [
+                            'Вкладку «ChangeLog» переміщено всередину вкладки «Налаштування» для зручнішої навігації.',
+                            'Виправлено баг із неперекладеним матеріалом гри: тепер при зміні мови повністю перекладаються всі елементи «УСРО-КЛІКЕРА», ачівки, сповіщення та профілі.',
+                            'Скориговано статуси минулих збірок в історії версій.'
+                        ]
+                    },
+                    {
+                        version: '0.4.1а',
+                        date: 'Хотфікс',
+                        badge: 'ХОТФІКС',
+                        badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-400/30',
+                        items: [
+                            'Виправлено баг із зникненням кнопки «Купити Генератор ЭТО7ТПРОСТЛ» в УСРО-КЛІКЕРІ.'
+                        ]
+                    },
+                    {
+                        version: '0.4.0а',
+                        date: 'Велика альфа',
+                        badge: 'АЛЬФА',
+                        badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-400/30',
+                        items: [
+                            'Додано зміну мови інтерфейсу у вкладці «Налаштування» (Русский, Українська, English).',
+                            'Додано історію оновлень (ChangeLog) з усіма минулими версіями порталу.',
+                            'Додано 2 нові ачівки: «Поліглот усрішності» (за зміну мови) та «Почати з чистого яблука» (за скидання очок в УСРО-КЛІКЕРІ).'
+                        ]
+                    },
+                    {
+                        version: '0.3.2а',
+                        date: 'Патч-збірка',
+                        badge: 'ПАТЧ',
+                        badgeColor: 'bg-sky-500/20 text-sky-300 border-sky-400/30',
+                        items: [
+                            'Додано фірмову іконку «усрішності» (favicon) у вкладку браузера та футер сайту.',
+                            'Оновлено маркування версії в нижньому колонтитулі.'
+                        ]
+                    },
+                    {
+                        version: '0.3.1а',
+                        date: 'Хотфікс',
+                        badge: 'ХОТФІКС',
+                        badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-400/30',
+                        items: [
+                            'Оптимізовано верхню панель навігації: прибрано зайву вкладку клікера, запуск гри залишено через картку в каталозі.',
+                            'Покращено компактність шапки на мобільних екранах.'
+                        ]
+                    },
+                    {
+                        version: '0.3.0а',
+                        date: 'Велике альфа-оновлення',
+                        badge: 'MAJOR ALPHA',
+                        badgeColor: 'bg-orange-500/20 text-orange-300 border-orange-400/40',
+                        items: [
+                            'Додано першу повноцінну браузерну мінігру — «УСРО-КЛІКЕР», повністю інтегровану в дизайн порталу.',
+                            'У клікер додано 4 перемикані меми, систему рівнів, комбо-режим x2, покращення та 2 секретні пасхалки.',
+                            'Загальний список ачівок розширено досягненнями з клікера.'
+                        ]
+                    },
+                    {
+                        version: '0.2.1а',
+                        date: 'Хотфікс',
+                        badge: 'ХОТФІКС',
+                        badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-400/30',
+                        items: [
+                            'Виправлено критичну помилку ініціалізації перемикача звукових ефектів у налаштуваннях.',
+                            'Додано захисні перевірки при завантаженні збережених параметрів фону.'
+                        ]
+                    },
+                    {
+                        version: '0.2.0а',
+                        date: 'Альфа-збірка',
+                        badge: 'АЛЬФА',
+                        badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-400/30',
+                        items: [
+                            'Додано вкладку «Акаунт» із профілем гравця, таймером часу на сайті та швидкою зміною аватарки.',
+                            'Додано систему досягнень («Ачівки») із прогрес-баром та фанфарами.',
+                            'Заховано перші 3 пасхалки на головній сторінці («Яблучний сомельє», «Сосія чи не сосія?» та «Это7тпростл!»).',
+                            'Каталог ігор приведено до формату двох основних карток.'
+                        ]
+                    },
+                    {
+                        version: '0.1.0а',
+                        date: 'Найперший запуск',
+                        badge: 'GENESIS',
+                        badgeColor: 'bg-zinc-700/60 text-zinc-300 border-white/15',
+                        items: [
+                            'Запущено головну сторінку порталу «usrishnost games» зі скляним дизайном.',
+                            'Встановлено «усрішність» на задній план із налаштуваннями плитки, пікселізації, розмиття та затемнення.',
+                            'Додано базовий вхід в акаунт за ніком і паролем.'
+                        ]
+                    }
+                ]
             },
-            {
-                id: 'curious_player',
-                title: 'Любопытная Варвара',
-                desc: 'Нажать на карточку миниигры в разработке.',
-                icon: '🕹️',
-                isEaster: false
-            },
-            {
-                id: 'bg_designer',
-                title: 'Дизайнер от бога',
-                desc: 'Изменить режим или параметры усришности в «Настройках».',
-                icon: '🎨',
-                isEaster: false
-            },
-            {
-                id: 'clicker_first_100',
-                title: 'Сотня усришности',
-                desc: 'Набрать 100 очков в игре «УСРО-КЛИКЕР».',
-                icon: '💯',
-                isEaster: false
-            },
-            {
-                id: 'clicker_frenzy',
-                title: 'Режим УСРИШНОСТЬ x2',
-                desc: 'Заполнить комбо-шкалу до 100% и активировать ускорение в кликере.',
-                icon: '🔥',
-                isEaster: false
-            },
-            {
-                id: 'easter_apple',
-                title: 'Яблочный сомелье',
-                desc: 'Пасхалка: покликать 5 раз подряд по логотипу в шапке.',
-                icon: '🌀',
-                isEaster: true
-            },
-            {
-                id: 'easter_sosiya',
-                title: 'Сосія чи не сосія?',
-                desc: 'Пасхалка: отыскать секретную кнопку внизу страницы.',
-                icon: '💬',
-                isEaster: true
-            },
-            {
-                id: 'easter_tomato',
-                title: 'Это7тпростл!',
-                desc: 'Пасхалка: нажать на семёрку в тексте или клавишу «7» на клавиатуре.',
-                icon: '🍅',
-                isEaster: true
-            },
-            {
-                id: 'easter_clicker_badge',
-                title: 'Тайный знаток «??»',
-                desc: 'Пасхалка в кликере: 3 раза нажать на загадочный значок «??» в шапке кликера.',
-                icon: '🕵️',
-                isEaster: true
-            },
-            {
-                id: 'easter_clicker_meme_tour',
-                title: 'Музей локальных мемов',
-                desc: 'Пасхалка в кликере: переключить все 4 мема за одну сессию.',
-                icon: '🎭',
-                isEaster: true
-            },
-            {
-                id: 'legend',
-                title: 'Легенда usrishnost games',
-                desc: 'Собрать все остальные 11 достижений портала!',
-                icon: '👑',
-                isEaster: false
+            en: {
+                portal_subtitle: 'browser minigames portal',
+                nav_games: '🎮 Games',
+                nav_ach: '🏆 Achievements',
+                nav_account: '👤 Account',
+                nav_settings: '⚙️ Settings',
+                btn_login: 'Log In',
+                btn_logout: 'Log Out',
+                hero_badge: 'Version 0.4.2a • Full Translation',
+                hero_title_prefix: 'Welcome to',
+                hero_desc_1: 'The finest browser minigames gather here. Right now',
+                hero_desc_2: 'developers are tuning usrishnost to full power — open settings, hunt Easter eggs, and collect achievements!',
+                tomato_hint: 'Click the number seven!',
+                status_title: 'Server Status:',
+                status_ok: '● Usrishnost is nominal',
+                status_avail: 'Available: 1 game + 1 teaser',
+                catalog_title: 'Minigames Catalog',
+                catalog_badge: '1 ready • 1 coming soon',
+                card_play_now: 'PLAY NOW',
+                card1_title: 'USRO-CLICKER',
+                card1_desc: 'Level up, switch memes («USRISHNOST», «ETO7TPROSTL», «sysli», «sosiya»), catch x2 combos, and find hidden secrets!',
+                card1_btn: '▶ Launch USRO-CLICKER',
+                card_soon: 'SOON...',
+                card2_title: 'Eto7tprostl: Escape',
+                card2_desc: 'Fast-paced runner starring a gritty pixel tomato. Still in polish, but you can jump into the clicker right now.',
+                card2_btn: '🕒 Coming Soon',
+                clicker_title: '🍎🍅 USRO-CLICKER',
+                clicker_secret_hint: 'Hmm... what is this badge?',
+                clicker_subtitle: 'Level up, catch quotes, and trigger USRISHNOST x2 frenzy',
+                clicker_back: '← Back to Games',
+                clicker_level_word: 'Level',
+                clicker_stat_score: 'Score',
+                clicker_stat_per_click: 'Per Click',
+                clicker_stat_per_sec: 'Per Second',
+                clicker_stat_mult: 'Multiplier',
+                clicker_combo_label: 'Combo Bar',
+                clicker_frenzy_label: '🔥 USRISHNOST x2 ({sec}s)',
+                upg_click_t: 'Power of «ty vopshche»',
+                upg_click_d: '+1 to base click power',
+                upg_auto_t: 'Auto-sysli «Chogo»',
+                upg_auto_d: '+1 point per second',
+                upg_mult_t: 'Effect «ne sosiya»',
+                upg_mult_d: '+0.25 to click multiplier',
+                upg_prostl_t: 'Generator «ETO7TPROSTL»',
+                upg_prostl_d: '+5 points per second',
+                clicker_feed_title: 'Clicker Quote Feed',
+                clicker_reset: 'Reset Clicker',
+                ach_title: 'Achievements & Easter Eggs',
+                ach_subtitle: 'Explore the portal, click on secrets, and complete your collection!',
+                ach_opened_label: 'Unlocked',
+                ach_out_of: 'of',
+                ach_status_open: 'Unlocked',
+                ach_status_closed: 'Locked',
+                acc_badge: '🍎 True Usrishnik',
+                acc_reg_prefix: 'In the usrishnost club since: ',
+                acc_today: 'today',
+                acc_logout: 'Log Out',
+                acc_stat_ach_label: 'Achievements',
+                acc_stat_easter_label: 'Easter Eggs Found',
+                acc_stat_time_label: 'Time on Portal',
+                acc_time_fmt: '{m} min {s} sec',
+                acc_avatar_title: 'Quick Avatar Switch',
+                acc_avatar_sub: 'Choose your meme look',
+                acc_open_title: 'Open Account tab',
+                set_title: 'Portal Settings',
+                set_subtitle: 'Customize interface language, background usrishnost display, sounds, and profile',
+                set_lang_label: 'Язык интерфейса / Мова / Language',
+                set_bg_mode: 'Background Display Mode («usrishnost»)',
+                set_bg_cover_t: 'Full Screen',
+                set_bg_cover_d: 'One giant usrishnost',
+                set_bg_tile_t: 'Tiled',
+                set_bg_tile_d: 'Usrishnost everywhere',
+                set_bg_pixel_t: 'Crisp Pixels',
+                set_bg_pixel_d: 'No blurry smoothing',
+                set_dim_label: 'Background Dimming (for readability)',
+                set_dim_min: '0% (Pure usrishnost)',
+                set_dim_max: '85% (Dark mode)',
+                set_blur_label: 'Background Blur',
+                set_sound_t: 'Click Sound Effects',
+                set_sound_d: 'Retro synth blips when pressing buttons',
+                set_reset_ach: 'Reset Achievements',
+                set_reset_bg: 'Reset Background Defaults',
+                cl_title: '📜 Update History (ChangeLog)',
+                cl_subtitle: 'The complete evolution of usrishnost games from the first alpha to 0.4.2a',
+                cl_current_badge: 'Current: v0.4.2a',
+                footer_rights: 'All rights usrished.',
+                footer_version: 'Version 0.4.2a',
+                footer_secret_hint: 'What is hidden here?',
+                sosiya_title: 'Secret chat log discovered!',
+                sosiya_btn: 'Got it, ty vopshche 😄',
+                login_title: 'Account Login',
+                login_subtitle: 'Enter any nickname and any password',
+                login_nick_label: 'Your nickname',
+                login_nick_ph: 'Example: UsrishnyPlayer',
+                login_pass_label: 'Password (any)',
+                login_cancel: 'Cancel',
+                login_submit: 'Log In',
+                toast_ach_unlocked: '🏆 Achievement unlocked: «{title}»!',
+                toast_game_wip: 'Game «{name}» is still in development! Check back later 🍎',
+                toast_apple_spin: '🍎 Usrishnost spun to maximum!',
+                toast_login_ok: 'Hello, {name}! You have successfully logged in.',
+                toast_logout_ok: 'You have logged out ({name}).',
+                toast_avatar_ok: 'Avatar updated!',
+                toast_bg_reset: 'Background settings reset to default.',
+                toast_ach_reset: 'Achievement progress reset.',
+                toast_clicker_secret: '🕵️ Clicker secret uncovered! +{bonus} points',
+                toast_clicker_reset: '«USRO-CLICKER» progress has been reset.',
+                log_welcome: 'Welcome to USRO-CLICKER!',
+                log_switched: 'Switched to «{label}»',
+                log_secret: '🕵️ Found secret «??»! Bonus +{bonus} points!',
+                log_frenzy: '🔥 USRISHNOST x2 mode activated for 8 seconds!',
+                log_upg_click: 'Upgraded «Power of ty vopshche»',
+                log_upg_auto: 'Hired «Auto-sysli Chogo»',
+                log_upg_mult: 'Boosted «ne sosiya» effect',
+                log_upg_prostl: 'Started «ETO7TPROSTL Generator» (+5/sec)',
+                log_event_catch: 'Caught an event! Earned +{reward} points',
+                log_reset: 'Clicker progress reset. Starting fresh!',
+                event_t1: '⚡ Sudden «Chogo»! Claim +{reward}',
+                event_t2: '⚡ «ty vopshche» in chat! Claim +{reward}',
+                event_t3: '⚡ Rare «ne sosiya»! Claim +{reward}',
+                ranks: [
+                    'Chat Rookie',
+                    'Witness of Usrishnost',
+                    'Master of «Chogo»',
+                    'Honorary «ne sosiya»',
+                    'Lord of 7TPROSTL',
+                    'Legend of Local Memes'
+                ],
+                memes: {
+                    usrishnost: { label: '🍎 USRISHNOST', who: 'USRISHNOST', tag: '', phrases: ['USRISHNOST!', 'Absolute usrishnost', 'The apple approves'] },
+                    eto7tprostl: { label: '🍅 ETO7TPROSTL', who: 'ETO7TPROSTL', tag: '', phrases: ['ETO7TPROSTL', 'Just a tomato', '7TPROSTL moment'] },
+                    sisli: { label: 'sysli — Chogo', who: 'sysli', tag: '', phrases: ['Chogo', 'Chogo??', 'sysli on the line'] },
+                    sosia: { label: 'sosiya — ty vopshche', who: 'sosiya', tag: 'ne sosiya', phrases: ['ty vopshche', 'ne sosiya', 'ty vopshche??'] }
+                },
+                ach: {
+                    welcome: { title: 'Welcome to Usrishnost', desc: 'Visit the usrishnost games portal for the first time.' },
+                    login_user: { title: 'One of Us', desc: 'Log into your account on the website.' },
+                    curious_player: { title: 'Curious Explorer', desc: 'Click on a minigame card still in development.' },
+                    bg_designer: { title: 'God-Tier Designer', desc: 'Change background mode or parameters in Settings.' },
+                    polyglot: { title: 'Usrishnost Polyglot', desc: 'Switch the interface language to any other in Settings.' },
+                    clicker_first_100: { title: 'Hundred of Usrishnost', desc: 'Reach 100 points in «USRO-CLICKER».' },
+                    clicker_frenzy: { title: 'USRISHNOST x2 Mode', desc: 'Fill the combo bar to 100% and activate frenzy in the clicker.' },
+                    clicker_reset_ach: { title: 'Fresh Apple Start', desc: 'Reset your score and progress in «USRO-CLICKER».' },
+                    easter_apple: { title: 'Apple Sommelier', desc: 'Easter egg: click the header logo 5 times in a row.' },
+                    easter_sosiya: { title: 'Sosiya or not sosiya?', desc: 'Easter egg: find the secret button at the bottom of the page.' },
+                    easter_tomato: { title: 'Eto7tprostl!', desc: 'Easter egg: click the number 7 in the text or press «7» on your keyboard.' },
+                    easter_clicker_badge: { title: 'Secret «??» Connoisseur', desc: 'Clicker Easter egg: click the mysterious «??» badge 3 times.' },
+                    easter_clicker_meme_tour: { title: 'Local Meme Museum', desc: 'Clicker Easter egg: switch through all 4 memes in one session.' },
+                    legend: { title: 'Legend of usrishnost games', desc: 'Collect all other 13 achievements on the portal!' }
+                },
+                cl: [
+                    {
+                        version: '0.4.2a',
+                        date: 'Current Patch',
+                        badge: 'PATCH',
+                        badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
+                        items: [
+                            'Moved «ChangeLog» into the «Settings» tab for cleaner navigation.',
+                            'Fixed untranslated game content: switching languages now translates all «USRO-CLICKER» UI, ranks, quotes, achievements, and toasts.',
+                            'Updated version tags across past builds in the changelog.'
+                        ]
+                    },
+                    {
+                        version: '0.4.1a',
+                        date: 'Hotfix',
+                        badge: 'HOTFIX',
+                        badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-400/30',
+                        items: [
+                            'Fixed a bug where the «Buy ETO7TPROSTL Generator» button disappeared in USRO-CLICKER.'
+                        ]
+                    },
+                    {
+                        version: '0.4.0a',
+                        date: 'Major Alpha',
+                        badge: 'ALPHA',
+                        badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-400/30',
+                        items: [
+                            'Added interface language switcher in Settings (Russian, Ukrainian, English).',
+                            'Added ChangeLog history listing all past versions of the portal.',
+                            'Added 2 new achievements: «Usrishnost Polyglot» and «Fresh Apple Start».'
+                        ]
+                    },
+                    {
+                        version: '0.3.2a',
+                        date: 'Patch Build',
+                        badge: 'PATCH',
+                        badgeColor: 'bg-sky-500/20 text-sky-300 border-sky-400/30',
+                        items: [
+                            'Added the signature «usrishnost» favicon to the browser tab and website footer.',
+                            'Updated version label in the footer.'
+                        ]
+                    },
+                    {
+                        version: '0.3.1a',
+                        date: 'Hotfix',
+                        badge: 'HOTFIX',
+                        badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-400/30',
+                        items: [
+                            'Streamlined top navigation bar: removed redundant clicker tab, keeping launch inside the game catalog card.',
+                            'Improved header compactness on mobile screens.'
+                        ]
+                    },
+                    {
+                        version: '0.3.0a',
+                        date: 'Major Alpha Update',
+                        badge: 'MAJOR ALPHA',
+                        badgeColor: 'bg-orange-500/20 text-orange-300 border-orange-400/40',
+                        items: [
+                            'Added the first full browser minigame — «USRO-CLICKER», seamlessly integrated into the portal design.',
+                            'Added 4 switchable memes, level system, x2 combo frenzy, upgrades, and 2 hidden Easter eggs.',
+                            'Expanded the global achievements list with clicker milestones.'
+                        ]
+                    },
+                    {
+                        version: '0.2.1a',
+                        date: 'Hotfix',
+                        badge: 'HOTFIX',
+                        badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-400/30',
+                        items: [
+                            'Fixed a critical initialization error with the sound effects toggle in Settings.',
+                            'Added defensive checks when loading saved background settings.'
+                        ]
+                    },
+                    {
+                        version: '0.2.0a',
+                        date: 'Alpha Build',
+                        badge: 'ALPHA',
+                        badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-400/30',
+                        items: [
+                            'Added «Account» tab with player profile, site timer, and quick avatar switcher.',
+                            'Added «Achievements» system with progress bar and fanfare audio.',
+                            'Hid the first 3 Easter eggs on the home page.',
+                            'Refined game catalog to two main cards.'
+                        ]
+                    },
+                    {
+                        version: '0.1.0a',
+                        date: 'Initial Launch',
+                        badge: 'GENESIS',
+                        badgeColor: 'bg-zinc-700/60 text-zinc-300 border-white/15',
+                        items: [
+                            'Launched the «usrishnost games» home page with glassmorphic design.',
+                            'Set «usrishnost» as the dynamic background with tile, pixel, blur, and dim controls.',
+                            'Added basic nickname & password account login.'
+                        ]
+                    }
+                ]
             }
+        };
+
+        // Список ID всех достижений портала (14 ачивок)
+        const ACHIEVEMENTS = [
+            { id: 'welcome', icon: '🍎', isEaster: false },
+            { id: 'login_user', icon: '👤', isEaster: false },
+            { id: 'curious_player', icon: '🕹️', isEaster: false },
+            { id: 'bg_designer', icon: '🎨', isEaster: false },
+            { id: 'polyglot', icon: '🌐', isEaster: false },
+            { id: 'clicker_first_100', icon: '💯', isEaster: false },
+            { id: 'clicker_frenzy', icon: '🔥', isEaster: false },
+            { id: 'clicker_reset_ach', icon: '🔄', isEaster: false },
+            { id: 'easter_apple', icon: '🌀', isEaster: true },
+            { id: 'easter_sosiya', icon: '💬', isEaster: true },
+            { id: 'easter_tomato', icon: '🍅', isEaster: true },
+            { id: 'easter_clicker_badge', icon: '🕵️', isEaster: true },
+            { id: 'easter_clicker_meme_tour', icon: '🎭', isEaster: true },
+            { id: 'legend', icon: '👑', isEaster: false }
         ];
 
-        // Состояние приложения (сохраняется в localStorage)
-        const state = {
+        // Хелпер получения словаря текущего языка
+        function t(key, vars = {}) {
+            const dict = I18N[state.lang] || I18N.ru;
+            let str = dict[key] !== undefined ? dict[key] : (I18N.ru[key] || key);
+            Object.keys(vars).forEach(k => {
+                str = str.replace(`{${k}}`, vars[k]);
+            });
+            return str;
+        }
+
+        // Основное состояние портала
+        const PORTAL_STORAGE_KEY = 'usrishnost_games_state_v2';
+
+        let state = {
+            lang: 'ru',
             user: null,
-            regDate: null,
             avatar: 'usrishnost.jpg',
-            bgMode: 'cover', // 'cover' | 'tile' | 'pixel'
+            regDate: null,
+            secondsOnSite: 0,
+            bgMode: 'cover',
             bgDim: 45,
             bgBlur: 0,
             soundEnabled: true,
-            unlockedAchievements: [],
-            secondsOnSite: 0
+            unlockedAchievements: []
         };
 
+        let activeTab = 'games';
         let logoClicks = 0;
         let logoClickTimer = null;
-        let activeTab = 'games';
-
-        // Простой генератор ретро-звуков через Web Audio API (без внешних файлов)
         let audioCtx = null;
-        function playClickSound(freq = 520, duration = 0.06) {
+
+        function escapeHtml(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function saveState() {
+            try {
+                localStorage.setItem(PORTAL_STORAGE_KEY, JSON.stringify(state));
+            } catch (e) {}
+        }
+
+        function playClickSound(freq = 520, duration = 0.05) {
             if (!state.soundEnabled) return;
             try {
-                if (!audioCtx) {
-                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                }
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
                 osc.type = 'triangle';
                 osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-                osc.frequency.exponentialRampToValueAtTime(freq * 1.35, audioCtx.currentTime + duration);
-
-                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                osc.frequency.exponentialRampToValueAtTime(freq * 1.25, audioCtx.currentTime + duration);
+                gain.gain.setValueAtTime(0.06, audioCtx.currentTime);
                 gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
-
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
                 osc.start();
@@ -757,58 +1530,240 @@
             } catch (e) {}
         }
 
-        // Фанфара при получении ачивки
         function playAchievementSound() {
             if (!state.soundEnabled) return;
             try {
-                if (!audioCtx) {
-                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                }
-                const notes = [523.25, 659.25, 783.99, 1046.5];
-                notes.forEach((freq, idx) => {
+                if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                [523.25, 659.25, 783.99, 1046.5].forEach((freq, idx) => {
                     const osc = audioCtx.createOscillator();
                     const gain = audioCtx.createGain();
                     osc.type = 'sine';
-                    const start = audioCtx.currentTime + idx * 0.075;
+                    const start = audioCtx.currentTime + idx * 0.07;
                     osc.frequency.setValueAtTime(freq, start);
-                    gain.gain.setValueAtTime(0.09, start);
-                    gain.gain.exponentialRampToValueAtTime(0.001, start + 0.18);
+                    gain.gain.setValueAtTime(0.08, start);
+                    gain.gain.exponentialRampToValueAtTime(0.001, start + 0.16);
                     osc.connect(gain);
                     gain.connect(audioCtx.destination);
                     osc.start(start);
-                    osc.stop(start + 0.18);
+                    osc.stop(start + 0.16);
                 });
             } catch (e) {}
         }
 
-        // Загрузка сохранённых данных при открытии страницы
-        function loadState() {
-            try {
-                const saved = localStorage.getItem('usrishnost_games_state_v2');
-                if (saved) {
-                    Object.assign(state, JSON.parse(saved));
-                }
-            } catch (e) {}
-            applyAllSettings();
-            renderAuthArea();
-            renderAchievements();
-            updateAccountView();
+        function showToast(message, isAchievement = false) {
+            const container = document.getElementById('toast-container');
+            if (!container) return;
+            const toast = document.createElement('div');
+            toast.className = `toast-enter glass-panel px-4 py-3 rounded-xl text-xs sm:text-sm font-medium text-white shadow-xl pointer-events-auto ${
+                isAchievement ? 'border-2 border-amber-400 bg-zinc-900/95' : 'border border-orange-400/40'
+            }`;
+            toast.textContent = message;
+            container.appendChild(toast);
 
-            // Открываем стартовую ачивку
-            setTimeout(() => unlockAchievement('welcome'), 400);
-
-            // Таймер времени на сайте
-            setInterval(() => {
-                state.secondsOnSite = (state.secondsOnSite || 0) + 1;
-                if (state.secondsOnSite % 5 === 0) saveState();
-                if (activeTab === 'account') updateAccountTimeLabel();
-            }, 1000);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateY(8px)';
+                toast.style.transition = 'all 0.25s ease';
+                setTimeout(() => toast.remove(), 250);
+            }, isAchievement ? 3500 : 2500);
         }
 
-        function saveState() {
+        function applyAllSettings() {
+            const bgLayer = document.getElementById('bg-image-layer');
+            const dimLayer = document.getElementById('bg-dim-layer');
+            const dimSlider = document.getElementById('dim-slider');
+            const dimLabel = document.getElementById('dim-value-label');
+            const blurSlider = document.getElementById('blur-slider');
+            const blurLabel = document.getElementById('blur-value-label');
+            const soundBtn = document.getElementById('sound-toggle-btn');
+            const soundKnob = document.getElementById('sound-toggle-knob');
+
+            if (bgLayer) {
+                bgLayer.classList.remove('bg-tile', 'bg-pixel');
+                if (state.bgMode === 'tile') bgLayer.classList.add('bg-tile');
+                if (state.bgMode === 'pixel') bgLayer.classList.add('bg-pixel');
+
+                const blurVal = Number(state.bgBlur) || 0;
+                bgLayer.style.filter = blurVal > 0 ? `blur(${blurVal}px)` : 'none';
+                bgLayer.style.transform = blurVal > 0 ? 'scale(1.04)' : 'scale(1)';
+            }
+
+            if (dimLayer) {
+                const dimVal = Number(state.bgDim);
+                const safeDim = Number.isNaN(dimVal) ? 45 : dimVal;
+                dimLayer.style.backgroundColor = `rgba(15, 15, 20, ${safeDim / 100})`;
+            }
+
+            if (dimSlider) dimSlider.value = state.bgDim;
+            if (dimLabel) dimLabel.textContent = `${state.bgDim}%`;
+            if (blurSlider) blurSlider.value = state.bgBlur;
+            if (blurLabel) blurLabel.textContent = `${state.bgBlur} px`;
+
+            document.querySelectorAll('.bg-mode-btn').forEach(btn => {
+                btn.classList.remove('border-orange-500', 'bg-orange-500/20');
+                btn.classList.add('border-white/10', 'bg-zinc-900/60');
+            });
+            const activeModeBtn = document.getElementById(`bg-mode-${state.bgMode}`);
+            if (activeModeBtn) {
+                activeModeBtn.classList.remove('border-white/10', 'bg-zinc-900/60');
+                activeModeBtn.classList.add('border-orange-500', 'bg-orange-500/20');
+            }
+
+            if (soundBtn && soundKnob) {
+                if (state.soundEnabled) {
+                    soundBtn.classList.remove('bg-zinc-700');
+                    soundBtn.classList.add('bg-orange-500');
+                    soundKnob.classList.remove('translate-x-0');
+                    soundKnob.classList.add('translate-x-6');
+                } else {
+                    soundBtn.classList.remove('bg-orange-500');
+                    soundBtn.classList.add('bg-zinc-700');
+                    soundKnob.classList.remove('translate-x-6');
+                    soundKnob.classList.add('translate-x-0');
+                }
+            }
+
+            document.querySelectorAll('.avatar-option').forEach(btn => {
+                if (btn.getAttribute('data-avatar') === state.avatar) {
+                    btn.classList.remove('border-transparent', 'hover:border-white/20');
+                    btn.classList.add('border-orange-500');
+                } else {
+                    btn.classList.remove('border-orange-500');
+                    btn.classList.add('border-transparent', 'hover:border-white/20');
+                }
+            });
+        }
+
+        function setBgMode(mode) {
+            state.bgMode = mode;
+            playClickSound(500);
+            saveState();
+            applyAllSettings();
+            unlockAchievement('bg_designer');
+        }
+
+        function updateBgDim(val) {
+            state.bgDim = Number(val);
+            saveState();
+            applyAllSettings();
+            unlockAchievement('bg_designer');
+        }
+
+        function updateBgBlur(val) {
+            state.bgBlur = Number(val);
+            saveState();
+            applyAllSettings();
+            unlockAchievement('bg_designer');
+        }
+
+        function toggleSound() {
+            state.soundEnabled = !state.soundEnabled;
+            saveState();
+            applyAllSettings();
+            if (state.soundEnabled) playClickSound(640);
+        }
+
+        function openLoginModal() {
+            playClickSound(540);
+            const modal = document.getElementById('login-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => document.getElementById('login-username').focus(), 50);
+        }
+
+        function closeLoginModal() {
+            const modal = document.getElementById('login-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function openSosiyaEasterEgg() {
+            playClickSound(660, 0.08);
+            const modal = document.getElementById('sosiya-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            unlockAchievement('easter_sosiya');
+        }
+
+        function closeSosiyaModal() {
+            const modal = document.getElementById('sosiya-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function triggerTomatoEasterEgg() {
+            playClickSound(720, 0.1);
+            const overlay = document.getElementById('tomato-overlay');
+            if (!overlay) return;
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex');
+            const fly = overlay.querySelector('.tomato-fly');
+            if (fly) {
+                fly.classList.remove('tomato-fly');
+                void fly.offsetWidth;
+                fly.classList.add('tomato-fly');
+            }
+            unlockAchievement('easter_tomato');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                overlay.classList.remove('flex');
+            }, 1450);
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '7') {
+                const activeTag = document.activeElement && document.activeElement.tagName;
+                if (activeTag !== 'INPUT' && activeTag !== 'TEXTAREA') {
+                    triggerTomatoEasterEgg();
+                }
+            }
+        });
+
+        function spawnClickerFloatingText(x, y, text) {
+            const el = document.createElement('div');
+            el.textContent = text;
+            el.style.position = 'fixed';
+            el.style.left = `${x}px`;
+            el.style.top = `${y}px`;
+            el.style.transform = 'translate(-50%, 0)';
+            el.style.fontWeight = '900';
+            el.style.fontSize = '1.2rem';
+            el.style.color = '#fbbf24';
+            el.style.textShadow = '0 2px 10px rgba(0, 0, 0, 0.85)';
+            el.style.pointerEvents = 'none';
+            el.style.zIndex = '60';
+            el.style.transition = 'all 0.7s ease-out';
+            document.body.appendChild(el);
+
+            requestAnimationFrame(() => {
+                el.style.top = `${y - 65}px`;
+                el.style.opacity = '0';
+            });
+            setTimeout(() => el.remove(), 720);
+        }
+
+        function loadState() {
             try {
-                localStorage.setItem('usrishnost_games_state_v2', JSON.stringify(state));
+                const raw = localStorage.getItem(PORTAL_STORAGE_KEY);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    state = { ...state, ...parsed };
+                }
             } catch (e) {}
+
+            applyAllSettings();
+            applyLanguage();
+            unlockAchievement('welcome');
+
+            setInterval(() => {
+                state.secondsOnSite = (state.secondsOnSite || 0) + 1;
+                if (state.secondsOnSite % 10 === 0) {
+                    saveState();
+                }
+                if (activeTab === 'account') {
+                    updateAccountTimeLabel();
+                }
+            }, 1000);
         }
 
         // Разблокировка ачивки
@@ -817,12 +1772,15 @@
             const ach = ACHIEVEMENTS.find(a => a.id === id);
             if (!ach) return;
 
+            const dict = I18N[state.lang] || I18N.ru;
+            const achText = (dict.ach && dict.ach[id]) || I18N.ru.ach[id];
+
             state.unlockedAchievements.push(id);
             saveState();
             renderAchievements();
             updateAccountView();
             playAchievementSound();
-            showToast(`🏆 Ачивка получена: «${ach.title}»!`, true);
+            showToast(t('toast_ach_unlocked', { title: achText.title }), true);
 
             // Проверка на получение финальной ачивки «Легенда»
             const others = ACHIEVEMENTS.filter(a => a.id !== 'legend').map(a => a.id);
@@ -862,21 +1820,31 @@
             if (tabName === 'clicker') renderClickerUI();
         }
 
+        // Переход к секции ChangeLog внутри вкладки «Настройки»
+        function openChangelogInSettings() {
+            switchTab('settings');
+            setTimeout(() => {
+                const sec = document.getElementById('settings-changelog-section');
+                if (sec) sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 60);
+        }
+
         // Отрисовка шапки профиля и видимости вкладки «Аккаунт»
         function renderAuthArea() {
             const container = document.getElementById('auth-area');
             const accountTabBtn = document.getElementById('tab-btn-account');
+            const dict = I18N[state.lang] || I18N.ru;
 
             if (state.user) {
                 accountTabBtn.classList.remove('hidden');
                 container.innerHTML = `
                     <div class="flex items-center gap-2 bg-zinc-900/80 border border-white/15 rounded-xl pl-2 pr-2 py-1.5">
-                        <button onclick="switchTab('account')" class="flex items-center gap-2 hover:opacity-85 transition-opacity cursor-pointer" title="Открыть вкладку Аккаунт">
+                        <button onclick="switchTab('account')" class="flex items-center gap-2 hover:opacity-85 transition-opacity cursor-pointer" title="${dict.acc_open_title}">
                             <img src="${state.avatar}" alt="Avatar" class="w-7 h-7 rounded-lg object-cover border border-white/20" onerror="this.src='https://placehold.co/60x60/ea580c/fff?text=U'">
                             <span class="text-sm font-bold text-white max-w-[100px] sm:max-w-[140px] truncate">${escapeHtml(state.user)}</span>
                         </button>
-                        <button onclick="logoutUser()" title="Выйти из аккаунта" class="ml-1 px-2.5 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/35 text-rose-300 text-xs font-semibold transition-colors cursor-pointer">
-                            Выйти
+                        <button onclick="logoutUser()" title="${dict.btn_logout}" class="ml-1 px-2.5 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/35 text-rose-300 text-xs font-semibold transition-colors cursor-pointer">
+                            ${dict.btn_logout}
                         </button>
                     </div>
                 `;
@@ -885,7 +1853,7 @@
                 if (activeTab === 'account') switchTab('games');
                 container.innerHTML = `
                     <button onclick="openLoginModal()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white text-sm font-bold shadow-md shadow-orange-500/20 transition-all cursor-pointer">
-                        Войти
+                        ${dict.btn_login}
                     </button>
                 `;
             }
@@ -896,7 +1864,7 @@
             if (!state.user) return;
             document.getElementById('acc-username-title').textContent = state.user;
             document.getElementById('acc-avatar-img').src = state.avatar;
-            document.getElementById('acc-reg-date').textContent = `В клубе усришности с: ${state.regDate || 'сегодня'}`;
+            document.getElementById('acc-reg-date').textContent = `${t('acc_reg_prefix')}${state.regDate || t('acc_today')}`;
 
             const total = ACHIEVEMENTS.length;
             const unlocked = state.unlockedAchievements.length;
@@ -913,7 +1881,7 @@
             const mins = Math.floor((state.secondsOnSite || 0) / 60);
             const secs = (state.secondsOnSite || 0) % 60;
             const el = document.getElementById('acc-stat-time');
-            if (el) el.textContent = `${mins} мин ${secs} сек`;
+            if (el) el.textContent = t('acc_time_fmt', { m: mins, s: secs });
         }
 
         // Отрисовка вкладки «Ачивки»
@@ -922,13 +1890,15 @@
             const total = ACHIEVEMENTS.length;
             const count = state.unlockedAchievements.length;
             const percent = Math.round((count / total) * 100);
+            const dict = I18N[state.lang] || I18N.ru;
 
             document.getElementById('nav-ach-badge').textContent = `${count}/${total}`;
-            document.getElementById('ach-progress-text').textContent = `${count} из ${total} (${percent}%)`;
+            document.getElementById('ach-progress-text').textContent = `${count} ${dict.ach_out_of} ${total} (${percent}%)`;
             document.getElementById('ach-progress-bar').style.width = `${percent}%`;
 
             grid.innerHTML = ACHIEVEMENTS.map(ach => {
                 const isDone = state.unlockedAchievements.includes(ach.id);
+                const achText = (dict.ach && dict.ach[ach.id]) || I18N.ru.ach[ach.id];
                 return `
                     <div class="p-4 rounded-2xl border transition-all flex items-start gap-3.5 ${
                         isDone
@@ -943,27 +1913,121 @@
                         <div class="flex-1 min-w-0">
                             <div class="flex items-center justify-between gap-2">
                                 <h3 class="font-bold text-sm sm:text-base ${isDone ? 'text-white' : 'text-zinc-300'} truncate">
-                                    ${ach.title}
+                                    ${achText.title}
                                 </h3>
                                 <span class="text-[10px] font-bold px-2 py-0.5 rounded-md shrink-0 ${
                                     isDone
                                         ? 'bg-emerald-500/25 text-emerald-300 border border-emerald-400/30'
                                         : 'bg-zinc-800 text-zinc-400 border border-white/10'
                                 }">
-                                    ${isDone ? 'Открыто' : 'Закрыто'}
+                                    ${isDone ? dict.ach_status_open : dict.ach_status_closed}
                                 </span>
                             </div>
-                            <p class="text-xs text-zinc-400 mt-1 leading-relaxed">${ach.desc}</p>
+                            <p class="text-xs text-zinc-400 mt-1 leading-relaxed">${achText.desc}</p>
                         </div>
                     </div>
                 `;
             }).join('');
         }
 
+        // Отрисовка ChangeLog внутри «Настроек»
+        function renderChangelog() {
+            const container = document.getElementById('changelog-list');
+            if (!container) return;
+            const dict = I18N[state.lang] || I18N.ru;
+            const list = dict.cl || I18N.ru.cl;
+
+            container.innerHTML = list.map((entry, idx) => `
+                <div class="p-4 rounded-2xl border ${
+                    idx === 0
+                        ? 'bg-gradient-to-br from-orange-500/15 to-zinc-900/80 border-orange-400/40 shadow-md'
+                        : 'bg-zinc-900/70 border-white/10'
+                } space-y-2.5">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <div class="flex items-center gap-2">
+                            <span class="text-base sm:text-lg font-black text-white">v${entry.version}</span>
+                            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-md border ${entry.badgeColor}">
+                                ${entry.badge}
+                            </span>
+                        </div>
+                        <span class="text-xs text-zinc-400 font-medium">${entry.date}</span>
+                    </div>
+                    <ul class="space-y-1 text-xs sm:text-sm text-zinc-300 list-disc list-inside">
+                        ${entry.items.map(line => `<li class="leading-relaxed">${escapeHtml(line)}</li>`).join('')}
+                    </ul>
+                </div>
+            `).join('');
+        }
+
+        // Применение выбранного языка ко всем элементам портала и игры
+        function applyLanguage() {
+            const dict = I18N[state.lang] || I18N.ru;
+            document.documentElement.lang = state.lang;
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) {
+                    el.textContent = dict[key];
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-title]').forEach(el => {
+                const key = el.getAttribute('data-i18n-title');
+                if (dict[key]) {
+                    el.setAttribute('title', dict[key]);
+                }
+            });
+
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                if (dict[key]) {
+                    el.setAttribute('placeholder', dict[key]);
+                }
+            });
+
+            // Подсветка активной кнопки языка в настройках
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('border-orange-500', 'bg-orange-500/20');
+                btn.classList.add('border-white/10', 'bg-zinc-900/60');
+            });
+            const activeLangBtn = document.getElementById(`lang-btn-${state.lang}`);
+            if (activeLangBtn) {
+                activeLangBtn.classList.remove('border-white/10', 'bg-zinc-900/60');
+                activeLangBtn.classList.add('border-orange-500', 'bg-orange-500/20');
+            }
+
+            renderAuthArea();
+            renderAchievements();
+            renderChangelog();
+            updateAccountView();
+
+            if (typeof renderClickerSwitcher === 'function') {
+                renderClickerSwitcher();
+                renderClickerMemeVisual();
+                renderClickerFeed();
+                renderClickerUI();
+            }
+        }
+
+        function setLanguage(langCode) {
+            if (!I18N[langCode]) return;
+            const prevLang = state.lang;
+            state.lang = langCode;
+            playClickSound(600);
+            saveState();
+            applyLanguage();
+
+            if (prevLang !== langCode) {
+                unlockAchievement('polyglot');
+            }
+            const names = { ru: 'Русский 🇷🇺', uk: 'Українська 🇺🇦', en: 'English 🇬🇧' };
+            showToast(`Язык / Мова / Language: ${names[langCode]}`);
+        }
+
         // Интерактив карточек игр
-        function handleGameCardClick(gameName) {
+        function handleGameCardClick() {
             unlockAchievement('curious_player');
-            showToast(`Игра «${gameName}» ещё в разработке! Загляни позже 🍎`);
+            showToast(t('toast_game_wip', { name: t('card2_title') }));
         }
 
         // ПАСХАЛКА 1: 5 кликов по логотипу
@@ -981,71 +2045,19 @@
             if (logoClicks >= 5) {
                 logoClicks = 0;
                 unlockAchievement('easter_apple');
-                showToast('🍎 Усришность раскручена на максимум!');
+                showToast(t('toast_apple_spin'));
             }
         }
-
-        // ПАСХАЛКА 2: Секретная переписка в футере
-        function openSosiyaEasterEgg() {
-            playClickSound(640);
-            const modal = document.getElementById('sosiya-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            unlockAchievement('easter_sosiya');
-        }
-
-        function closeSosiyaModal() {
-            playClickSound(420);
-            const modal = document.getElementById('sosiya-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        // ПАСХАЛКА 3: Вылет томата это7тпростл (по клику на "7" или нажатию клавиши 7)
-        function triggerTomatoEasterEgg() {
-            playClickSound(760, 0.14);
-            const overlay = document.getElementById('tomato-overlay');
-            overlay.classList.remove('hidden');
-            overlay.classList.add('flex');
-            unlockAchievement('easter_tomato');
-
-            setTimeout(() => {
-                overlay.classList.add('hidden');
-                overlay.classList.remove('flex');
-            }, 1350);
-        }
-
-        document.addEventListener('keydown', (e) => {
-            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-            if (e.key === '7') {
-                triggerTomatoEasterEgg();
-            }
-        });
-
-        // Модалка входа
-        function openLoginModal() {
-            playClickSound(600);
-            const modal = document.getElementById('login-modal');
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            setTimeout(() => document.getElementById('login-username').focus(), 50);
-        }
-
-        function closeLoginModal() {
-            playClickSound(400);
-            const modal = document.getElementById('login-modal');
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
+// ... existing code ... -->
         function handleFakeLogin(event) {
             event.preventDefault();
             const usernameInput = document.getElementById('login-username');
             const name = usernameInput.value.trim();
             if (!name) return;
 
+            const localeMap = { ru: 'ru-RU', uk: 'uk-UA', en: 'en-US' };
             state.user = name;
-            state.regDate = new Date().toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+            state.regDate = new Date().toLocaleDateString(localeMap[state.lang] || 'ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
             saveState();
             renderAuthArea();
             updateAccountView();
@@ -1053,7 +2065,7 @@
             usernameInput.value = '';
             document.getElementById('login-password').value = '';
             playClickSound(740, 0.12);
-            showToast(`Привет, ${name}! Вы успешно вошли в аккаунт.`);
+            showToast(t('toast_login_ok', { name }));
             unlockAchievement('login_user');
         }
 
@@ -1063,100 +2075,9 @@
             state.user = null;
             saveState();
             renderAuthArea();
-            showToast(`Вы вышли из аккаунта (${oldName}).`);
+            showToast(t('toast_logout_ok', { name: oldName }));
         }
-
-        // Применение всех настроек фона и UI
-        function applyAllSettings() {
-            const bgLayer = document.getElementById('bg-image-layer');
-            const dimLayer = document.getElementById('bg-dim-layer');
-
-            // Режим фона
-            bgLayer.classList.remove('bg-tile', 'bg-pixel');
-            if (state.bgMode === 'tile') {
-                bgLayer.classList.add('bg-tile');
-            } else if (state.bgMode === 'pixel') {
-                bgLayer.classList.add('bg-pixel');
-            }
-
-            // Подсветка активной кнопки режима фона
-            document.querySelectorAll('.bg-mode-btn').forEach(btn => {
-                btn.classList.remove('border-orange-500', 'bg-orange-500/20');
-                btn.classList.add('border-white/10', 'bg-zinc-900/60');
-            });
-            const activeModeBtn = document.getElementById(`bg-mode-${state.bgMode}`);
-            if (activeModeBtn) {
-                activeModeBtn.classList.remove('border-white/10', 'bg-zinc-900/60');
-                activeModeBtn.classList.add('border-orange-500', 'bg-orange-500/20');
-            }
-
-            // Затемнение
-            dimLayer.style.backgroundColor = `rgba(15, 15, 20, ${state.bgDim / 100})`;
-            document.getElementById('dim-slider').value = state.bgDim;
-            document.getElementById('dim-value-label').textContent = `${state.bgDim}%`;
-
-            // Размытие
-            bgLayer.style.filter = state.bgBlur > 0 ? `blur(${state.bgBlur}px)` : 'none';
-            bgLayer.style.transform = state.bgBlur > 0 ? 'scale(1.04)' : 'scale(1)';
-            document.getElementById('blur-slider').value = state.bgBlur;
-            document.getElementById('blur-value-label').textContent = `${state.bgBlur} px`;
-
-            // Тумблер звука
-            const soundBtn = document.getElementById('sound-toggle-btn');
-            const soundKnob = document.getElementById('sound-toggle-knob');
-            if (soundBtn && soundKnob) {
-                if (state.soundEnabled) {
-                    soundBtn.classList.remove('bg-zinc-700');
-                    soundBtn.classList.add('bg-orange-500');
-                    soundKnob.classList.add('translate-x-6');
-                } else {
-                    soundBtn.classList.remove('bg-orange-500');
-                    soundBtn.classList.add('bg-zinc-700');
-                    soundKnob.classList.remove('translate-x-6');
-                }
-            }
-
-            // Выбранная аватарка
-            document.querySelectorAll('.avatar-option').forEach(opt => {
-                if (opt.dataset.avatar === state.avatar) {
-                    opt.classList.remove('border-transparent');
-                    opt.classList.add('border-orange-500');
-                } else {
-                    opt.classList.remove('border-orange-500');
-                    opt.classList.add('border-transparent');
-                }
-            });
-        }
-
-        function setBgMode(mode) {
-            state.bgMode = mode;
-            playClickSound(540);
-            saveState();
-            applyAllSettings();
-            unlockAchievement('bg_designer');
-        }
-
-        function updateBgDim(val) {
-            state.bgDim = Number(val);
-            saveState();
-            applyAllSettings();
-            unlockAchievement('bg_designer');
-        }
-
-        function updateBgBlur(val) {
-            state.bgBlur = Number(val);
-            saveState();
-            applyAllSettings();
-            unlockAchievement('bg_designer');
-        }
-
-        function toggleSound() {
-            state.soundEnabled = !state.soundEnabled;
-            if (state.soundEnabled) playClickSound(660);
-            saveState();
-            applyAllSettings();
-        }
-
+// ... existing code ... -->
         function selectAvatar(filename) {
             state.avatar = filename;
             playClickSound(580);
@@ -1164,7 +2085,7 @@
             applyAllSettings();
             renderAuthArea();
             updateAccountView();
-            showToast('Аватарка обновлена!');
+            showToast(t('toast_avatar_ok'));
         }
 
         function resetSettings() {
@@ -1178,7 +2099,7 @@
             applyAllSettings();
             renderAuthArea();
             updateAccountView();
-            showToast('Настройки фона сброшены по умолчанию.');
+            showToast(t('toast_bg_reset'));
         }
 
         function resetAchievements() {
@@ -1187,87 +2108,17 @@
             renderAchievements();
             updateAccountView();
             playClickSound(380);
-            showToast('Прогресс достижений сброшен.');
+            showToast(t('toast_ach_reset'));
         }
-
-        // Уведомления (вместо alert)
-        function showToast(message, isAchievement = false) {
-            if (!isAchievement) playClickSound(520, 0.05);
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `toast-enter glass-panel px-4 py-3 rounded-xl text-xs sm:text-sm font-medium text-white shadow-xl pointer-events-auto ${
-                isAchievement ? 'border-2 border-amber-400 bg-zinc-900/95' : 'border border-orange-400/40'
-            }`;
-            toast.textContent = message;
-            container.appendChild(toast);
-
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transform = 'translateY(8px)';
-                toast.style.transition = 'all 0.25s ease';
-                setTimeout(() => toast.remove(), 250);
-            }, isAchievement ? 3600 : 2800);
-        }
-
-        function escapeHtml(str) {
-            const div = document.createElement('div');
-            div.textContent = str;
-            return div.innerHTML;
-        }
-
-        // Закрытие модалок по клику на тёмный фон
-        document.getElementById('login-modal').addEventListener('click', (e) => {
-            if (e.target.id === 'login-modal') closeLoginModal();
-        });
-        document.getElementById('sosiya-modal').addEventListener('click', (e) => {
-            if (e.target.id === 'sosiya-modal') closeSosiyaModal();
-        });
-
+// ... existing code ... -->
         // ==========================================
         // ИНТЕГРАЦИЯ ИГРЫ «УСРО-КЛИКЕР»
         // ==========================================
-        const CLICKER_MEMES = [
-            {
-                id: 'usrishnost',
-                label: '🍎 УСРИШНОСТЬ',
-                imgSrc: 'usrishnost.jpg',
-                who: 'УСРИШНОСТЬ',
-                tag: '',
-                phrases: ['УСРИШНОСТЬ!', 'Абсолютная усришность', 'Яблоко одобряет']
-            },
-            {
-                id: 'eto7tprostl',
-                label: '🍅 ЭТО7ТПРОСТЛ',
-                imgSrc: 'eto7tprostl.jpg',
-                who: 'ЭТО7ТПРОСТЛ',
-                tag: '',
-                phrases: ['ЭТО7ТПРОСТЛ', 'Просто помидор', '7ТПРОСТЛ момент']
-            },
-            {
-                id: 'sisli',
-                label: 'сислі — Чого',
-                imgSrc: 'ba90d5bb-cfdb-4ce5-9031-3fc703cde91c.png',
-                who: 'сислі',
-                tag: '',
-                phrases: ['Чого', 'Чого??', 'сислі на связи']
-            },
-            {
-                id: 'sosia',
-                label: 'сосія — ти вопще',
-                imgSrc: 'c23b4526-88ca-4086-862d-c2639a4046bf.png',
-                who: 'сосія',
-                tag: 'не сосія',
-                phrases: ['ти вопще', 'не сосія', 'ти вопще??']
-            }
-        ];
-
-        const CLICKER_RANKS = [
-            'Новичок чата',
-            'Свидетель усришности',
-            'Мастер «Чого»',
-            'Почётный «не сосія»',
-            'Повелитель 7ТПРОСТЛ',
-            'Легенда локальных мемов'
+        const CLICKER_MEME_ASSETS = [
+            { id: 'usrishnost', imgSrc: 'usrishnost.jpg' },
+            { id: 'eto7tprostl', imgSrc: 'eto7tprostl.jpg' },
+            { id: 'sisli', imgSrc: 'ba90d5bb-cfdb-4ce5-9031-3fc703cde91c.png' },
+            { id: 'sosia', imgSrc: 'c23b4526-88ca-4086-862d-c2639a4046bf.png' }
         ];
 
         const CLICKER_STORAGE_KEY = 'usrishnost_clicker_save_v1';
@@ -1294,7 +2145,8 @@
         let clickerCombo = 0;
         let clickerFrenzyUntil = 0;
         let clickerEventReward = 0;
-        let clickerLogs = ['Добро пожаловать в УСРО-КЛИКЕР!'];
+        let clickerEventIdx = 1;
+        let clickerLogs = [{ key: 'log_welcome', vars: {} }];
         let clickerSecretBadgeClicks = 0;
         const visitedMemesInSession = new Set([clickerState.selectedMemeId]);
 
@@ -1304,8 +2156,8 @@
             } catch (e) {}
         }
 
-        function addClickerLog(text) {
-            clickerLogs.unshift(text);
+        function addClickerLog(key, vars = {}) {
+            clickerLogs.unshift({ key, vars });
             clickerLogs = clickerLogs.slice(0, 4);
             renderClickerFeed();
         }
@@ -1313,11 +2165,25 @@
         function renderClickerFeed() {
             const feedEl = document.getElementById('clicker-feed-list');
             if (!feedEl) return;
-            feedEl.innerHTML = clickerLogs.map(item => `<div class="text-zinc-200">• ${escapeHtml(item)}</div>`).join('');
+            feedEl.innerHTML = clickerLogs.map(item => {
+                const resolvedVars = { ...item.vars };
+                if (resolvedVars.memeId) {
+                    const m = getClickerMemeLocalized(resolvedVars.memeId);
+                    resolvedVars.label = m.label;
+                }
+                return `<div class="text-zinc-200">• ${escapeHtml(t(item.key, resolvedVars))}</div>`;
+            }).join('');
+        }
+
+        function getClickerMemeLocalized(memeId) {
+            const asset = CLICKER_MEME_ASSETS.find(m => m.id === memeId) || CLICKER_MEME_ASSETS[0];
+            const dict = I18N[state.lang] || I18N.ru;
+            const loc = (dict.memes && dict.memes[asset.id]) || I18N.ru.memes[asset.id];
+            return { ...asset, ...loc };
         }
 
         function getCurrentClickerMeme() {
-            return CLICKER_MEMES.find(m => m.id === clickerState.selectedMemeId) || CLICKER_MEMES[0];
+            return getClickerMemeLocalized(clickerState.selectedMemeId);
         }
 
         function isClickerFrenzy() {
@@ -1336,7 +2202,9 @@
             const nextLevelFloor = 25 * Math.pow(level, 2);
             const span = Math.max(1, nextLevelFloor - currentLevelFloor);
             const pct = Math.min(100, Math.max(0, ((safeScore - currentLevelFloor) / span) * 100));
-            const rank = CLICKER_RANKS[Math.min(CLICKER_RANKS.length - 1, Math.floor((level - 1) / 2))];
+            const dict = I18N[state.lang] || I18N.ru;
+            const ranksList = dict.ranks || I18N.ru.ranks;
+            const rank = ranksList[Math.min(ranksList.length - 1, Math.floor((level - 1) / 2))];
             return {
                 level,
                 rank,
@@ -1377,7 +2245,8 @@
             if (!switcher) return;
             switcher.innerHTML = '';
 
-            CLICKER_MEMES.forEach(meme => {
+            CLICKER_MEME_ASSETS.forEach(asset => {
+                const meme = getClickerMemeLocalized(asset.id);
                 const btn = document.createElement('button');
                 const isActive = meme.id === clickerState.selectedMemeId;
                 btn.type = 'button';
@@ -1391,13 +2260,13 @@
                     playClickSound(540);
                     clickerState.selectedMemeId = meme.id;
                     visitedMemesInSession.add(meme.id);
-                    if (visitedMemesInSession.size >= CLICKER_MEMES.length) {
+                    if (visitedMemesInSession.size >= CLICKER_MEME_ASSETS.length) {
                         unlockAchievement('easter_clicker_meme_tour');
                     }
                     saveClickerState();
                     renderClickerSwitcher();
                     renderClickerMemeVisual();
-                    addClickerLog(`Переключились на «${meme.label}»`);
+                    addClickerLog('log_switched', { memeId: meme.id });
                 };
                 switcher.appendChild(btn);
             });
@@ -1415,9 +2284,12 @@
                 unlockAchievement('clicker_first_100');
             }
 
-            document.getElementById('clicker-score').textContent = Math.floor(clickerState.score).toLocaleString('ru-RU');
-            document.getElementById('clicker-per-click').textContent = getEffectiveClickerClick().toLocaleString('ru-RU');
-            document.getElementById('clicker-per-sec').textContent = clickerState.autoPerSec.toLocaleString('ru-RU');
+            const localeMap = { ru: 'ru-RU', uk: 'uk-UA', en: 'en-US' };
+            const numLocale = localeMap[state.lang] || 'ru-RU';
+
+            document.getElementById('clicker-score').textContent = Math.floor(clickerState.score).toLocaleString(numLocale);
+            document.getElementById('clicker-per-click').textContent = getEffectiveClickerClick().toLocaleString(numLocale);
+            document.getElementById('clicker-per-sec').textContent = clickerState.autoPerSec.toLocaleString(numLocale);
             document.getElementById('clicker-mult').textContent = `x${(clickerState.multiplier * (frenzy ? 2 : 1)).toFixed(2).replace(/\.00$/, '')}`;
 
             const lvl = getClickerLevelInfo(clickerState.score);
@@ -1432,13 +2304,18 @@
 
             if (frenzy) {
                 const secLeft = Math.max(0.1, (clickerFrenzyUntil - Date.now()) / 1000).toFixed(1);
-                comboLabel.textContent = `🔥 УСРИШНОСТЬ x2 (${secLeft}с)`;
+                comboLabel.textContent = t('clicker_frenzy_label', { sec: secLeft });
                 comboPct.textContent = 'MAX';
                 comboFill.style.width = '100%';
             } else {
-                comboLabel.textContent = 'Комбо-шкала';
+                comboLabel.textContent = t('clicker_combo_label');
                 comboPct.textContent = `${Math.floor(clickerCombo)}%`;
                 comboFill.style.width = `${clickerCombo}%`;
+            }
+
+            const banner = document.getElementById('clicker-event-banner');
+            if (banner && clickerEventReward > 0) {
+                banner.textContent = t(`event_t${clickerEventIdx}`, { reward: clickerEventReward });
             }
 
             const bClick = document.getElementById('buy-click');
@@ -1458,25 +2335,7 @@
             bProstl.textContent = `${clickerState.prostlCost}`;
             bProstl.disabled = clickerState.score < clickerState.prostlCost;
         }
-
-        function spawnClickerFloatingText(x, y, text) {
-            const el = document.createElement('div');
-            el.className = 'fixed font-black text-base sm:text-lg text-amber-300 pointer-events-none z-50 drop-shadow';
-            el.textContent = text;
-            el.style.left = `${x}px`;
-            el.style.top = `${y}px`;
-            el.style.transform = 'translate(-50%, 0)';
-            el.style.transition = 'all 0.7s ease-out';
-            document.body.appendChild(el);
-
-            requestAnimationFrame(() => {
-                el.style.transform = 'translate(-50%, -65px) scale(1.12)';
-                el.style.opacity = '0';
-            });
-
-            setTimeout(() => el.remove(), 720);
-        }
-
+// ... existing code ... -->
         // Пасхалка кликера №1: 3 клика по загадочному значку «??»
         function handleClickerSecretBadge() {
             clickerSecretBadgeClicks++;
@@ -1486,8 +2345,8 @@
                 const bonus = Math.max(25, getEffectiveClickerClick() * 5);
                 clickerState.score += bonus;
                 unlockAchievement('easter_clicker_badge');
-                addClickerLog(`🕵️ Нашёл секретный «??»! Бонус +${bonus} очков!`);
-                showToast(`🕵️ Секрет кликера раскрыт! +${bonus} очков`);
+                addClickerLog('log_secret', { bonus });
+                showToast(t('toast_clicker_secret', { bonus }));
                 saveClickerState();
                 renderClickerUI();
             }
@@ -1505,7 +2364,7 @@
                         clickerCombo = 0;
                         clickerFrenzyUntil = Date.now() + 8000;
                         unlockAchievement('clicker_frenzy');
-                        addClickerLog('🔥 Активирован режим УСРИШНОСТЬ x2 на 8 секунд!');
+                        addClickerLog('log_frenzy');
                     }
                 }
 
@@ -1528,7 +2387,7 @@
                 clickerState.baseClick += 1;
                 clickerState.clickCost = Math.round(clickerState.clickCost * 1.5);
                 playClickSound(640);
-                addClickerLog('Прокачана «Сила ти вопще»');
+                addClickerLog('log_upg_click');
                 saveClickerState();
                 renderClickerUI();
             });
@@ -1539,7 +2398,7 @@
                 clickerState.autoPerSec += 1;
                 clickerState.autoCost = Math.round(clickerState.autoCost * 1.55);
                 playClickSound(680);
-                addClickerLog('Нанят «Авто-сислі Чого»');
+                addClickerLog('log_upg_auto');
                 saveClickerState();
                 renderClickerUI();
             });
@@ -1550,7 +2409,7 @@
                 clickerState.multiplier = Number((clickerState.multiplier + 0.25).toFixed(2));
                 clickerState.multCost = Math.round(clickerState.multCost * 1.7);
                 playClickSound(720);
-                addClickerLog('Усилен эффект «не сосія»');
+                addClickerLog('log_upg_mult');
                 saveClickerState();
                 renderClickerUI();
             });
@@ -1561,7 +2420,7 @@
                 clickerState.autoPerSec += 5;
                 clickerState.prostlCost = Math.round(clickerState.prostlCost * 1.65);
                 playClickSound(780);
-                addClickerLog('Запущен «Генератор ЭТО7ТПРОСТЛ» (+5/сек)');
+                addClickerLog('log_upg_prostl');
                 saveClickerState();
                 renderClickerUI();
             });
@@ -1570,7 +2429,7 @@
                 if (clickerEventReward <= 0) return;
                 clickerState.score += clickerEventReward;
                 playClickSound(820, 0.12);
-                addClickerLog(`Поймано событие! Получено +${clickerEventReward} очков`);
+                addClickerLog('log_event_catch', { reward: clickerEventReward });
                 clickerEventReward = 0;
                 document.getElementById('clicker-event-banner').classList.add('hidden');
                 saveClickerState();
@@ -1594,13 +2453,14 @@
                 clickerFrenzyUntil = 0;
                 clickerEventReward = 0;
                 document.getElementById('clicker-event-banner').classList.add('hidden');
-                clickerLogs = ['Прогресс кликера сброшен. Начинаем заново!'];
+                clickerLogs = [{ key: 'log_reset', vars: {} }];
                 playClickSound(360);
                 renderClickerSwitcher();
                 renderClickerMemeVisual();
                 renderClickerFeed();
                 renderClickerUI();
-                showToast('Прогресс «УСРО-КЛИКЕР» сброшен.');
+                unlockAchievement('clicker_reset_ach');
+                showToast(t('toast_clicker_reset'));
             });
 
             setInterval(() => {
@@ -1615,12 +2475,8 @@
                 const banner = document.getElementById('clicker-event-banner');
                 if (banner && clickerEventReward <= 0 && Math.random() < 0.14) {
                     clickerEventReward = Math.max(15, getEffectiveClickerClick() * 6 + clickerState.autoPerSec * 4);
-                    const triggers = [
-                        `⚡ Внезапное «Чого»! Забрать +${clickerEventReward}`,
-                        `⚡ «ти вопще» в чате! Забрать +${clickerEventReward}`,
-                        `⚡ Редкая «не сосія»! Забрать +${clickerEventReward}`
-                    ];
-                    banner.textContent = triggers[Math.floor(Math.random() * triggers.length)];
+                    clickerEventIdx = Math.floor(Math.random() * 3) + 1;
+                    banner.textContent = t(`event_t${clickerEventIdx}`, { reward: clickerEventReward });
                     banner.classList.remove('hidden');
                 }
 
