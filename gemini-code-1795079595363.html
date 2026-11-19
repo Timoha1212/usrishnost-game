@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>УСРИШНОСТЬ Кликер — Большое обновление</title>
+  <style>
+    :root {
+      --bg: #0e131a;
+      --card: #19222e;
+      --card-2: #222e3e;
+      --accent: #ff5c8a;
+      --accent-2: #5ce1a6;
+      --gold: #ffd166;
+      --text: #f3f6fa;
+      --muted: #9aa7b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: radial-gradient(circle at top, #1f2d40 0%, var(--bg) 72%);
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 14px 50px;
+    }
+
+    h1 {
+      margin: 0 0 4px;
+      font-size: clamp(1.65rem, 4vw, 2.4rem);
+      text-align: center;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 0.92rem;
+      margin-bottom: 14px;
+      text-align: center;
+    }
+
+    .level-bar-wrap {
+      width: 100%;
+      max-width: 720px;
+      background: var(--card);
+      border-radius: 14px;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .level-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.88rem;
+      margin-bottom: 6px;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .level-rank {
+      color: var(--accent-2);
+      font-weight: 700;
+    }
+
+    .progress-track {
+      width: 100%;
+      height: 10px;
+      background: #0f151d;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--gold));
+      transition: width 0.2s ease;
+    }
+
+    .meme-switcher {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-bottom: 16px;
+      max-width: 720px;
+    }
+
+    .meme-btn {
+      background: var(--card);
+      color: var(--text);
+      border: 2px solid transparent;
+      border-radius: 12px;
+      padding: 8px 14px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.12s ease, border-color 0.15s ease, background 0.15s ease;
+    }
+
+    .meme-btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .meme-btn.active {
+      border-color: var(--accent);
+      background: var(--card-2);
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+      gap: 12px;
+      width: 100%;
+      max-width: 720px;
+      margin-bottom: 16px;
+    }
+
+    .stat-box {
+      background: var(--card);
+      padding: 12px 16px;
+      border-radius: 14px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .stat-value {
+      font-size: 1.45rem;
+      font-weight: 800;
+      margin-top: 2px;
+    }
+
+    .main-grid {
+      width: 100%;
+      max-width: 720px;
+      display: grid;
+      grid-template-columns: 1fr 1.15fr;
+      gap: 16px;
+      align-items: start;
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 660px) {
+      .main-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .click-stage {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 12px 28px rgba(0, 0, 0, 0.3);
+      position: relative;
+    }
+
+    .quote-bubble {
+      background: var(--card-2);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      padding: 9px 14px;
+      margin-bottom: 12px;
+      font-size: 0.98rem;
+      min-height: 42px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      text-align: center;
+      width: 100%;
+    }
+
+    .quote-who {
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .quote-tag {
+      background: rgba(92, 225, 166, 0.18);
+      color: var(--accent-2);
+      font-size: 0.74rem;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-weight: 700;
+    }
+
+    #click-target {
+      width: 210px;
+      height: 210px;
+      border-radius: 26px;
+      background: #121821;
+      border: 3px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: transform 0.08s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    #click-target.frenzy {
+      border-color: var(--gold);
+      box-shadow: 0 0 28px rgba(255, 209, 102, 0.45);
+    }
+
+    #click-target:active {
+      transform: scale(0.93);
+    }
+
+    #click-target img,
+    #click-target canvas {
+      width: 180px;
+      height: 180px;
+      object-fit: contain;
+      border-radius: 16px;
+      pointer-events: none;
+    }
+
+    .combo-box {
+      width: 100%;
+      margin-top: 14px;
+    }
+
+    .combo-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      color: var(--muted);
+      margin-bottom: 5px;
+    }
+
+    .combo-fill {
+      height: 8px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-2), var(--gold));
+      border-radius: 999px;
+      transition: width 0.12s linear;
+    }
+
+    .event-banner {
+      display: none;
+      width: 100%;
+      margin-top: 12px;
+      background: linear-gradient(90deg, #ff5c8a, #ff8e53);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-weight: 800;
+      font-size: 0.88rem;
+      cursor: pointer;
+      animation: pulse 0.9s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.02); }
+    }
+
+    .upgrades-panel {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .upgrade-card {
+      background: var(--card);
+      border-radius: 14px;
+      padding: 12px 15px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.22);
+    }
+
+    .upgrade-title {
+      font-weight: 700;
+      font-size: 0.96rem;
+    }
+
+    .upgrade-desc {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin-top: 2px;
+    }
+
+    .buy-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 10px;
+      padding: 9px 13px;
+      font-weight: 700;
+      cursor: pointer;
+      min-width: 78px;
+      transition: opacity 0.15s ease, transform 0.1s ease;
+    }
+
+    .buy-btn:disabled {
+      opacity: 0.38;
+      cursor: not-allowed;
+    }
+
+    .buy-btn:not(:disabled):active {
+      transform: scale(0.95);
+    }
+
+    .feed-box {
+      width: 100%;
+      max-width: 720px;
+      background: var(--card);
+      border-radius: 16px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+    }
+
+    .feed-title {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+
+    .feed-list {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      font-size: 0.88rem;
+    }
+
+    .feed-item {
+      color: #d8e1ec;
+      opacity: 0.92;
+    }
+
+    .floating-text {
+      position: fixed;
+      font-weight: 900;
+      font-size: 1.2rem;
+      color: var(--gold);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.75);
+      pointer-events: none;
+      animation: floatUp 0.75s ease-out forwards;
+      z-index: 60;
+    }
+
+    @keyframes floatUp {
+      0% {
+        opacity: 1;
+        transform: translate(-50%, 0) scale(0.95);
+      }
+      100% {
+        opacity: 0;
+        transform: translate(-50%, -70px) scale(1.15);
+      }
+    }
+
+    .reset-btn {
+      background: transparent;
+      color: var(--muted);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 7px 14px;
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+
+    .reset-btn:hover {
+      color: var(--text);
+      border-color: rgba(255, 255, 255, 0.35);
+    }
+  </style>
+</head>
+<body>
+  <h1>🍎🍅 УСРИШНОСТЬ КЛИКЕР</h1>
+  <div class="subtitle">Качай уровень, лови реплики и запускай режим УСРИШНОСТЬ</div>
+
+  <div class="level-bar-wrap">
+    <div class="level-top">
+      <span>Уровень <strong id="level-num">1</strong> — <span class="level-rank" id="level-rank">Новичок чата</span></span>
+      <span id="level-progress-text">0 / 100</span>
+    </div>
+    <div class="progress-track">
+      <div class="progress-fill" id="level-fill"></div>
+    </div>
+  </div>
+
+  <div class="meme-switcher" id="meme-switcher"></div>
+
+  <div class="stats">
+    <div class="stat-box">
+      <div class="stat-label">Очки</div>
+      <div class="stat-value" id="score">0</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">За клик</div>
+      <div class="stat-value" id="per-click">1</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">В секунду</div>
+      <div class="stat-value" id="per-sec">0</div>
+    </div>
+    <div class="stat-box">
+      <div class="stat-label">Множитель</div>
+      <div class="stat-value" id="mult-val">x1</div>
+    </div>
+  </div>
+
+  <div class="main-grid">
+    <div class="click-stage">
+      <div class="quote-bubble" id="quote-bubble">
+        <span class="quote-who" id="quote-who">УСРИШНОСТЬ</span>
+        <span id="quote-text">УСРИШНОСТЬ!</span>
+      </div>
+
+      <button id="click-target" aria-label="Кликнуть по мему"></button>
+
+      <div class="combo-box">
+        <div class="combo-header">
+          <span id="combo-label">Комбо-шкала</span>
+          <span id="combo-pct">0%</span>
+        </div>
+        <div class="progress-track">
+          <div class="combo-fill" id="combo-fill"></div>
+        </div>
+      </div>
+
+      <button class="event-banner" id="event-banner"></button>
+    </div>
+
+    <div class="upgrades-panel">
+      <div class="upgrade-card">
+        <div>
+          <div class="upgrade-title">Сила «ти вопще»</div>
+          <div class="upgrade-desc">+1 к базовому клику</div>
+        </div>
+        <button class="buy-btn" id="buy-click">10</button>
+      </div>
+
+      <div class="upgrade-card">
+        <div>
+          <div class="upgrade-title">Авто-сислі «Чого»</div>
+          <div class="upgrade-desc">+1 очко в секунду</div>
+        </div>
+        <button class="buy-btn" id="buy-auto">25</button>
+      </div>
+
+      <div class="upgrade-card">
+        <div>
+          <div class="upgrade-title">Эффект «не сосія»</div>
+          <div class="upgrade-desc">+0.25 к множителю клика</div>
+        </div>
+        <button class="buy-btn" id="buy-mult">80</button>
+      </div>
+
+      <div class="upgrade-card">
+        <div>
+          <div class="upgrade-title">Генератор «ЭТО7ТПРОСТЛ»</div>
+          <div class="upgrade-desc">+5 очков в секунду</div>
+        </div>
+        <button class="buy-btn" id="buy-prostl">200</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="feed-box">
+    <div class="feed-title">Лента реплик</div>
+    <div class="feed-list" id="feed-list"></div>
+  </div>
+
+  <button class="reset-btn" id="reset-btn">Сбросить прогресс</button>
+
+  <script>
+    const MEMES = [
+      {
+        id: "usrishnost",
+        label: "УСРИШНОСТЬ",
+        imgSrc: "usrishnost.jpg",
+        fallback: "apple",
+        who: "УСРИШНОСТЬ",
+        tag: "",
+        phrases: ["УСРИШНОСТЬ!", "Абсолютная усришность", "Яблоко одобряет"]
+      },
+      {
+        id: "eto7tprostl",
+        label: "ЭТО7ТПРОСТЛ",
+        imgSrc: "eto7tprostl.jpg",
+        fallback: "tomato",
+        who: "ЭТО7ТПРОСТЛ",
+        tag: "",
+        phrases: ["ЭТО7ТПРОСТЛ", "Просто помидор", "7ТПРОСТЛ момент"]
+      },
+      {
+        id: "sisli",
+        label: "сислі — Чого",
+        imgSrc: "ba90d5bb-cfdb-4ce5-9031-3fc703cde91c.png",
+        fallback: "tomato",
+        who: "сислі",
+        tag: "",
+        phrases: ["Чого", "Чого??", "сислі на связи"]
+      },
+      {
+        id: "sosia",
+        label: "сосія — ти вопще",
+        imgSrc: "c23b4526-88ca-4086-862d-c2639a4046bf.png",
+        fallback: "tomato",
+        who: "сосія",
+        tag: "не сосія",
+        phrases: ["ти вопще", "не сосія", "ти вопще??"]
+      }
+    ];
+
+    const RANKS = [
+      "Новичок чата",
+      "Свидетель усришности",
+      "Мастер «Чого»",
+      "Почётный «не сосія»",
+      "Повелитель 7ТПРОСТЛ",
+      "Легенда локальных мемов"
+    ];
+
+    const STORAGE_KEY = "meme_clicker_v2_save";
+
+    let state = {
+      score: 0,
+      baseClick: 1,
+      autoPerSec: 0,
+      multiplier: 1,
+      clickCost: 10,
+      autoCost: 25,
+      multCost: 80,
+      prostlCost: 200,
+      selectedMemeId: "usrishnost"
+    };
+
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+      try {
+        state = { ...state, ...JSON.parse(saved) };
+      } catch (e) {}
+    }
+
+    let combo = 0;
+    let frenzyUntil = 0;
+    let activeEventReward = 0;
+    let logs = ["Добро пожаловать в кликер мемов!"];
+
+    const switcherEl = document.getElementById("meme-switcher");
+    const scoreEl = document.getElementById("score");
+    const perClickEl = document.getElementById("per-click");
+    const perSecEl = document.getElementById("per-sec");
+    const multValEl = document.getElementById("mult-val");
+    const quoteWhoEl = document.getElementById("quote-who");
+    const quoteTextEl = document.getElementById("quote-text");
+    const quoteBubbleEl = document.getElementById("quote-bubble");
+    const clickTargetEl = document.getElementById("click-target");
+    const comboFillEl = document.getElementById("combo-fill");
+    const comboPctEl = document.getElementById("combo-pct");
+    const comboLabelEl = document.getElementById("combo-label");
+    const eventBannerEl = document.getElementById("event-banner");
+    const levelNumEl = document.getElementById("level-num");
+    const levelRankEl = document.getElementById("level-rank");
+    const levelProgressTextEl = document.getElementById("level-progress-text");
+    const levelFillEl = document.getElementById("level-fill");
+    const feedListEl = document.getElementById("feed-list");
+
+    const buyClickBtn = document.getElementById("buy-click");
+    const buyAutoBtn = document.getElementById("buy-auto");
+    const buyMultBtn = document.getElementById("buy-mult");
+    const buyProstlBtn = document.getElementById("buy-prostl");
+    const resetBtn = document.getElementById("reset-btn");
+
+    function saveState() {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    }
+
+    function addLog(text) {
+      logs.unshift(text);
+      logs = logs.slice(0, 5);
+      renderFeed();
+    }
+
+    function renderFeed() {
+      feedListEl.innerHTML = logs.map((item) => `<div class="feed-item">• ${item}</div>`).join("");
+    }
+
+    function getCurrentMeme() {
+      return MEMES.find((m) => m.id === state.selectedMemeId) || MEMES[0];
+    }
+
+    function isFrenzyActive() {
+      return Date.now() < frenzyUntil;
+    }
+
+    function getEffectiveClick() {
+      const frenzyMult = isFrenzyActive() ? 2 : 1;
+      return Math.max(1, Math.round(state.baseClick * state.multiplier * frenzyMult));
+    }
+
+    function getLevelInfo(score) {
+      const safeScore = Math.max(0, Math.floor(score));
+      const level = Math.floor(Math.sqrt(safeScore / 25)) + 1;
+      const currentLevelFloor = 25 * Math.pow(level - 1, 2);
+      const nextLevelFloor = 25 * Math.pow(level, 2);
+      const span = Math.max(1, nextLevelFloor - currentLevelFloor);
+      const pct = Math.min(100, Math.max(0, ((safeScore - currentLevelFloor) / span) * 100));
+      const rank = RANKS[Math.min(RANKS.length - 1, Math.floor((level - 1) / 2))];
+      return {
+        level,
+        rank,
+        pct,
+        currentInLevel: safeScore - currentLevelFloor,
+        neededInLevel: span
+      };
+    }
+
+    function drawFallbackCanvas(type) {
+      const canvas = document.createElement("canvas");
+      canvas.width = 64;
+      canvas.height = 64;
+      const ctx = canvas.getContext("2d");
+      if (type === "apple") {
+        ctx.fillStyle = "#b91c1c";
+        ctx.fillRect(16, 20, 32, 32);
+        ctx.fillStyle = "#eab308";
+        ctx.fillRect(20, 24, 10, 14);
+        ctx.fillStyle = "#4d7c0f";
+        ctx.fillRect(16, 14, 12, 6);
+      } else {
+        ctx.fillStyle = "#991b1b";
+        ctx.fillRect(16, 22, 32, 30);
+        ctx.fillStyle = "#dc2626";
+        ctx.fillRect(20, 26, 12, 16);
+        ctx.fillStyle = "#365314";
+        ctx.fillRect(26, 12, 12, 8);
+      }
+      const oldMedia = clickTargetEl.querySelector("img, canvas");
+      if (oldMedia) oldMedia.remove();
+      clickTargetEl.appendChild(canvas);
+    }
+
+    function renderMemeVisual() {
+      const meme = getCurrentMeme();
+      const oldMedia = clickTargetEl.querySelector("img, canvas");
+      if (oldMedia) oldMedia.remove();
+
+      const img = document.createElement("img");
+      img.alt = meme.label;
+      img.src = meme.imgSrc;
+      img.onerror = () => drawFallbackCanvas(meme.fallback);
+      clickTargetEl.appendChild(img);
+
+      quoteWhoEl.textContent = meme.who;
+      quoteTextEl.textContent = meme.phrases[0];
+
+      const oldTag = quoteBubbleEl.querySelector(".quote-tag");
+      if (oldTag) oldTag.remove();
+      if (meme.tag) {
+        const tagSpan = document.createElement("span");
+        tagSpan.className = "quote-tag";
+        tagSpan.textContent = meme.tag;
+        quoteBubbleEl.insertBefore(tagSpan, quoteTextEl);
+      }
+    }
+
+    function renderSwitcher() {
+      switcherEl.innerHTML = "";
+      MEMES.forEach((meme) => {
+        const btn = document.createElement("button");
+        btn.className = "meme-btn" + (meme.id === state.selectedMemeId ? " active" : "");
+        btn.textContent = meme.label;
+        btn.onclick = () => {
+          state.selectedMemeId = meme.id;
+          saveState();
+          renderSwitcher();
+          renderMemeVisual();
+          addLog(`Переключились на «${meme.label}»`);
+        };
+        switcherEl.appendChild(btn);
+      });
+    }
+
+    function renderUI() {
+      const frenzy = isFrenzyActive();
+      clickTargetEl.classList.toggle("frenzy", frenzy);
+
+      scoreEl.textContent = Math.floor(state.score).toLocaleString("ru-RU");
+      perClickEl.textContent = getEffectiveClick().toLocaleString("ru-RU");
+      perSecEl.textContent = state.autoPerSec.toLocaleString("ru-RU");
+      multValEl.textContent = `x${(state.multiplier * (frenzy ? 2 : 1)).toFixed(2).replace(/\.00$/, "")}`;
+
+      const lvl = getLevelInfo(state.score);
+      levelNumEl.textContent = lvl.level;
+      levelRankEl.textContent = lvl.rank;
+      levelProgressTextEl.textContent = `${lvl.currentInLevel} / ${lvl.neededInLevel}`;
+      levelFillEl.style.width = `${lvl.pct}%`;
+
+      if (frenzy) {
+        const secLeft = Math.max(0.1, (frenzyUntil - Date.now()) / 1000).toFixed(1);
+        comboLabelEl.textContent = `🔥 УСРИШНОСТЬ x2 (${secLeft}с)`;
+        comboPctEl.textContent = "MAX";
+        comboFillEl.style.width = "100%";
+      } else {
+        comboLabelEl.textContent = "Комбо-шкала";
+        comboPctEl.textContent = `${Math.floor(combo)}%`;
+        comboFillEl.style.width = `${combo}%`;
+      }
+
+      buyClickBtn.textContent = `${state.clickCost}`;
+      buyClickBtn.disabled = state.score < state.clickCost;
+
+      buyAutoBtn.textContent = `${state.autoCost}`;
+      buyAutoBtn.disabled = state.score < state.autoCost;
+
+      buyMultBtn.textContent = `${state.multCost}`;
+      buyMultBtn.disabled = state.score < state.multCost;
+
+      buyProstlBtn.textContent = `${state.prostlCost}`;
+      buyProstlBtn.disabled = state.score < state.prostlCost;
+    }
+
+    function spawnFloatingText(x, y, text) {
+      const el = document.createElement("div");
+      el.className = "floating-text";
+      el.textContent = text;
+      el.style.left = `${x}px`;
+      el.style.top = `${y}px`;
+      document.body.appendChild(el);
+      setTimeout(() => el.remove(), 750);
+    }
+
+    clickTargetEl.addEventListener("click", (e) => {
+      const gained = getEffectiveClick();
+      state.score += gained;
+
+      if (!isFrenzyActive()) {
+        combo = Math.min(100, combo + 9);
+        if (combo >= 100) {
+          combo = 0;
+          frenzyUntil = Date.now() + 8000;
+          addLog("🔥 Активирован режим УСРИШНОСТЬ x2 на 8 секунд!");
+        }
+      }
+
+      const meme = getCurrentMeme();
+      const phrase = meme.phrases[Math.floor(Math.random() * meme.phrases.length)];
+      quoteTextEl.textContent = phrase;
+
+      const x = e.clientX || clickTargetEl.getBoundingClientRect().left + 105;
+      const y = e.clientY || clickTargetEl.getBoundingClientRect().top + 80;
+      spawnFloatingText(x, y, `+${gained}`);
+
+      saveState();
+      renderUI();
+    });
+
+    buyClickBtn.addEventListener("click", () => {
+      if (state.score < state.clickCost) return;
+      state.score -= state.clickCost;
+      state.baseClick += 1;
+      state.clickCost = Math.round(state.clickCost * 1.5);
+      addLog("Прокачана «Сила ти вопще»");
+      saveState();
+      renderUI();
+    });
+
+    buyAutoBtn.addEventListener("click", () => {
+      if (state.score < state.autoCost) return;
+      state.score -= state.autoCost;
+      state.autoPerSec += 1;
+      state.autoCost = Math.round(state.autoCost * 1.55);
+      addLog("Нанят «Авто-сислі Чого»");
+      saveState();
+      renderUI();
+    });
+
+    buyMultBtn.addEventListener("click", () => {
+      if (state.score < state.multCost) return;
+      state.score -= state.multCost;
+      state.multiplier = Number((state.multiplier + 0.25).toFixed(2));
+      state.multCost = Math.round(state.multCost * 1.7);
+      addLog("Усилен эффект «не сосія»");
+      saveState();
+      renderUI();
+    });
+
+    buyProstlBtn.addEventListener("click", () => {
+      if (state.score < state.prostlCost) return;
+      state.score -= state.prostlCost;
+      state.autoPerSec += 5;
+      state.prostlCost = Math.round(state.prostlCost * 1.65);
+      addLog("Запущен «Генератор ЭТО7ТПРОСТЛ» (+5/сек)");
+      saveState();
+      renderUI();
+    });
+
+    eventBannerEl.addEventListener("click", () => {
+      if (activeEventReward <= 0) return;
+      state.score += activeEventReward;
+      addLog(`Поймано событие! Получено +${activeEventReward} очков`);
+      activeEventReward = 0;
+      eventBannerEl.style.display = "none";
+      saveState();
+      renderUI();
+    });
+
+    resetBtn.addEventListener("click", () => {
+      localStorage.removeItem(STORAGE_KEY);
+      state = {
+        score: 0,
+        baseClick: 1,
+        autoPerSec: 0,
+        multiplier: 1,
+        clickCost: 10,
+        autoCost: 25,
+        multCost: 80,
+        prostlCost: 200,
+        selectedMemeId: "usrishnost"
+      };
+      combo = 0;
+      frenzyUntil = 0;
+      activeEventReward = 0;
+      eventBannerEl.style.display = "none";
+      logs = ["Прогресс сброшен. Начинаем заново!"];
+      renderSwitcher();
+      renderMemeVisual();
+      renderFeed();
+      renderUI();
+    });
+
+    setInterval(() => {
+      if (state.autoPerSec > 0) {
+        state.score += state.autoPerSec;
+        saveState();
+      }
+      if (!isFrenzyActive() && combo > 0) {
+        combo = Math.max(0, combo - 2.5);
+      }
+
+      if (activeEventReward <= 0 && Math.random() < 0.14) {
+        activeEventReward = Math.max(15, getEffectiveClick() * 6 + state.autoPerSec * 4);
+        const triggers = [
+          `⚡ Внезапное «Чого»! Забрать +${activeEventReward}`,
+          `⚡ «ти вопще» в чате! Забрать +${activeEventReward}`,
+          `⚡ Редкая «не сосія»! Забрать +${activeEventReward}`
+        ];
+        eventBannerEl.textContent = triggers[Math.floor(Math.random() * triggers.length)];
+        eventBannerEl.style.display = "block";
+      }
+
+      renderUI();
+    }, 1000);
+
+    renderSwitcher();
+    renderMemeVisual();
+    renderFeed();
+    renderUI();
+  </script>
+</body>
+</html>
