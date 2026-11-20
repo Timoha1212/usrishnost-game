@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>usrishnost games v0.6.1а — Браузерные миниигры</title>
+    <title>usrishnost games v0.6.2 — Браузерные миниигры</title>
     <link rel="icon" type="image/jpeg" href="usrishnost.jpg">
     <link rel="shortcut icon" type="image/jpeg" href="usrishnost.jpg">
     <link rel="apple-touch-icon" href="usrishnost.jpg">
@@ -170,6 +170,23 @@
         .tomato-fly {
             animation: tomatoPop 1.4s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
+
+        /* Радужный никнейм при получении всех достижений */
+        @keyframes rainbowShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .rainbow-nick {
+            background: linear-gradient(90deg, #ff3b30, #ff9500, #ffcc00, #34c759, #00c7be, #007aff, #af52de, #ff2d55, #ff3b30);
+            background-size: 300% 300%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            animation: rainbowShift 3.5s linear infinite;
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.25));
+        }
     </style>
 </head>
 <body class="theme-dark text-zinc-100 min-h-screen flex flex-col selection:bg-orange-500 selection:text-white pb-24 sm:pb-0">
@@ -249,7 +266,7 @@
                 <div class="space-y-2 max-w-2xl">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-400/30 text-orange-300 text-xs font-semibold">
                         <span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>
-                        <span data-i18n="hero_badge">Версия 0.6.1а • Статусы возле ника, ребаланс ачивки и мобильная оптимизация!</span>
+                        <span data-i18n="hero_badge">Версия 0.6.2 • Радужный ник за 100% ачивок и секретные фишки!</span>
                     </div>
                     <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
                         <span data-i18n="hero_title_prefix">Добро пожаловать в</span> <span class="text-orange-400">usrishnost games</span>
@@ -1078,14 +1095,14 @@
                     <div class="flex flex-wrap items-center justify-between gap-3">
                         <div>
                             <h3 data-i18n="cl_title" class="text-lg sm:text-xl font-extrabold text-white">📜 История обновлений (ChangeLog)</h3>
-                            <p data-i18n="cl_subtitle" class="text-xs sm:text-sm text-zinc-400 mt-0.5">Полный путь развития портала usrishnost games от первой альфы до 0.6а</p>
+                            <p data-i18n="cl_subtitle" class="text-xs sm:text-sm text-zinc-400 mt-0.5">Полный путь развития портала usrishnost games от первой альфы до 0.6.2</p>
                         </div>
                         <div class="flex items-center gap-2 shrink-0">
                             <button type="button" onclick="toggleChangelogPanel()" data-i18n="cl_open_btn" class="px-3 py-1 rounded-xl bg-orange-500/20 hover:bg-orange-500/35 border border-orange-400/40 text-orange-200 text-xs font-bold transition-colors cursor-pointer">
                                 📖 Открыть / Свернуть журнал
                             </button>
                             <span data-i18n="cl_current_badge" class="px-3 py-1 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-extrabold">
-                                Актуальная: v0.6.1а
+                                Актуальная: v0.6.2
                             </span>
                         </div>
                     </div>
@@ -1108,7 +1125,7 @@
             </div>
             <div class="flex flex-wrap items-center gap-2.5 sm:gap-3">
                 <button onclick="openChangelogInSettings()" class="hover:text-orange-300 transition-colors cursor-pointer font-semibold">
-                    <span data-i18n="footer_version">Версия 0.6.1а</span>
+                    <span data-i18n="footer_version">Версия 0.6.2</span>
                 </button>
                 <span>•</span>
                 <button onclick="openChangelogInSettings()" data-i18n="footer_changelog_btn" class="px-2.5 py-0.5 rounded-md bg-white/10 hover:bg-orange-500/25 border border-white/10 hover:border-orange-400/40 text-zinc-200 hover:text-orange-200 transition-colors cursor-pointer font-semibold">
@@ -1188,6 +1205,113 @@
     <!-- Контейнер для всплывающих уведомлений -->
     <div id="toast-container" class="fixed bottom-20 sm:bottom-4 left-4 right-4 sm:left-auto sm:right-4 z-50 flex flex-col items-center sm:items-end gap-2 sm:max-w-xs pointer-events-none"></div>
 
+    <!-- СЕКРЕТНАЯ КНОПКА АДМИН ЧИТ-ПАНЕЛИ (появляется после 9222+777= в калькуляторе) -->
+    <button id="secret-cheat-btn" type="button" onclick="openCheatModal()" class="hidden fixed bottom-20 sm:bottom-5 right-4 z-40 px-3.5 py-2 rounded-xl bg-gradient-to-r from-fuchsia-600 via-purple-600 to-indigo-600 hover:from-fuchsia-500 hover:to-indigo-500 border border-fuchsia-300/50 text-white text-xs font-black shadow-[0_0_24px_rgba(192,38,211,0.65)] transition-all active:scale-95 cursor-pointer flex items-center gap-1.5">
+        <span>🛠️</span>
+        <span data-i18n="cheat_fab_btn">ADMIN CHEATS</span>
+    </button>
+
+    <!-- МОДАЛЬНОЕ ОКНО СЕКРЕТНОЙ АДМИН ЧИТ-ПАНЕЛИ -->
+    <div id="cheat-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div class="glass-panel rounded-2xl max-w-lg w-full p-5 sm:p-6 space-y-4 relative border border-fuchsia-500/45 shadow-[0_0_50px_rgba(192,38,211,0.35)] max-h-[90vh] overflow-y-auto">
+            <div class="flex items-center justify-between gap-2 border-b border-white/10 pb-3">
+                <div class="flex items-center gap-2.5">
+                    <span class="text-2xl">🛠️</span>
+                    <div>
+                        <h3 data-i18n="cheat_modal_title" class="text-lg sm:text-xl font-black bg-gradient-to-r from-fuchsia-300 via-pink-300 to-amber-200 bg-clip-text text-transparent">
+                            Секретная Админ Чит-Панель
+                        </h3>
+                        <p data-i18n="cheat_modal_sub" class="text-[11px] text-zinc-400">Код 9222+777=9999 подтверждён • Полный доступ</p>
+                    </div>
+                </div>
+                <button type="button" onclick="closeCheatModal()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center text-zinc-300 hover:text-white transition-colors cursor-pointer">
+                    ✕
+                </button>
+            </div>
+
+            <!-- 1. Сила нажатия и очки в УСРО-КЛИКЕР -->
+            <div class="p-3.5 rounded-xl bg-zinc-950/75 border border-white/10 space-y-2.5">
+                <div class="text-xs font-extrabold text-orange-300 uppercase tracking-wider" data-i18n="cheat_sec_clicker">🍎 УСРО-КЛИКЕР: Сила и очки</div>
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <input id="cheat-click-power-input" type="number" min="1" placeholder="Сила клика (например 9999)" data-i18n-placeholder="cheat_click_ph" class="flex-1 px-3 py-2 rounded-xl bg-zinc-900 border border-white/15 text-white text-xs sm:text-sm focus:outline-none focus:border-fuchsia-400">
+                    <button type="button" onclick="cheatSetClickPower()" data-i18n="cheat_set_click_btn" class="px-3.5 py-2 rounded-xl bg-orange-500 hover:bg-orange-400 text-white text-xs font-extrabold cursor-pointer shrink-0">
+                        Задать силу клика
+                    </button>
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <button type="button" onclick="cheatAddClickerScore(100000)" data-i18n="cheat_add_100k" class="py-2 px-3 rounded-xl bg-amber-500/20 hover:bg-amber-500/35 border border-amber-400/35 text-amber-200 text-xs font-bold cursor-pointer">
+                        +100 000 очков
+                    </button>
+                    <button type="button" onclick="cheatTriggerFrenzy()" data-i18n="cheat_frenzy_btn" class="py-2 px-3 rounded-xl bg-rose-500/20 hover:bg-rose-500/35 border border-rose-400/35 text-rose-200 text-xs font-bold cursor-pointer">
+                        🔥 УСРИШНОСТЬ x2 (60с)
+                    </button>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <input id="cheat-auto-sec-input" type="number" min="0" placeholder="Очков в сек (например 5000)" data-i18n-placeholder="cheat_auto_ph" class="flex-1 px-3 py-2 rounded-xl bg-zinc-900 border border-white/15 text-white text-xs sm:text-sm focus:outline-none focus:border-fuchsia-400">
+                    <button type="button" onclick="cheatSetAutoPerSec()" data-i18n="cheat_set_auto_btn" class="px-3.5 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-extrabold cursor-pointer shrink-0">
+                        Задать авто-доход/с
+                    </button>
+                </div>
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <input id="cheat-mult-input" type="number" min="1" step="0.5" placeholder="Множитель клика (например 50)" data-i18n-placeholder="cheat_mult_ph" class="flex-1 px-3 py-2 rounded-xl bg-zinc-900 border border-white/15 text-white text-xs sm:text-sm focus:outline-none focus:border-fuchsia-400">
+                    <button type="button" onclick="cheatSetMultiplier()" data-i18n="cheat_set_mult_btn" class="px-3.5 py-2 rounded-xl bg-amber-600 hover:bg-amber-500 text-white text-xs font-extrabold cursor-pointer shrink-0">
+                        Задать множитель
+                    </button>
+                </div>
+            </div>
+
+            <!-- 2. Рекорд и читы в Побег от это7тпростл -->
+            <div class="p-3.5 rounded-xl bg-zinc-950/75 border border-white/10 space-y-2.5">
+                <div class="text-xs font-extrabold text-rose-300 uppercase tracking-wider" data-i18n="cheat_sec_escape">🍅 Побег от это7тпростл</div>
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <input id="cheat-escape-best-input" type="number" min="0" placeholder="Новый рекорд (например 1000)" data-i18n-placeholder="cheat_escape_ph" class="flex-1 px-3 py-2 rounded-xl bg-zinc-900 border border-white/15 text-white text-xs sm:text-sm focus:outline-none focus:border-fuchsia-400">
+                    <button type="button" onclick="cheatSetEscapeBest()" data-i18n="cheat_set_escape_btn" class="px-3.5 py-2 rounded-xl bg-rose-500 hover:bg-rose-400 text-white text-xs font-extrabold cursor-pointer shrink-0">
+                        Задать рекорд
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <button id="cheat-godmode-btn" type="button" onclick="cheatToggleEscapeGodMode()" class="py-2 px-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-white/15 text-zinc-200 text-xs font-bold cursor-pointer">
+                        🛡️ Бессмертие: ВЫКЛ
+                    </button>
+                    <button id="cheat-freeze-btn" type="button" onclick="cheatToggleEscapeFreeze()" class="py-2 px-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-white/15 text-zinc-200 text-xs font-bold cursor-pointer">
+                        ❄️ Заморозка томатов: ВЫКЛ
+                    </button>
+                </div>
+            </div>
+
+            <!-- 3. Ачивки, статусы и аккаунт -->
+            <div class="p-3.5 rounded-xl bg-zinc-950/75 border border-white/10 space-y-2.5">
+                <div class="text-xs font-extrabold text-fuchsia-300 uppercase tracking-wider" data-i18n="cheat_sec_global">👑 Ачивки, Статусы и Профиль</div>
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <input id="cheat-nickname-input" type="text" maxlength="24" placeholder="Новый ник (или авто-вход)" data-i18n-placeholder="cheat_nick_ph" class="flex-1 px-3 py-2 rounded-xl bg-zinc-900 border border-white/15 text-white text-xs sm:text-sm focus:outline-none focus:border-fuchsia-400">
+                    <button type="button" onclick="cheatSetNickname()" data-i18n="cheat_set_nick_btn" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-extrabold cursor-pointer shrink-0">
+                        Сменить ник
+                    </button>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <button type="button" onclick="cheatUnlockAllAchievements()" data-i18n="cheat_all_ach_btn" class="py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white text-xs font-extrabold shadow cursor-pointer">
+                        🏆 Открыть ВСЕ ачивки + 🌈
+                    </button>
+                    <button type="button" onclick="cheatUnlockAllStatuses()" data-i18n="cheat_all_statuses_btn" class="py-2.5 px-3 rounded-xl bg-emerald-500/25 hover:bg-emerald-500/35 border border-emerald-400/40 text-emerald-200 text-xs font-extrabold cursor-pointer">
+                        ✨ Разблокировать все статусы
+                    </button>
+                    <button id="cheat-rainbow-btn" type="button" onclick="cheatToggleForceRainbow()" class="py-2 px-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-white/15 text-zinc-200 text-xs font-bold cursor-pointer">
+                        🌈 Радужный ник: АВТО
+                    </button>
+                    <button type="button" onclick="cheatMaxPortalTime()" data-i18n="cheat_add_time_btn" class="py-2 px-3 rounded-xl bg-sky-500/20 hover:bg-sky-500/35 border border-sky-400/35 text-sky-200 text-xs font-bold cursor-pointer">
+                        ⏱️ +10 часов на портале
+                    </button>
+                    <button type="button" onclick="cheatResetAllAchievements()" data-i18n="cheat_reset_ach_btn" class="py-2 px-3 rounded-xl bg-rose-500/20 hover:bg-rose-500/35 border border-rose-400/35 text-rose-200 text-xs font-bold cursor-pointer">
+                        🗑️ Сбросить все ачивки
+                    </button>
+                    <button type="button" onclick="cheatHidePanelButton()" data-i18n="cheat_hide_btn" class="py-2 px-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-white/15 text-zinc-300 text-xs font-bold cursor-pointer">
+                        🙈 Скрыть кнопку читов
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
         // Полный словарь переводов всего контента сайта, обеих игр и инструментов (Русский, Українська, English)
         const I18N = {
@@ -1199,7 +1323,7 @@
                 nav_settings: '⚙️ Настройки',
                 btn_login: 'Войти',
                 btn_logout: 'Выйти',
-                hero_badge: 'Версия 0.6.1а • Статусы возле ника, ребаланс ачивки и мобильная оптимизация!',
+                hero_badge: 'Версия 0.6.2 • Радужный ник за 100% ачивок и секретные фишки!',
                 hero_title_prefix: 'Добро пожаловать в',
                 hero_desc_1: 'Здесь собираются лучшие браузерные миниигры. Пока что',
                 hero_desc_2: 'разработчиков настраивают усришность на полную мощность — заходи в настройки, ищи пасхалки и собирай ачивки!',
@@ -1333,11 +1457,11 @@
                 set_reset_ach: 'Сбросить прогресс ачивок',
                 set_reset_bg: 'Сбросить фон по умолчанию',
                 cl_title: '📜 История обновлений (ChangeLog)',
-                cl_subtitle: 'Полный путь развития портала usrishnost games от первой альфы до 0.6.1а',
+                cl_subtitle: 'Полный путь развития портала usrishnost games от первой альфы до 0.6.2',
                 cl_open_btn: '📖 Открыть / Свернуть журнал',
-                cl_current_badge: 'Актуальная: v0.6.1а',
+                cl_current_badge: 'Актуальная: v0.6.2',
                 footer_rights: 'Все права усришены.',
-                footer_version: 'Версия 0.6.1а',
+                footer_version: 'Версия 0.6.2',
                 footer_changelog_btn: '📜 Журнал изменений',
                 footer_secret_hint: 'Что тут спрятано?',
                 sosiya_title: 'Секретная переписка найдена!',
@@ -1465,7 +1589,57 @@
                     easter_angry_ball: { title: 'Чого ты добиваешься?!', desc: 'Пасхалка в Шаре предсказаний: задать один и тот же вопрос 3 раза подряд и разозлить оракула.' },
                     legend: { title: 'Легенда usrishnost games', desc: 'Собрать все остальные 22 достижения портала!' }
                 },
+                cheat_fab_btn: 'ADMIN CHEATS',
+                cheat_modal_title: 'Секретная Админ Чит-Панель',
+                cheat_modal_sub: 'Код 9222+777=9999 подтверждён • Полный доступ',
+                cheat_sec_clicker: '🍎 УСРО-КЛИКЕР: Сила и очки',
+                cheat_click_ph: 'Сила клика (например 9999)',
+                cheat_set_click_btn: 'Задать силу клика',
+                cheat_auto_ph: 'Очков в сек (например 5000)',
+                cheat_set_auto_btn: 'Задать авто-доход/с',
+                cheat_mult_ph: 'Множитель клика (например 50)',
+                cheat_set_mult_btn: 'Задать множитель',
+                cheat_add_100k: '+100 000 очков',
+                cheat_frenzy_btn: '🔥 УСРИШНОСТЬ x2 (60с)',
+                cheat_sec_escape: '🍅 Побег от это7тпростл',
+                cheat_escape_ph: 'Новый рекорд (например 1000)',
+                cheat_set_escape_btn: 'Задать рекорд',
+                cheat_god_on: '🛡️ Бессмертие: ВКЛ',
+                cheat_god_off: '🛡️ Бессмертие: ВЫКЛ',
+                cheat_freeze_on: '❄️ Заморозка томатов: ВКЛ',
+                cheat_freeze_off: '❄️ Заморозка томатов: ВЫКЛ',
+                cheat_sec_global: '👑 Ачивки, Статусы и Профиль',
+                cheat_nick_ph: 'Новый ник (или авто-вход)',
+                cheat_set_nick_btn: 'Сменить ник',
+                cheat_rainbow_on: '🌈 Радужный ник: ВКЛ',
+                cheat_rainbow_auto: '🌈 Радужный ник: АВТО',
+                cheat_all_ach_btn: '🏆 Открыть ВСЕ ачивки + 🌈',
+                cheat_all_statuses_btn: '✨ Разблокировать все статусы',
+                cheat_add_time_btn: '⏱️ +10 часов на портале',
+                cheat_reset_ach_btn: '🗑️ Сбросить все ачивки',
+                cheat_hide_btn: '🙈 Скрыть кнопку читов',
+                toast_cheat_unlocked: '🛠️ Секретный доступ активирован! Кнопка админа появилась справа снизу.',
+                toast_cheat_click_set: '🛠️ Сила нажатия в УСРО-КЛИКЕР установлена: {val}!',
+                toast_cheat_auto_set: '🛠️ Авто-доход в секунду установлен: {val}!',
+                toast_cheat_mult_set: '🛠️ Множитель клика установлен: x{val}!',
+                toast_cheat_score_add: '🛠️ Начислено +100 000 очков в УСРО-КЛИКЕР!',
+                toast_cheat_frenzy: '🛠️ Активирован режим УСРИШНОСТЬ x2 на 60 секунд!',
+                toast_cheat_esc_set: '🛠️ Рекорд в «Побег от это7тпростл» установлен: {val}!',
+                toast_cheat_nick_set: '🛠️ Никнейм успешно изменён на «{val}»!',
+                toast_cheat_all_ach: '🛠️ Все 23 достижения открыты! Твой ник теперь радужный 🌈!',
+                toast_cheat_all_st: '🛠️ Все статусы разблокированы (100k кликов, 1000 побега, 23 ачивки)!',
+                toast_cheat_time: '🛠️ Добавлено +10 часов активности на портале!',
                 cl: [
+                    {
+                        version: '0.6.2',
+                        date: 'Обновление радужного ника',
+                        badge: 'ВЕРСИЯ 0.6.2',
+                        badgeColor: 'bg-fuchsia-500/20 text-fuchsia-300 border-fuchsia-400/40',
+                        items: [
+                            'Добавлен переливающийся радужный никнейм в шапке и профиле при получении всех 23 достижений игры!',
+                            'Оптимизировано отображение статусов и эффектов профиля.'
+                        ]
+                    },
                     {
                         version: '0.6.1а',
                         date: 'Патч статусов, ребаланса и мобильной стабильности',
@@ -1650,7 +1824,7 @@
                 nav_settings: '⚙️ Налаштування',
                 btn_login: 'Увійти',
                 btn_logout: 'Вийти',
-                hero_badge: 'Версія 0.6.1а • Статуси біля ніку, ребаланс ачівки та мобільна оптимізація!',
+                hero_badge: 'Версія 0.6.2 • Райдужний нік за 100% ачівок та секретні фішки!',
                 hero_title_prefix: 'Ласкаво просимо до',
                 hero_desc_1: 'Тут збираються найкращі браузерні мініігри. Поки що',
                 hero_desc_2: 'розробників налаштовують усрішність на повну потужність — заходь у налаштування, шукай пасхалки та збирай ачівки!',
@@ -1783,11 +1957,11 @@
                 set_reset_ach: 'Скинути прогрес ачівок',
                 set_reset_bg: 'Скинути фон за замовчуванням',
                 cl_title: '📜 Історія оновлень (ChangeLog)',
-                cl_subtitle: 'Повний шлях розвитку порталу usrishnost games від першої альфи до 0.6.1а',
+                cl_subtitle: 'Повний шлях розвитку порталу usrishnost games від першої альфи до 0.6.2',
                 cl_open_btn: '📖 Відкрити / Згорнути журнал',
-                cl_current_badge: 'Актуальна: v0.6.1а',
+                cl_current_badge: 'Актуальна: v0.6.2',
                 footer_rights: 'Усі права усрішені.',
-                footer_version: 'Версія 0.6.1а',
+                footer_version: 'Версія 0.6.2',
                 footer_changelog_btn: '📜 Журнал змін',
                 footer_secret_hint: 'Що тут заховано?',
                 sosiya_title: 'Секретне листування знайдено!',
@@ -1915,7 +2089,57 @@
                     easter_angry_ball: { title: 'Чого ти добиваєшся?!', desc: 'Пасхалка в Кулі передбачень: поставити одне й те саме запитання 3 рази поспіль і розізлити оракула.' },
                     legend: { title: 'Легенда usrishnost games', desc: 'Зібрати всі інші 22 досягнення порталу!' }
                 },
+                cheat_fab_btn: 'ADMIN CHEATS',
+                cheat_modal_title: 'Секретна Адмін Чіт-Панель',
+                cheat_modal_sub: 'Код 9222+777=9999 підтверджено • Повний доступ',
+                cheat_sec_clicker: '🍎 УСРО-КЛІКЕР: Сила та очки',
+                cheat_click_ph: 'Сила кліку (наприклад 9999)',
+                cheat_set_click_btn: 'Задати силу кліку',
+                cheat_auto_ph: 'Очок за сек (наприклад 5000)',
+                cheat_set_auto_btn: 'Задати авто-дохід/с',
+                cheat_mult_ph: 'Множник кліку (наприклад 50)',
+                cheat_set_mult_btn: 'Задати множник',
+                cheat_add_100k: '+100 000 очок',
+                cheat_frenzy_btn: '🔥 УСРИШНОСТЬ x2 (60с)',
+                cheat_sec_escape: '🍅 Втеча від это7тпростл',
+                cheat_escape_ph: 'Новий рекорд (наприклад 1000)',
+                cheat_set_escape_btn: 'Задати рекорд',
+                cheat_god_on: '🛡️ Безсмертя: УВІМК',
+                cheat_god_off: '🛡️ Безсмертя: ВИМК',
+                cheat_freeze_on: '❄️ Заморозка томатів: УВІМК',
+                cheat_freeze_off: '❄️ Заморозка томатів: ВИМК',
+                cheat_sec_global: '👑 Ачівки, Статуси та Профіль',
+                cheat_nick_ph: 'Новий нік (або авто-вхід)',
+                cheat_set_nick_btn: 'Змінити нік',
+                cheat_rainbow_on: '🌈 Райдужний нік: УВІМК',
+                cheat_rainbow_auto: '🌈 Райдужний нік: АВТО',
+                cheat_all_ach_btn: '🏆 Відкрити ВСІ ачівки + 🌈',
+                cheat_all_statuses_btn: '✨ Розблокувати всі статуси',
+                cheat_add_time_btn: '⏱️ +10 годин на порталі',
+                cheat_reset_ach_btn: '🗑️ Скинути всі ачівки',
+                cheat_hide_btn: '🙈 Сховати кнопку чітів',
+                toast_cheat_unlocked: '🛠️ Секретний доступ активовано! Кнопка адміна зʼявилася праворуч знизу.',
+                toast_cheat_click_set: '🛠️ Силу натискання в УСРО-КЛІКЕР встановлено: {val}!',
+                toast_cheat_auto_set: '🛠️ Авто-дохід за секунду встановлено: {val}!',
+                toast_cheat_mult_set: '🛠️ Множник кліку встановлено: x{val}!',
+                toast_cheat_score_add: '🛠️ Нараховано +100 000 очок в УСРО-КЛІКЕР!',
+                toast_cheat_frenzy: '🛠️ Активовано режим УСРИШНОСТЬ x2 на 60 секунд!',
+                toast_cheat_esc_set: '🛠️ Рекорд у «Втеча від это7тпростл» встановлено: {val}!',
+                toast_cheat_nick_set: '🛠️ Нікнейм успішно змінено на «{val}»!',
+                toast_cheat_all_ach: '🛠️ Усі 23 досягнення відкрито! Твій нік тепер райдужний 🌈!',
+                toast_cheat_all_st: '🛠️ Усі статуси розблоковано (100k кліків, 1000 втечі, 23 ачівки)!',
+                toast_cheat_time: '🛠️ Додано +10 годин активності на порталі!',
                 cl: [
+                    {
+                        version: '0.6.2',
+                        date: 'Оновлення райдужного ніку',
+                        badge: 'ВЕРСІЯ 0.6.2',
+                        badgeColor: 'bg-fuchsia-500/20 text-fuchsia-300 border-fuchsia-400/40',
+                        items: [
+                            'Додано райдужний нікнейм у шапці та профілі при отриманні всіх 23 досягнень гри!',
+                            'Оптимізовано відображення статусів та ефектів профілю.'
+                        ]
+                    },
                     {
                         version: '0.6.1а',
                         date: 'Патч статусів, ребалансу та мобільної стабільності',
@@ -2100,7 +2324,7 @@
                 nav_settings: '⚙️ Settings',
                 btn_login: 'Log In',
                 btn_logout: 'Log Out',
-                hero_badge: 'Version 0.6.1a • Nickname status badges, achievement nerf & mobile stability!',
+                hero_badge: 'Version 0.6.2 • Rainbow nickname for 100% achievements & secret features!',
                 hero_title_prefix: 'Welcome to',
                 hero_desc_1: 'The finest browser minigames gather here. Right now',
                 hero_desc_2: 'developers are tuning usrishnost to full power — open settings, hunt Easter eggs, and collect achievements!',
@@ -2234,11 +2458,11 @@
                 set_reset_ach: 'Reset Achievements',
                 set_reset_bg: 'Reset Background Defaults',
                 cl_title: '📜 Update History (ChangeLog)',
-                cl_subtitle: 'The complete evolution of usrishnost games from the first alpha to 0.6.1a',
+                cl_subtitle: 'The complete evolution of usrishnost games from the first alpha to 0.6.2',
                 cl_open_btn: '📖 Open / Collapse Changelog',
-                cl_current_badge: 'Current: v0.6.1a',
+                cl_current_badge: 'Current: v0.6.2',
                 footer_rights: 'All rights usrished.',
-                footer_version: 'Version 0.6.1a',
+                footer_version: 'Version 0.6.2',
                 footer_changelog_btn: '📜 Changelog',
                 footer_secret_hint: 'What is hidden here?',
                 sosiya_title: 'Secret chat log discovered!',
@@ -2366,7 +2590,57 @@
                     easter_angry_ball: { title: 'Chogo Are You Trying To Do?!', desc: 'Prediction Ball Easter egg: ask the exact same question 3 times in a row to make the oracle angry.' },
                     legend: { title: 'Legend of usrishnost games', desc: 'Collect all other 22 achievements on the portal!' }
                 },
+                cheat_fab_btn: 'ADMIN CHEATS',
+                cheat_modal_title: 'Secret Admin Cheat Panel',
+                cheat_modal_sub: 'Code 9222+777=9999 verified • Full admin access',
+                cheat_sec_clicker: '🍎 USRO-CLICKER: Power & Score',
+                cheat_click_ph: 'Click power (e.g. 9999)',
+                cheat_set_click_btn: 'Set Click Power',
+                cheat_auto_ph: 'Points/sec (e.g. 5000)',
+                cheat_set_auto_btn: 'Set Auto/sec',
+                cheat_mult_ph: 'Click multiplier (e.g. 50)',
+                cheat_set_mult_btn: 'Set Multiplier',
+                cheat_add_100k: '+100,000 Points',
+                cheat_frenzy_btn: '🔥 USRISHNOST x2 (60s)',
+                cheat_sec_escape: '🍅 Escape from eto7tprostl',
+                cheat_escape_ph: 'New high score (e.g. 1000)',
+                cheat_set_escape_btn: 'Set High Score',
+                cheat_god_on: '🛡️ God Mode: ON',
+                cheat_god_off: '🛡️ God Mode: OFF',
+                cheat_freeze_on: '❄️ Freeze Tomatoes: ON',
+                cheat_freeze_off: '❄️ Freeze Tomatoes: OFF',
+                cheat_sec_global: '👑 Achievements, Statuses & Profile',
+                cheat_nick_ph: 'New nickname (or auto-login)',
+                cheat_set_nick_btn: 'Change Nick',
+                cheat_rainbow_on: '🌈 Rainbow Nick: ON',
+                cheat_rainbow_auto: '🌈 Rainbow Nick: AUTO',
+                cheat_all_ach_btn: '🏆 Unlock ALL Achievements + 🌈',
+                cheat_all_statuses_btn: '✨ Unlock All Statuses',
+                cheat_add_time_btn: '⏱️ +10 Hours on Portal',
+                cheat_reset_ach_btn: '🗑️ Reset All Achievements',
+                cheat_hide_btn: '🙈 Hide Cheat Button',
+                toast_cheat_unlocked: '🛠️ Secret access activated! Admin button appeared at bottom-right.',
+                toast_cheat_click_set: '🛠️ USRO-CLICKER click power set to: {val}!',
+                toast_cheat_auto_set: '🛠️ Auto points per second set to: {val}!',
+                toast_cheat_mult_set: '🛠️ Click multiplier set to: x{val}!',
+                toast_cheat_score_add: '🛠️ Added +100,000 points in USRO-CLICKER!',
+                toast_cheat_frenzy: '🛠️ USRISHNOST x2 frenzy activated for 60 seconds!',
+                toast_cheat_esc_set: '🛠️ «Escape from eto7tprostl» high score set to: {val}!',
+                toast_cheat_nick_set: '🛠️ Nickname changed to «{val}»!',
+                toast_cheat_all_ach: '🛠️ All 23 achievements unlocked! Your nickname is now rainbow 🌈!',
+                toast_cheat_all_st: '🛠️ All statuses unlocked (100k clicks, 1000 escape, 23 achievements)!',
+                toast_cheat_time: '🛠️ Added +10 hours of portal activity!',
                 cl: [
+                    {
+                        version: '0.6.2',
+                        date: 'Rainbow Nickname Update',
+                        badge: 'VERSION 0.6.2',
+                        badgeColor: 'bg-fuchsia-500/20 text-fuchsia-300 border-fuchsia-400/40',
+                        items: [
+                            'Added an animated rainbow nickname in the header and profile when unlocking all 23 game achievements!',
+                            'Optimized profile status badges and visual effects.'
+                        ]
+                    },
                     {
                         version: '0.6.1a',
                         date: 'Nickname Statuses, Balance & Mobile Stability Patch',
@@ -2602,8 +2876,16 @@
             soundEnabled: true,
             unlockedAchievements: [],
             clickerMaxScore: 0,
-            selectedStatus: 'none'
+            selectedStatus: 'none',
+            cheatUnlocked: false,
+            cheatForceRainbow: false
         };
+
+        // Проверка: получены ли все 23 достижения (или принудительный чит) для радужного ника
+        function hasAllAchievements() {
+            if (state.cheatForceRainbow) return true;
+            return ACHIEVEMENTS.every(a => state.unlockedAchievements.includes(a.id));
+        }
 
         // Список статусов возле ника
         const USER_STATUSES = [
@@ -3061,6 +3343,7 @@
             state.unlockedAchievements.push(id);
             saveState();
             renderAchievements();
+            renderAuthArea();
             updateAccountView();
             playAchievementSound();
             showToast(t('toast_ach_unlocked', { title: achText.title }), true);
@@ -3170,11 +3453,12 @@
                 if (isLoggedIn) {
                     const statusEmoji = getEquippedStatusEmoji();
                     const statusHtml = statusEmoji ? `<span class="text-sm sm:text-base shrink-0">${statusEmoji}</span>` : '';
+                    const nickClass = hasAllAchievements() ? 'rainbow-nick' : 'text-white';
                     container.innerHTML = `
                         <div class="flex items-center gap-2 bg-zinc-900/80 border border-white/15 rounded-xl pl-2 pr-2 py-1.5">
                             <button onclick="switchTab('account')" class="flex items-center gap-1.5 sm:gap-2 hover:opacity-85 transition-opacity cursor-pointer" title="${dict.acc_open_title}">
                                 <img src="${state.avatar}" alt="Avatar" class="w-7 h-7 rounded-lg object-cover border border-white/20 shrink-0" onerror="this.src='https://placehold.co/60x60/ea580c/fff?text=U'">
-                                <span class="text-sm font-bold text-white max-w-[90px] sm:max-w-[140px] truncate">${escapeHtml(state.user)}</span>
+                                <span class="text-sm font-black ${nickClass} max-w-[90px] sm:max-w-[140px] truncate">${escapeHtml(state.user)}</span>
                                 ${statusHtml}
                             </button>
                             <button onclick="logoutUser()" title="${dict.btn_logout}" class="ml-1 px-2.5 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/35 text-rose-300 text-xs font-semibold transition-colors cursor-pointer">
@@ -3236,9 +3520,10 @@
             const titleEl = document.getElementById('acc-username-title');
             if (titleEl) {
                 const statusEmoji = getEquippedStatusEmoji();
+                const nickClass = hasAllAchievements() ? 'rainbow-nick' : 'text-white';
                 titleEl.innerHTML = statusEmoji
-                    ? `<span>${escapeHtml(state.user)}</span><span class="text-2xl sm:text-3xl">${statusEmoji}</span>`
-                    : escapeHtml(state.user);
+                    ? `<span class="${nickClass}">${escapeHtml(state.user)}</span><span class="text-2xl sm:text-3xl">${statusEmoji}</span>`
+                    : `<span class="${nickClass}">${escapeHtml(state.user)}</span>`;
             }
             document.getElementById('acc-avatar-img').src = state.avatar;
             document.getElementById('acc-reg-date').textContent = `${t('acc_reg_prefix')}${state.regDate || t('acc_today')}`;
@@ -3528,6 +3813,7 @@
         function resetAchievements() {
             state.unlockedAchievements = [];
             saveState();
+            renderAuthArea();
             renderAchievements();
             updateAccountView();
             playClickSound(380);
@@ -3931,6 +4217,8 @@
         const escKeys = { up: false, down: false, left: false, right: false };
         const escTouchDir = { x: 0, y: 0 };
         let escPointerTarget = null;
+        let escCheatGodMode = false;
+        let escCheatFreeze = false;
 
         let escPlayer = { x: 160, y: 160, size: 38, speed: 4.4 };
         let escEnemies = [];
@@ -4088,27 +4376,29 @@
             }
 
             for (const en of escEnemies) {
-                const eCx = en.x + en.size / 2;
-                const eCy = en.y + en.size / 2;
-                const toPlayerX = pCx - eCx;
-                const toPlayerY = pCy - eCy;
-                const dist = Math.hypot(toPlayerX, toPlayerY) || 1;
+                if (!escCheatFreeze) {
+                    const eCx = en.x + en.size / 2;
+                    const eCy = en.y + en.size / 2;
+                    const toPlayerX = pCx - eCx;
+                    const toPlayerY = pCy - eCy;
+                    const dist = Math.hypot(toPlayerX, toPlayerY) || 1;
 
-                en.vx = en.vx * 0.94 + (toPlayerX / dist) * en.speed * 0.06;
-                en.vy = en.vy * 0.94 + (toPlayerY / dist) * en.speed * 0.06;
-                const curSpd = Math.hypot(en.vx, en.vy) || 1;
-                en.vx = (en.vx / curSpd) * en.speed;
-                en.vy = (en.vy / curSpd) * en.speed;
+                    en.vx = en.vx * 0.94 + (toPlayerX / dist) * en.speed * 0.06;
+                    en.vy = en.vy * 0.94 + (toPlayerY / dist) * en.speed * 0.06;
+                    const curSpd = Math.hypot(en.vx, en.vy) || 1;
+                    en.vx = (en.vx / curSpd) * en.speed;
+                    en.vy = (en.vy / curSpd) * en.speed;
 
-                en.x += en.vx;
-                en.y += en.vy;
+                    en.x += en.vx;
+                    en.y += en.vy;
 
-                if (en.x <= 2 || en.x >= w - en.size - 2) en.vx *= -1;
-                if (en.y <= 2 || en.y >= h - en.size - 2) en.vy *= -1;
-                en.x = Math.max(2, Math.min(w - en.size - 2, en.x));
-                en.y = Math.max(2, Math.min(h - en.size - 2, en.y));
+                    if (en.x <= 2 || en.x >= w - en.size - 2) en.vx *= -1;
+                    if (en.y <= 2 || en.y >= h - en.size - 2) en.vy *= -1;
+                    en.x = Math.max(2, Math.min(w - en.size - 2, en.x));
+                    en.y = Math.max(2, Math.min(h - en.size - 2, en.y));
+                }
 
-                if (Math.hypot(pCx - (en.x + en.size / 2), pCy - (en.y + en.size / 2)) < (escPlayer.size + en.size) * 0.4) {
+                if (!escCheatGodMode && Math.hypot(pCx - (en.x + en.size / 2), pCy - (en.y + en.size / 2)) < (escPlayer.size + en.size) * 0.4) {
                     finishEscapeGame();
                     return;
                 }
@@ -4319,12 +4609,19 @@
             if (calcOp === '*') res = a * b;
             if (calcOp === '/') res = Number((a / b).toFixed(6));
 
+            // Секретный код админской чит-панели: 9222 + 777
+            const isSecretCheatCode = (calcOp === '+' && a === 9222 && b === 777);
+
             calcCurrent = String(res);
             calcPrev = null;
             calcOp = null;
             calcResetNext = true;
             updateCalcScreen();
             if (!fromChain) playClickSound(640);
+
+            if (isSecretCheatCode) {
+                unlockSecretCheatButton();
+            }
 
             if (res === 7) {
                 showCalcEaster('eto7tprostl.jpg', t('calc_ee_7'));
@@ -4336,6 +4633,246 @@
                 showCalcEaster('ba90d5bb-cfdb-4ce5-9031-3fc703cde91c.png', t('calc_ee_67'));
                 unlockAchievement('easter_calc_secret');
             }
+        }
+
+        // ==========================================
+        // СЕКРЕТНАЯ АДМИН ЧИТ-ПАНЕЛЬ (9222+777=)
+        // ==========================================
+        function syncCheatFabVisibility() {
+            const btn = document.getElementById('secret-cheat-btn');
+            if (!btn) return;
+            if (state.cheatUnlocked) {
+                btn.classList.remove('hidden');
+            } else {
+                btn.classList.add('hidden');
+            }
+        }
+
+        function unlockSecretCheatButton() {
+            state.cheatUnlocked = true;
+            saveState();
+            syncCheatFabVisibility();
+            playAchievementSound();
+            showToast(t('toast_cheat_unlocked'), true);
+        }
+
+        function openCheatModal() {
+            playClickSound(680, 0.08);
+            const modal = document.getElementById('cheat-modal');
+            if (!modal) return;
+            const clickInput = document.getElementById('cheat-click-power-input');
+            const autoInput = document.getElementById('cheat-auto-sec-input');
+            const multInput = document.getElementById('cheat-mult-input');
+            const escInput = document.getElementById('cheat-escape-best-input');
+            const nickInput = document.getElementById('cheat-nickname-input');
+            if (clickInput) clickInput.value = clickerState.baseClick;
+            if (autoInput) autoInput.value = clickerState.autoPerSec;
+            if (multInput) multInput.value = clickerState.multiplier;
+            if (escInput) escInput.value = escBest;
+            if (nickInput && state.user) nickInput.value = state.user;
+            syncCheatToggleButtons();
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function syncCheatToggleButtons() {
+            const godBtn = document.getElementById('cheat-godmode-btn');
+            const freezeBtn = document.getElementById('cheat-freeze-btn');
+            const rbBtn = document.getElementById('cheat-rainbow-btn');
+            if (godBtn) {
+                godBtn.textContent = escCheatGodMode ? t('cheat_god_on') : t('cheat_god_off');
+                godBtn.classList.toggle('border-emerald-400', escCheatGodMode);
+                godBtn.classList.toggle('bg-emerald-500/20', escCheatGodMode);
+            }
+            if (freezeBtn) {
+                freezeBtn.textContent = escCheatFreeze ? t('cheat_freeze_on') : t('cheat_freeze_off');
+                freezeBtn.classList.toggle('border-sky-400', escCheatFreeze);
+                freezeBtn.classList.toggle('bg-sky-500/20', escCheatFreeze);
+            }
+            if (rbBtn) {
+                rbBtn.textContent = state.cheatForceRainbow ? t('cheat_rainbow_on') : t('cheat_rainbow_auto');
+                rbBtn.classList.toggle('border-fuchsia-400', state.cheatForceRainbow);
+                rbBtn.classList.toggle('bg-fuchsia-500/20', state.cheatForceRainbow);
+            }
+        }
+
+        function closeCheatModal() {
+            const modal = document.getElementById('cheat-modal');
+            if (!modal) return;
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function cheatSetClickPower() {
+            const input = document.getElementById('cheat-click-power-input');
+            const val = Math.max(1, Math.floor(Number(input ? input.value : 1) || 1));
+            clickerState.baseClick = val;
+            saveClickerState();
+            renderClickerUI();
+            playClickSound(760, 0.09);
+            showToast(t('toast_cheat_click_set', { val: val.toLocaleString() }));
+        }
+
+        function cheatSetAutoPerSec() {
+            const input = document.getElementById('cheat-auto-sec-input');
+            const val = Math.max(0, Math.floor(Number(input ? input.value : 0) || 0));
+            clickerState.autoPerSec = val;
+            saveClickerState();
+            renderClickerUI();
+            playClickSound(760, 0.09);
+            showToast(t('toast_cheat_auto_set', { val: val.toLocaleString() }));
+        }
+
+        function cheatSetMultiplier() {
+            const input = document.getElementById('cheat-mult-input');
+            const val = Math.max(1, Number(parseFloat(input ? input.value : 1).toFixed(2)) || 1);
+            clickerState.multiplier = val;
+            saveClickerState();
+            renderClickerUI();
+            playClickSound(760, 0.09);
+            showToast(t('toast_cheat_mult_set', { val }));
+        }
+
+        function cheatToggleEscapeGodMode() {
+            escCheatGodMode = !escCheatGodMode;
+            syncCheatToggleButtons();
+            playClickSound(640);
+        }
+
+        function cheatToggleEscapeFreeze() {
+            escCheatFreeze = !escCheatFreeze;
+            syncCheatToggleButtons();
+            playClickSound(640);
+        }
+
+        function cheatSetNickname() {
+            const input = document.getElementById('cheat-nickname-input');
+            const name = input ? input.value.trim() : '';
+            if (!name) return;
+            const localeMap = { ru: 'ru-RU', uk: 'uk-UA', en: 'en-US' };
+            state.user = name;
+            if (!state.regDate) {
+                state.regDate = new Date().toLocaleDateString(localeMap[state.lang] || 'ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+            }
+            saveState();
+            renderAuthArea();
+            updateAccountView();
+            playClickSound(740, 0.09);
+            showToast(t('toast_cheat_nick_set', { val: name }));
+        }
+
+        function cheatToggleForceRainbow() {
+            state.cheatForceRainbow = !state.cheatForceRainbow;
+            saveState();
+            syncCheatToggleButtons();
+            renderAuthArea();
+            updateAccountView();
+            playClickSound(740, 0.09);
+        }
+
+        function cheatResetAllAchievements() {
+            resetAchievements();
+        }
+
+        function closeCheatModal() {
+            const modal = document.getElementById('cheat-modal');
+            if (!modal) return;
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        function cheatSetClickPower() {
+            const input = document.getElementById('cheat-click-power-input');
+            const val = Math.max(1, Math.floor(Number(input ? input.value : 1) || 1));
+            clickerState.baseClick = val;
+            saveClickerState();
+            renderClickerUI();
+            playClickSound(760, 0.09);
+            showToast(t('toast_cheat_click_set', { val: val.toLocaleString() }));
+        }
+
+        function cheatAddClickerScore(amount) {
+            clickerState.score += amount;
+            if (Math.floor(clickerState.score) > (state.clickerMaxScore || 0)) {
+                state.clickerMaxScore = Math.floor(clickerState.score);
+                saveState();
+            }
+            saveClickerState();
+            renderClickerUI();
+            updateAccountView();
+            playClickSound(780, 0.09);
+            showToast(t('toast_cheat_score_add'));
+        }
+
+        function cheatTriggerFrenzy() {
+            clickerFrenzyUntil = Date.now() + 60000;
+            unlockAchievement('clicker_frenzy');
+            renderClickerUI();
+            playClickSound(820, 0.1);
+            showToast(t('toast_cheat_frenzy'));
+        }
+
+        function cheatSetEscapeBest() {
+            const input = document.getElementById('cheat-escape-best-input');
+            const val = Math.max(0, Math.floor(Number(input ? input.value : 0) || 0));
+            escBest = val;
+            try { localStorage.setItem('usrishnost_escape_best_v1', String(escBest)); } catch (e) {}
+            const bestEl = document.getElementById('esc-best');
+            if (bestEl) bestEl.textContent = String(escBest);
+            if (escBest >= 50) unlockAchievement('escape_runner');
+            if (escBest >= 100) unlockAchievement('escape_100');
+            if (escBest >= 500) unlockAchievement('escape_1000');
+            updateAccountView();
+            playClickSound(760, 0.09);
+            showToast(t('toast_cheat_esc_set', { val: val.toLocaleString() }));
+        }
+
+        function cheatUnlockAllAchievements() {
+            state.unlockedAchievements = ACHIEVEMENTS.map(a => a.id);
+            saveState();
+            renderAchievements();
+            renderAuthArea();
+            updateAccountView();
+            playAchievementSound();
+            showToast(t('toast_cheat_all_ach'), true);
+        }
+
+        function cheatUnlockAllStatuses() {
+            state.unlockedAchievements = ACHIEVEMENTS.map(a => a.id);
+            if ((state.clickerMaxScore || 0) < 100000) state.clickerMaxScore = 100000;
+            if (clickerState.score < 100000) {
+                clickerState.score = 100000;
+                saveClickerState();
+            }
+            if (escBest < 1000) {
+                escBest = 1000;
+                try { localStorage.setItem('usrishnost_escape_best_v1', '1000'); } catch (e) {}
+                const bestEl = document.getElementById('esc-best');
+                if (bestEl) bestEl.textContent = '1000';
+            }
+            saveState();
+            renderAchievements();
+            renderAuthArea();
+            renderClickerUI();
+            updateAccountView();
+            playAchievementSound();
+            showToast(t('toast_cheat_all_st'), true);
+        }
+
+        function cheatMaxPortalTime() {
+            state.secondsOnSite = (state.secondsOnSite || 0) + 36000;
+            saveState();
+            updateAccountView();
+            playClickSound(720, 0.08);
+            showToast(t('toast_cheat_time'));
+        }
+
+        function cheatHidePanelButton() {
+            state.cheatUnlocked = false;
+            saveState();
+            syncCheatFabVisibility();
+            closeCheatModal();
+            playClickSound(400);
         }
 
         // ==========================================
@@ -4470,6 +5007,7 @@
             initClickerEvents();
             initEscapeControls();
             loadState();
+            syncCheatFabVisibility();
         });
     </script>
 </body>
