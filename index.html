@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>usrishnost games — Браузерные миниигры</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>usrishnost games v0.6.1а — Браузерные миниигры</title>
     <link rel="icon" type="image/jpeg" href="usrishnost.jpg">
     <link rel="shortcut icon" type="image/jpeg" href="usrishnost.jpg">
     <link rel="apple-touch-icon" href="usrishnost.jpg">
@@ -12,15 +12,62 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --panel-alpha: 0.72;
+            --card-alpha: 0.78;
+            --accent-color: #f97316;
+            --accent-hover: #fb923c;
+            --accent-rgb: 249, 115, 22;
+            --panel-tint: 24, 24, 30;
+            --card-tint: 30, 30, 38;
+        }
+
+        /* Цветовые темы */
+        body.theme-dark {
+            --accent-color: #f97316;
+            --accent-hover: #fb923c;
+            --accent-rgb: 249, 115, 22;
+            --panel-tint: 24, 24, 30;
+            --card-tint: 30, 30, 38;
+        }
+        body.theme-red {
+            --accent-color: #ef4444;
+            --accent-hover: #f87171;
+            --accent-rgb: 239, 68, 68;
+            --panel-tint: 42, 16, 20;
+            --card-tint: 52, 20, 26;
+        }
+        body.theme-green {
+            --accent-color: #10b981;
+            --accent-hover: #34d399;
+            --accent-rgb: 16, 185, 129;
+            --panel-tint: 14, 36, 28;
+            --card-tint: 18, 46, 35;
+        }
+        body.theme-blue {
+            --accent-color: #3b82f6;
+            --accent-hover: #60a5fa;
+            --accent-rgb: 59, 130, 246;
+            --panel-tint: 16, 26, 48;
+            --card-tint: 22, 34, 62;
+        }
+
         body {
             font-family: 'Inter', sans-serif;
             margin: 0;
             padding: 0;
             overflow-x: hidden;
             background-color: #18181b;
+            transition: background-color 0.3s ease;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
         }
 
-        /* Динамический слой с фоном usrishnost.jpg */
+        html, body {
+            max-width: 100vw;
+        }
+
+        /* Динамический слой с фоном */
         #bg-image-layer {
             position: fixed;
             inset: 0;
@@ -29,19 +76,13 @@
             background-position: center;
             background-repeat: no-repeat;
             background-size: cover;
-            transition: filter 0.25s ease, transform 0.25s ease;
+            transition: filter 0.25s ease, transform 0.25s ease, background-image 0.35s ease;
         }
 
         /* Режим плитки */
         #bg-image-layer.bg-tile {
             background-repeat: repeat;
             background-size: 220px auto;
-        }
-
-        /* Пиксельный ретро-режим без сглаживания */
-        #bg-image-layer.bg-pixel {
-            image-rendering: pixelated;
-            image-rendering: crisp-edges;
         }
 
         /* Слой затемнения поверх усришности для читаемости интерфейса */
@@ -54,27 +95,49 @@
             transition: background-color 0.2s ease;
         }
 
-        /* Стеклянные карточки (Glassmorphism) */
+        /* Стеклянные карточки (Glassmorphism) с динамической прозрачностью и темой */
         .glass-panel {
-            background: rgba(24, 24, 30, 0.72);
+            background: rgba(var(--panel-tint), var(--panel-alpha));
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.14);
             box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+            transition: background 0.2s ease, border-color 0.25s ease;
         }
 
         .glass-card {
-            background: rgba(30, 30, 38, 0.78);
+            background: rgba(var(--card-tint), var(--card-alpha));
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.12);
-            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
         }
 
         .glass-card:hover {
             transform: translateY(-4px);
-            border-color: rgba(251, 146, 60, 0.65);
+            border-color: rgba(var(--accent-rgb), 0.7);
             box-shadow: 0 14px 28px rgba(0, 0, 0, 0.45);
+        }
+
+        .nav-tab-active {
+            background-color: var(--accent-color) !important;
+            color: #ffffff !important;
+            box-shadow: 0 4px 14px rgba(var(--accent-rgb), 0.4);
+        }
+
+        /* Анимация переключения между вкладками и играми */
+        @keyframes viewEnter {
+            0% {
+                opacity: 0;
+                transform: translateY(14px) scale(0.985);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+        .view-animate {
+            animation: viewEnter 0.32s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
 
         /* Анимация всплывающих уведомлений */
@@ -109,15 +172,15 @@
         }
     </style>
 </head>
-<body class="text-zinc-100 min-h-screen flex flex-col selection:bg-orange-500 selection:text-white">
+<body class="theme-dark text-zinc-100 min-h-screen flex flex-col selection:bg-orange-500 selection:text-white pb-24 sm:pb-0">
 
     <!-- Слои фона -->
     <div id="bg-image-layer"></div>
     <div id="bg-dim-layer"></div>
 
-    <!-- Шапка сайта -->
+    <!-- Шапка сайта (На мобильных сверху только иконка сайта и аккаунт) -->
     <header class="sticky top-0 z-30 px-4 pt-3 sm:px-6">
-        <div class="max-w-6xl mx-auto glass-panel rounded-2xl px-4 py-3 sm:px-6 flex flex-wrap items-center justify-between gap-4">
+        <div class="max-w-6xl mx-auto glass-panel rounded-2xl px-4 py-3 sm:px-6 flex items-center justify-between gap-4">
             
             <!-- Логотип (Пасхалка 1: 5 кликов по яблоку) -->
             <button onclick="handleLogoClick()" class="flex items-center gap-3 text-left group focus:outline-none cursor-pointer">
@@ -125,49 +188,68 @@
                     <img src="usrishnost.jpg" alt="usrishnost logo" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/80x80/ea580c/ffffff?text=UG'">
                 </div>
                 <div>
-                    <span class="font-black text-lg sm:text-xl tracking-tight bg-gradient-to-r from-orange-400 via-amber-300 to-rose-400 bg-clip-text text-transparent block leading-none">
+                    <span class="font-black text-base sm:text-xl tracking-tight bg-gradient-to-r from-orange-400 via-amber-300 to-rose-400 bg-clip-text text-transparent block leading-none">
                         usrishnost games
                     </span>
                     <span data-i18n="portal_subtitle" class="text-[11px] text-zinc-400 font-medium tracking-wide">портал браузерных миниигр</span>
                 </div>
             </button>
 
-            <!-- Навигационные вкладки -->
-            <nav class="flex flex-wrap items-center gap-1.5 bg-zinc-900/70 p-1.5 rounded-xl border border-white/10 order-3 sm:order-2 w-full sm:w-auto justify-center">
-                <button id="tab-btn-games" onclick="switchTab('games')" class="flex-1 sm:flex-initial px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all bg-orange-500 text-white shadow-sm cursor-pointer">
+            <!-- Навигационные вкладки для ПК и планшетов (на мобильных перенесены вниз) -->
+            <nav class="hidden sm:flex items-center gap-1.5 bg-zinc-900/70 p-1.5 rounded-xl border border-white/10">
+                <button id="tab-btn-games" onclick="switchTab('games')" class="nav-tab-active px-3 py-2 rounded-lg text-sm font-semibold transition-all cursor-pointer">
                     <span data-i18n="nav_games">🎮 Игры</span>
                 </button>
-                <button id="tab-btn-achievements" onclick="switchTab('achievements')" class="flex-1 sm:flex-initial px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-zinc-300 hover:text-white hover:bg-white/10 cursor-pointer flex items-center justify-center gap-1.5">
+                <button id="tab-btn-achievements" onclick="switchTab('achievements')" class="px-3 py-2 rounded-lg text-sm font-semibold transition-all text-zinc-300 hover:text-white hover:bg-white/10 cursor-pointer flex items-center justify-center gap-1.5">
                     <span data-i18n="nav_ach">🏆 Ачивки</span>
-                    <span id="nav-ach-badge" class="text-[11px] px-1.5 py-0.5 rounded-md bg-white/10 text-amber-300 font-bold">0/20</span>
+                    <span id="nav-ach-badge" class="text-[11px] px-1.5 py-0.5 rounded-md bg-white/10 text-amber-300 font-bold">0/23</span>
                 </button>
-                <button id="tab-btn-account" onclick="switchTab('account')" class="hidden flex-1 sm:flex-initial px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-zinc-300 hover:text-white hover:bg-white/10 cursor-pointer">
+                <button id="tab-btn-account" onclick="switchTab('account')" class="hidden px-3 py-2 rounded-lg text-sm font-semibold transition-all text-zinc-300 hover:text-white hover:bg-white/10 cursor-pointer">
                     <span data-i18n="nav_account">👤 Аккаунт</span>
                 </button>
-                <button id="tab-btn-settings" onclick="switchTab('settings')" class="flex-1 sm:flex-initial px-3 py-2 rounded-lg text-xs sm:text-sm font-semibold transition-all text-zinc-300 hover:text-white hover:bg-white/10 cursor-pointer">
+                <button id="tab-btn-settings" onclick="switchTab('settings')" class="px-3 py-2 rounded-lg text-sm font-semibold transition-all text-zinc-300 hover:text-white hover:bg-white/10 cursor-pointer">
                     <span data-i18n="nav_settings">⚙️ Настройки</span>
                 </button>
             </nav>
 
             <!-- Блок аккаунта (Кнопка "Войти" или профиль) -->
-            <div id="auth-area" class="order-2 sm:order-3 flex items-center gap-2">
+            <div id="auth-area" class="flex items-center gap-2 shrink-0">
                 <!-- Заполняется через JS -->
             </div>
         </div>
     </header>
 
+    <!-- Нижняя панель навигации для мобильной версии сайта -->
+    <nav class="sm:hidden fixed bottom-0 left-0 right-0 z-40 px-3 pt-1.5 pointer-events-none" style="padding-bottom: max(0.65rem, env(safe-area-inset-bottom));">
+        <div class="glass-panel rounded-2xl p-1.5 flex items-center justify-around gap-1 border border-white/20 shadow-2xl pointer-events-auto">
+            <button id="mob-tab-btn-games" onclick="switchTab('games')" class="nav-tab-active flex-1 py-2 px-1.5 rounded-xl text-[11px] font-bold transition-all text-center cursor-pointer truncate">
+                <span data-i18n="nav_games">🎮 Игры</span>
+            </button>
+            <button id="mob-tab-btn-achievements" onclick="switchTab('achievements')" class="flex-1 py-2 px-1.5 rounded-xl text-[11px] font-bold transition-all text-zinc-300 hover:text-white flex items-center justify-center gap-1 cursor-pointer truncate">
+                <span data-i18n="nav_ach">🏆 Ачивки</span>
+                <span id="mob-nav-ach-badge" class="text-[10px] px-1 py-0.2 rounded bg-white/10 text-amber-300 font-extrabold">0/23</span>
+            </button>
+            <button id="mob-tab-btn-account" onclick="switchTab('account')" class="hidden flex-1 py-2 px-1.5 rounded-xl text-[11px] font-bold transition-all text-zinc-300 hover:text-white text-center cursor-pointer truncate">
+                <span data-i18n="nav_account">👤 Аккаунт</span>
+            </button>
+            <button id="mob-tab-btn-settings" onclick="switchTab('settings')" class="flex-1 py-2 px-1.5 rounded-xl text-[11px] font-bold transition-all text-zinc-300 hover:text-white text-center cursor-pointer truncate">
+                <span data-i18n="nav_settings">⚙️ Настройки</span>
+            </button>
+        </div>
+    </nav>
+
     <!-- Основной контент -->
     <main class="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8">
 
         <!-- ВКЛАДКА 1: ИГРЫ -->
-        <section id="view-games" class="space-y-8">
+        <section id="view-games" class="space-y-8 view-animate">
             
             <!-- Приветственный баннер -->
             <div class="glass-panel rounded-2xl p-6 sm:p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
                 <div class="space-y-2 max-w-2xl">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-400/30 text-orange-300 text-xs font-semibold">
                         <span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>
-                        <span data-i18n="hero_badge">Версия 0.5.3а • Шар предсказаний открыт для всех!</span>
+                        <span data-i18n="hero_badge">Версия 0.6.1а • Статусы возле ника, ребаланс ачивки и мобильная оптимизация!</span>
                     </div>
                     <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
                         <span data-i18n="hero_title_prefix">Добро пожаловать в</span> <span class="text-orange-400">usrishnost games</span>
@@ -533,13 +615,13 @@
                 <!-- Сенсорное управление для мобильных устройств -->
                 <div class="flex items-center justify-between flex-wrap gap-3 pt-1">
                     <span data-i18n="esc_controls_hint" class="text-xs text-zinc-400">Управление: WASD / Стрелки / Мышь или тач по арене</span>
-                    <div class="grid grid-cols-3 gap-1.5 w-36 mx-auto sm:mx-0">
+                    <div class="grid grid-cols-3 gap-2 w-44 sm:w-36 mx-auto sm:mx-0 select-none">
                         <div></div>
-                        <button type="button" onpointerdown="setEscapeTouchDir(0, -1)" onpointerup="setEscapeTouchDir(0, 0)" onpointerleave="setEscapeTouchDir(0, 0)" class="h-10 rounded-xl bg-white/10 active:bg-orange-500 text-white font-bold flex items-center justify-center cursor-pointer">▲</button>
+                        <button type="button" onpointerdown="setEscapeTouchDir(0, -1)" onpointerup="setEscapeTouchDir(0, 0)" onpointercancel="setEscapeTouchDir(0, 0)" onpointerleave="setEscapeTouchDir(0, 0)" class="h-12 sm:h-10 rounded-xl bg-white/10 active:bg-orange-500 text-white font-bold flex items-center justify-center cursor-pointer touch-none">▲</button>
                         <div></div>
-                        <button type="button" onpointerdown="setEscapeTouchDir(-1, 0)" onpointerup="setEscapeTouchDir(0, 0)" onpointerleave="setEscapeTouchDir(0, 0)" class="h-10 rounded-xl bg-white/10 active:bg-orange-500 text-white font-bold flex items-center justify-center cursor-pointer">◀</button>
-                        <button type="button" onpointerdown="setEscapeTouchDir(0, 1)" onpointerup="setEscapeTouchDir(0, 0)" onpointerleave="setEscapeTouchDir(0, 0)" class="h-10 rounded-xl bg-white/10 active:bg-orange-500 text-white font-bold flex items-center justify-center cursor-pointer">▼</button>
-                        <button type="button" onpointerdown="setEscapeTouchDir(1, 0)" onpointerup="setEscapeTouchDir(0, 0)" onpointerleave="setEscapeTouchDir(0, 0)" class="h-10 rounded-xl bg-white/10 active:bg-orange-500 text-white font-bold flex items-center justify-center cursor-pointer">▶</button>
+                        <button type="button" onpointerdown="setEscapeTouchDir(-1, 0)" onpointerup="setEscapeTouchDir(0, 0)" onpointercancel="setEscapeTouchDir(0, 0)" onpointerleave="setEscapeTouchDir(0, 0)" class="h-12 sm:h-10 rounded-xl bg-white/10 active:bg-orange-500 text-white font-bold flex items-center justify-center cursor-pointer touch-none">◀</button>
+                        <button type="button" onpointerdown="setEscapeTouchDir(0, 1)" onpointerup="setEscapeTouchDir(0, 0)" onpointercancel="setEscapeTouchDir(0, 0)" onpointerleave="setEscapeTouchDir(0, 0)" class="h-12 sm:h-10 rounded-xl bg-white/10 active:bg-orange-500 text-white font-bold flex items-center justify-center cursor-pointer touch-none">▼</button>
+                        <button type="button" onpointerdown="setEscapeTouchDir(1, 0)" onpointerup="setEscapeTouchDir(0, 0)" onpointercancel="setEscapeTouchDir(0, 0)" onpointerleave="setEscapeTouchDir(0, 0)" class="h-12 sm:h-10 rounded-xl bg-white/10 active:bg-orange-500 text-white font-bold flex items-center justify-center cursor-pointer touch-none">▶</button>
                     </div>
                 </div>
             </div>
@@ -714,7 +796,7 @@
                     </div>
                     <div class="bg-zinc-900/80 border border-white/10 rounded-xl px-4 py-2.5 text-right shrink-0">
                         <div data-i18n="ach_opened_label" class="text-xs text-zinc-400">Открыто ачивок</div>
-                        <div id="ach-progress-text" class="text-lg font-black text-amber-400">0 из 20 (0%)</div>
+                        <div id="ach-progress-text" class="text-lg font-black text-amber-400">0 из 23 (0%)</div>
                     </div>
                 </div>
 
@@ -745,7 +827,12 @@
                         <div data-i18n="acc_badge" class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/20 border border-amber-400/30 text-amber-300 text-xs font-bold">
                             🍎 Истинный усришник
                         </div>
-                        <h2 id="acc-username-title" class="text-2xl sm:text-3xl font-black text-white">Игрок</h2>
+                        <div class="flex items-center justify-center sm:justify-start gap-2.5 flex-wrap">
+                            <h2 id="acc-username-title" class="text-2xl sm:text-3xl font-black text-white flex items-center gap-2 flex-wrap">Игрок</h2>
+                            <button type="button" onclick="toggleStatusPicker()" data-i18n="acc_status_picker_btn" class="px-3 py-1 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/40 text-amber-200 text-xs font-bold transition-colors cursor-pointer">
+                                ✨ Выбор статуса
+                            </button>
+                        </div>
                         <p id="acc-reg-date" class="text-xs text-zinc-400">Дата регистрации: сегодня</p>
                     </div>
                     <button onclick="logoutUser()" data-i18n="acc_logout" class="px-4 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/35 border border-rose-500/30 text-rose-300 text-xs font-bold transition-colors cursor-pointer">
@@ -753,11 +840,25 @@
                     </button>
                 </div>
 
+                <!-- Статусы возле ника (скрыто по умолчанию, открывается кнопкой «Выбор статуса») -->
+                <div id="acc-status-picker-panel" class="hidden space-y-3 p-4 rounded-2xl bg-zinc-900/60 border border-amber-400/25">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <label data-i18n="acc_statuses_title" class="text-sm font-bold text-zinc-200">✨ Статусы возле ника</label>
+                        <div class="flex items-center gap-2">
+                            <span data-i18n="acc_statuses_sub" class="text-xs text-zinc-400">Выбери заслуженный эмодзи-значок</span>
+                            <button type="button" onclick="toggleStatusPicker()" aria-label="Закрыть выбор статуса" class="w-6 h-6 rounded-lg bg-white/10 hover:bg-white/20 text-zinc-300 hover:text-white text-xs font-bold flex items-center justify-center cursor-pointer">✕</button>
+                        </div>
+                    </div>
+                    <div id="acc-statuses-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <!-- Заполняется через JS -->
+                    </div>
+                </div>
+
                 <!-- Мини-статистика -->
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3.5">
                     <div class="bg-zinc-900/75 border border-white/10 rounded-xl p-4">
                         <div data-i18n="acc_stat_ach_label" class="text-xs text-zinc-400">Открыто ачивок</div>
-                        <div id="acc-stat-ach" class="text-xl font-extrabold text-amber-400 mt-1">0 / 20</div>
+                        <div id="acc-stat-ach" class="text-xl font-extrabold text-amber-400 mt-1">0 / 23</div>
                     </div>
                     <div class="bg-zinc-900/75 border border-white/10 rounded-xl p-4">
                         <div data-i18n="acc_stat_easter_label" class="text-xs text-zinc-400">Найдено пасхалок</div>
@@ -766,6 +867,30 @@
                     <div class="bg-zinc-900/75 border border-white/10 rounded-xl p-4 col-span-2 sm:col-span-1">
                         <div data-i18n="acc_stat_time_label" class="text-xs text-zinc-400">Время на портале</div>
                         <div id="acc-stat-time" class="text-xl font-extrabold text-emerald-400 mt-1">0 мин 0 сек</div>
+                    </div>
+                </div>
+
+                <!-- Максимальные рекорды в играх -->
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <label data-i18n="acc_records_title" class="text-sm font-bold text-zinc-200">🏅 Максимальные рекорды в играх</label>
+                        <span data-i18n="acc_records_sub" class="text-xs text-zinc-400">Личные достижения</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                        <div class="bg-zinc-900/80 border border-orange-400/25 rounded-xl p-4 flex items-center gap-3.5">
+                            <img src="usrishnost.jpg" alt="УСРО-КЛИКЕР" class="w-12 h-12 rounded-xl object-cover border border-white/15 shrink-0">
+                            <div class="min-w-0">
+                                <div data-i18n="acc_rec_clicker_lbl" class="text-xs text-zinc-400 truncate">Рекорд в «УСРО-КЛИКЕР»</div>
+                                <div id="acc-rec-clicker" class="text-xl font-black text-orange-400 mt-0.5">0</div>
+                            </div>
+                        </div>
+                        <div class="bg-zinc-900/80 border border-rose-400/25 rounded-xl p-4 flex items-center gap-3.5">
+                            <img src="eto7tprostl.jpg" alt="Побег от это7тпростл" class="w-12 h-12 rounded-xl object-cover border border-white/15 shrink-0">
+                            <div class="min-w-0">
+                                <div data-i18n="acc_rec_escape_lbl" class="text-xs text-zinc-400 truncate">Рекорд в «Побег от это7тпростл»</div>
+                                <div id="acc-rec-escape" class="text-xl font-black text-rose-400 mt-0.5">0</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -802,7 +927,7 @@
             <div class="glass-panel rounded-2xl p-6 sm:p-8 space-y-6">
                 <div class="border-b border-white/10 pb-4">
                     <h2 data-i18n="set_title" class="text-2xl font-extrabold text-white">Настройки портала</h2>
-                    <p data-i18n="set_subtitle" class="text-sm text-zinc-400 mt-1">Настрой язык интерфейса, отображение усришности на фоне, звуки и профиль</p>
+                    <p data-i18n="set_subtitle" class="text-sm text-zinc-400 mt-1">Настрой язык интерфейса, тему, прозрачность панелей и задний фон</p>
                 </div>
 
                 <!-- Настройка 0: Язык интерфейса -->
@@ -833,22 +958,75 @@
                     </div>
                 </div>
 
+                <!-- Настройка: Цветовая тема -->
+                <div class="space-y-3">
+                    <label data-i18n="set_theme_label" class="block text-sm font-bold text-zinc-200">Цветовая тема интерфейса</label>
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <button type="button" onclick="setTheme('dark')" id="theme-btn-dark" class="theme-btn p-3 rounded-xl border border-orange-500 bg-orange-500/20 text-left transition-all cursor-pointer flex items-center gap-2.5">
+                            <span class="w-4 h-4 rounded-full bg-zinc-800 border border-orange-400 shrink-0"></span>
+                            <span data-i18n="theme_dark" class="font-bold text-xs sm:text-sm text-white">Тёмная</span>
+                        </button>
+                        <button type="button" onclick="setTheme('red')" id="theme-btn-red" class="theme-btn p-3 rounded-xl border border-white/10 bg-zinc-900/60 hover:bg-zinc-800/80 text-left transition-all cursor-pointer flex items-center gap-2.5">
+                            <span class="w-4 h-4 rounded-full bg-red-500 border border-red-300 shrink-0"></span>
+                            <span data-i18n="theme_red" class="font-bold text-xs sm:text-sm text-white">Красная</span>
+                        </button>
+                        <button type="button" onclick="setTheme('green')" id="theme-btn-green" class="theme-btn p-3 rounded-xl border border-white/10 bg-zinc-900/60 hover:bg-zinc-800/80 text-left transition-all cursor-pointer flex items-center gap-2.5">
+                            <span class="w-4 h-4 rounded-full bg-emerald-500 border border-emerald-300 shrink-0"></span>
+                            <span data-i18n="theme_green" class="font-bold text-xs sm:text-sm text-white">Зелёная</span>
+                        </button>
+                        <button type="button" onclick="setTheme('blue')" id="theme-btn-blue" class="theme-btn p-3 rounded-xl border border-white/10 bg-zinc-900/60 hover:bg-zinc-800/80 text-left transition-all cursor-pointer flex items-center gap-2.5">
+                            <span class="w-4 h-4 rounded-full bg-blue-500 border border-blue-300 shrink-0"></span>
+                            <span data-i18n="theme_blue" class="font-bold text-xs sm:text-sm text-white">Синяя</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Настройка: Выбор картинки заднего фона (усришность или это7тпростл) -->
+                <div class="space-y-3">
+                    <label data-i18n="set_bg_image_label" class="block text-sm font-bold text-zinc-200">Картинка заднего фона</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <button type="button" onclick="setBgImage('usrishnost.jpg')" id="bg-img-usrishnost" class="bg-img-btn p-3 rounded-xl border border-orange-500 bg-orange-500/20 text-left transition-all cursor-pointer flex items-center gap-3">
+                            <img src="usrishnost.jpg" alt="усришность" class="w-11 h-11 rounded-lg object-cover border border-white/20 shrink-0">
+                            <div>
+                                <div class="font-bold text-sm text-white">🍎 усришность</div>
+                                <div data-i18n="set_bg_img1_d" class="text-xs text-zinc-400">Классический фон портала</div>
+                            </div>
+                        </button>
+                        <button type="button" onclick="setBgImage('eto7tprostl.jpg')" id="bg-img-eto7tprostl" class="bg-img-btn p-3 rounded-xl border border-white/10 bg-zinc-900/60 hover:bg-zinc-800/80 text-left transition-all cursor-pointer flex items-center gap-3">
+                            <img src="eto7tprostl.jpg" alt="это7тпростл" class="w-11 h-11 rounded-lg object-cover border border-white/20 shrink-0">
+                            <div>
+                                <div class="font-bold text-sm text-white">🍅 это7тпростл</div>
+                                <div data-i18n="set_bg_img2_d" class="text-xs text-zinc-400">Суровый томатный стиль</div>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
                 <!-- Настройка 1: Режим фона -->
                 <div class="space-y-3">
-                    <label data-i18n="set_bg_mode" class="block text-sm font-bold text-zinc-200">Режим отображения фона («усришность»)</label>
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <label data-i18n="set_bg_mode" class="block text-sm font-bold text-zinc-200">Режим отображения фона</label>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <button type="button" onclick="setBgMode('cover')" id="bg-mode-cover" class="bg-mode-btn p-3.5 rounded-xl border border-orange-500 bg-orange-500/20 text-left transition-all cursor-pointer">
                             <div data-i18n="set_bg_cover_t" class="font-bold text-sm text-white">На весь экран</div>
-                            <div data-i18n="set_bg_cover_d" class="text-xs text-zinc-400 mt-0.5">Одна большая усришность</div>
+                            <div data-i18n="set_bg_cover_d" class="text-xs text-zinc-400 mt-0.5">Одна большая картинка</div>
                         </button>
                         <button type="button" onclick="setBgMode('tile')" id="bg-mode-tile" class="bg-mode-btn p-3.5 rounded-xl border border-white/10 bg-zinc-900/60 hover:bg-zinc-800/80 text-left transition-all cursor-pointer">
                             <div data-i18n="set_bg_tile_t" class="font-bold text-sm text-white">Плиткой</div>
-                            <div data-i18n="set_bg_tile_d" class="text-xs text-zinc-400 mt-0.5">Много усришности везде</div>
+                            <div data-i18n="set_bg_tile_d" class="text-xs text-zinc-400 mt-0.5">Много картинок везде</div>
                         </button>
-                        <button type="button" onclick="setBgMode('pixel')" id="bg-mode-pixel" class="bg-mode-btn p-3.5 rounded-xl border border-white/10 bg-zinc-900/60 hover:bg-zinc-800/80 text-left transition-all cursor-pointer">
-                            <div data-i18n="set_bg_pixel_t" class="font-bold text-sm text-white">Чёткие пиксели</div>
-                            <div data-i18n="set_bg_pixel_d" class="text-xs text-zinc-400 mt-0.5">Без размытия шакалов</div>
-                        </button>
+                    </div>
+                </div>
+
+                <!-- Настройка: Прозрачность панелей -->
+                <div class="space-y-3">
+                    <div class="flex justify-between items-center">
+                        <label for="panel-opacity-slider" data-i18n="set_panel_opacity_label" class="text-sm font-bold text-zinc-200">Прозрачность стеклянных панелей</label>
+                        <span id="panel-opacity-label" class="text-xs font-mono px-2.5 py-1 rounded-lg bg-zinc-900 border border-white/10 text-orange-400">72%</span>
+                    </div>
+                    <input id="panel-opacity-slider" type="range" min="15" max="98" value="72" oninput="updatePanelOpacity(this.value)" class="w-full accent-orange-500 cursor-pointer h-2 bg-zinc-800 rounded-lg">
+                    <div class="flex justify-between text-[11px] text-zinc-400">
+                        <span data-i18n="set_opacity_min">15% (Почти прозрачные)</span>
+                        <span data-i18n="set_opacity_max">98% (Плотные панели)</span>
                     </div>
                 </div>
 
@@ -900,14 +1078,14 @@
                     <div class="flex flex-wrap items-center justify-between gap-3">
                         <div>
                             <h3 data-i18n="cl_title" class="text-lg sm:text-xl font-extrabold text-white">📜 История обновлений (ChangeLog)</h3>
-                            <p data-i18n="cl_subtitle" class="text-xs sm:text-sm text-zinc-400 mt-0.5">Полный путь развития портала usrishnost games от первой альфы до 0.5.2а</p>
+                            <p data-i18n="cl_subtitle" class="text-xs sm:text-sm text-zinc-400 mt-0.5">Полный путь развития портала usrishnost games от первой альфы до 0.6а</p>
                         </div>
                         <div class="flex items-center gap-2 shrink-0">
                             <button type="button" onclick="toggleChangelogPanel()" data-i18n="cl_open_btn" class="px-3 py-1 rounded-xl bg-orange-500/20 hover:bg-orange-500/35 border border-orange-400/40 text-orange-200 text-xs font-bold transition-colors cursor-pointer">
                                 📖 Открыть / Свернуть журнал
                             </button>
                             <span data-i18n="cl_current_badge" class="px-3 py-1 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-extrabold">
-                                Актуальная: v0.5.3а
+                                Актуальная: v0.6.1а
                             </span>
                         </div>
                     </div>
@@ -930,7 +1108,7 @@
             </div>
             <div class="flex flex-wrap items-center gap-2.5 sm:gap-3">
                 <button onclick="openChangelogInSettings()" class="hover:text-orange-300 transition-colors cursor-pointer font-semibold">
-                    <span data-i18n="footer_version">Версия 0.5.3а</span>
+                    <span data-i18n="footer_version">Версия 0.6.1а</span>
                 </button>
                 <span>•</span>
                 <button onclick="openChangelogInSettings()" data-i18n="footer_changelog_btn" class="px-2.5 py-0.5 rounded-md bg-white/10 hover:bg-orange-500/25 border border-white/10 hover:border-orange-400/40 text-zinc-200 hover:text-orange-200 transition-colors cursor-pointer font-semibold">
@@ -1008,7 +1186,7 @@
     </div>
 
     <!-- Контейнер для всплывающих уведомлений -->
-    <div id="toast-container" class="fixed bottom-4 right-4 z-50 flex flex-col gap-2 max-w-xs w-full pointer-events-none"></div>
+    <div id="toast-container" class="fixed bottom-20 sm:bottom-4 left-4 right-4 sm:left-auto sm:right-4 z-50 flex flex-col items-center sm:items-end gap-2 sm:max-w-xs pointer-events-none"></div>
 
     <script>
         // Полный словарь переводов всего контента сайта, обеих игр и инструментов (Русский, Українська, English)
@@ -1021,7 +1199,7 @@
                 nav_settings: '⚙️ Настройки',
                 btn_login: 'Войти',
                 btn_logout: 'Выйти',
-                hero_badge: 'Версия 0.5.3а • Шар предсказаний открыт для всех!',
+                hero_badge: 'Версия 0.6.1а • Статусы возле ника, ребаланс ачивки и мобильная оптимизация!',
                 hero_title_prefix: 'Добро пожаловать в',
                 hero_desc_1: 'Здесь собираются лучшие браузерные миниигры. Пока что',
                 hero_desc_2: 'разработчиков настраивают усришность на полную мощность — заходи в настройки, ищи пасхалки и собирай ачивки!',
@@ -1104,19 +1282,48 @@
                 acc_stat_easter_label: 'Найдено пасхалок',
                 acc_stat_time_label: 'Время на портале',
                 acc_time_fmt: '{m} мин {s} сек',
+                acc_records_title: '🏅 Максимальные рекорды в играх',
+                acc_records_sub: 'Личные достижения',
+                acc_rec_clicker_lbl: 'Рекорд в «УСРО-КЛИКЕР»',
+                acc_rec_escape_lbl: 'Рекорд в «Побег от это7тпростл»',
+                acc_status_picker_btn: '✨ Выбор статуса',
+                acc_statuses_title: '✨ Статусы возле ника',
+                acc_statuses_sub: 'Выбери заслуженный эмодзи-значок',
+                status_none_name: 'Без статуса',
+                status_none_req: 'Обычный режим отображения ника',
+                status_apple_name: 'Яблоко усришности',
+                status_apple_req: 'Набрать 100 000 очков в «УСРО-КЛИКЕР»',
+                status_tomato_name: 'Томат это7тпростл',
+                status_tomato_req: 'Набрать 1 000 очков в «Побег от это7тпростл»',
+                status_crown_name: 'Корона легенды',
+                status_crown_req: 'Выполнить все 23 ачивки портала',
+                status_unlocked_tag: 'Доступно',
+                status_locked_tag: 'Закрыто',
+                status_equipped_tag: 'Надето',
+                toast_status_changed: 'Статус возле ника обновлён!',
+                toast_status_locked: '🔒 Этот статус ещё не разблокирован!',
                 acc_avatar_title: 'Быстрая смена аватарки',
                 acc_avatar_sub: 'Выбери мем-образ',
                 acc_open_title: 'Открыть вкладку Аккаунт',
                 set_title: 'Настройки портала',
-                set_subtitle: 'Настрой язык интерфейса, отображение усришности на фоне, звуки и профиль',
+                set_subtitle: 'Настрой язык интерфейса, тему, прозрачность панелей и задний фон',
                 set_lang_label: 'Язык интерфейса / Мова / Language',
-                set_bg_mode: 'Режим отображения фона («усришность»)',
+                set_theme_label: 'Цветовая тема интерфейса',
+                theme_dark: 'Тёмная',
+                theme_red: 'Красная',
+                theme_green: 'Зелёная',
+                theme_blue: 'Синяя',
+                set_bg_image_label: 'Картинка заднего фона',
+                set_bg_img1_d: 'Классический фон портала',
+                set_bg_img2_d: 'Суровый томатный стиль',
+                set_bg_mode: 'Режим отображения фона',
                 set_bg_cover_t: 'На весь экран',
-                set_bg_cover_d: 'Одна большая усришность',
+                set_bg_cover_d: 'Одна большая картинка',
                 set_bg_tile_t: 'Плиткой',
-                set_bg_tile_d: 'Много усришности везде',
-                set_bg_pixel_t: 'Чёткие пиксели',
-                set_bg_pixel_d: 'Без размытия шакалов',
+                set_bg_tile_d: 'Много картинок везде',
+                set_panel_opacity_label: 'Прозрачность стеклянных панелей',
+                set_opacity_min: '15% (Почти прозрачные)',
+                set_opacity_max: '98% (Плотные панели)',
                 set_dim_label: 'Затемнение фона (чтобы текст читался)',
                 set_dim_min: '0% (Чистая усришность)',
                 set_dim_max: '85% (Тёмный режим)',
@@ -1126,11 +1333,11 @@
                 set_reset_ach: 'Сбросить прогресс ачивок',
                 set_reset_bg: 'Сбросить фон по умолчанию',
                 cl_title: '📜 История обновлений (ChangeLog)',
-                cl_subtitle: 'Полный путь развития портала usrishnost games от первой альфы до 0.5.3а',
+                cl_subtitle: 'Полный путь развития портала usrishnost games от первой альфы до 0.6.1а',
                 cl_open_btn: '📖 Открыть / Свернуть журнал',
-                cl_current_badge: 'Актуальная: v0.5.3а',
+                cl_current_badge: 'Актуальная: v0.6.1а',
                 footer_rights: 'Все права усришены.',
-                footer_version: 'Версия 0.5.3а',
+                footer_version: 'Версия 0.6.1а',
                 footer_changelog_btn: '📜 Журнал изменений',
                 footer_secret_hint: 'Что тут спрятано?',
                 sosiya_title: 'Секретная переписка найдена!',
@@ -1240,9 +1447,12 @@
                     bg_designer: { title: 'Дизайнер от бога', desc: 'Изменить режим или параметры усришности в «Настройках».' },
                     polyglot: { title: 'Полиглот усришности', desc: 'Сменить язык интерфейса на любой другой во вкладке «Настройки».' },
                     clicker_first_100: { title: 'Сотня усришности', desc: 'Набрать 100 очков в игре «УСРО-КЛИКЕР».' },
+                    clicker_1000: { title: 'Тысяча усришности', desc: 'Набрать 1 000 очков в игре «УСРО-КЛИКЕР».' },
                     clicker_frenzy: { title: 'Режим УСРИШНОСТЬ x2', desc: 'Заполнить комбо-шкалу до 100% и активировать ускорение в кликере.' },
                     clicker_reset_ach: { title: 'Начать с чистого яблока', desc: 'Сбросить очки и прогресс в первой миниигре «УСРО-КЛИКЕР».' },
                     escape_runner: { title: 'Неуловимое яблоко', desc: 'Набрать 50 очков в аркаде «Побег от это7тпростл».' },
+                    escape_100: { title: 'Спринтер от томатов', desc: 'Набрать 100 очков в аркаде «Побег от это7тпростл».' },
+                    escape_1000: { title: 'Бог уклонения от это7тпростл', desc: 'Набрать 500 очков в аркаде «Побег от это7тпростл».' },
                     ai_no_internet: { title: 'Подключитесь к интернету!', desc: 'Задать вопрос искусственному интеллекту без интернета.' },
                     oracle_seeker: { title: 'Знаток судьбы', desc: 'Получить первое предсказание от шара «сосія / не сосія».' },
                     easter_apple: { title: 'Яблочный сомелье', desc: 'Пасхалка: покликать 5 раз подряд по логотипу в шапке.' },
@@ -1253,9 +1463,42 @@
                     easter_calc_secret: { title: 'Математик 7-228-67', desc: 'Пасхалка в калькуляторе: получить число 7, 228 или 67.' },
                     easter_calc_zero: { title: 'Повелитель нуля', desc: 'Пасхалка в калькуляторе: попытаться разделить число на 0.' },
                     easter_angry_ball: { title: 'Чого ты добиваешься?!', desc: 'Пасхалка в Шаре предсказаний: задать один и тот же вопрос 3 раза подряд и разозлить оракула.' },
-                    legend: { title: 'Легенда usrishnost games', desc: 'Собрать все остальные 19 достижений портала!' }
+                    legend: { title: 'Легенда usrishnost games', desc: 'Собрать все остальные 22 достижения портала!' }
                 },
                 cl: [
+                    {
+                        version: '0.6.1а',
+                        date: 'Патч статусов, ребаланса и мобильной стабильности',
+                        badge: 'ПАТЧ 0.6.1',
+                        badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
+                        items: [
+                            'Добавлены статусы — специальные эмодзи возле ника аккаунта с возможностью выбора по отдельности: 🍎 Яблоко (за 100 000 очков в «УСРО-КЛИКЕР»), 🍅 Помидор (за 1 000 очков в «Побег от это7тпростл») и 👑 Корона (за все выполненные ачивки).',
+                            'Нерф ачивки «Бог уклонения от это7тпростл»: теперь для её получения нужно набрать 500 очков вместо 1 000.',
+                            'Стабилизирована мобильная версия сайта: улучшены отступы с учётом безопасных зон экрана, увеличены сенсорные кнопки управления и устранены случайные масштабирования при быстрых кликах.'
+                        ]
+                    },
+                    {
+                        version: '0.6а',
+                        date: 'Масштабное обновление кастомизации и UX',
+                        badge: 'АЛЬФА 0.6',
+                        badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-400/40',
+                        items: [
+                            'Добавлена расширенная кастомизация: ползунок прозрачности стеклянных панелей, 4 цветовые темы (Тёмная, Красная, Зелёная, Синяя) и выбор заднего фона («усришность» или «это7тпростл»).',
+                            'Во вкладке «Аккаунт» теперь отображаются максимальные рекорды в играх «Побег от это7тпростл» и «УСРО-КЛИКЕР».',
+                            'Добавлены плавные анимации переключения между вкладками и минииграми.',
+                            'Обновлена мобильная версия сайта: вкладки навигации перенесены в нижнюю панель, а сверху оставлены только логотип и профиль.',
+                            'Добавлены новые ачивки: за 1 000 очков в «УСРО-КЛИКЕР», а также за 100 и 1 000 очков в «Побег от это7тпростл».'
+                        ]
+                    },
+                    {
+                        version: '0.5.4а',
+                        date: 'Уборка в настройках',
+                        badge: 'ПАТЧ',
+                        badgeColor: 'bg-sky-500/20 text-sky-300 border-sky-400/40',
+                        items: [
+                            'Убран вариант «Чёткие пиксели» из пункта «Режим изображения заднего фона» в настройках портала.'
+                        ]
+                    },
                     {
                         version: '0.5.3а',
                         date: 'Хотфикс интерфейса',
@@ -1407,7 +1650,7 @@
                 nav_settings: '⚙️ Налаштування',
                 btn_login: 'Увійти',
                 btn_logout: 'Вийти',
-                hero_badge: 'Версія 0.5.3а • Куля передбачень відкрита для всіх!',
+                hero_badge: 'Версія 0.6.1а • Статуси біля ніку, ребаланс ачівки та мобільна оптимізація!',
                 hero_title_prefix: 'Ласкаво просимо до',
                 hero_desc_1: 'Тут збираються найкращі браузерні мініігри. Поки що',
                 hero_desc_2: 'розробників налаштовують усрішність на повну потужність — заходь у налаштування, шукай пасхалки та збирай ачівки!',
@@ -1490,19 +1733,47 @@
                 acc_stat_easter_label: 'Знайдено пасхалок',
                 acc_stat_time_label: 'Час на порталі',
                 acc_time_fmt: '{m} хв {s} сек',
+                acc_records_title: '🏅 Максимальні рекорди в іграх',
+                acc_rec_clicker_lbl: 'Рекорд в «УСРО-КЛИКЕР»',
+                acc_rec_escape_lbl: 'Рекорд у «Втеча від это7тпростл»',
+                acc_status_picker_btn: '✨ Вибір статусу',
+                acc_statuses_title: '✨ Статуси біля ніку',
+                acc_statuses_sub: 'Обери заслужений емодзі-значок',
+                status_none_name: 'Без статусу',
+                status_none_req: 'Звичайний режим відображення ніку',
+                status_apple_name: 'Яблуко усрішності',
+                status_apple_req: 'Набрати 100 000 очок в «УСРО-КЛІКЕР»',
+                status_tomato_name: 'Томат это7тпростл',
+                status_tomato_req: 'Набрати 1 000 очок у «Втеча від это7тпростл»',
+                status_crown_name: 'Корона легенди',
+                status_crown_req: 'Виконати всі 23 ачівки порталу',
+                status_unlocked_tag: 'Доступно',
+                status_locked_tag: 'Закрито',
+                status_equipped_tag: 'Одягнено',
+                toast_status_changed: 'Статус біля ніку оновлено!',
+                toast_status_locked: '🔒 Цей статус ще не розблоковано!',
                 acc_avatar_title: 'Швидка зміна аватарки',
                 acc_avatar_sub: 'Обери мем-образ',
                 acc_open_title: 'Відкрити вкладку Акаунт',
                 set_title: 'Налаштування порталу',
-                set_subtitle: 'Налаштуй мову інтерфейсу, відображення усрішності на фоні, звуки та профіль',
+                set_subtitle: 'Налаштуй мову інтерфейсу, тему, прозорість панелей та задній фон',
                 set_lang_label: 'Язык интерфейса / Мова / Language',
-                set_bg_mode: 'Режим відображення фону («усрішність»)',
+                set_theme_label: 'Кольорова тема інтерфейсу',
+                theme_dark: 'Темна',
+                theme_red: 'Червона',
+                theme_green: 'Зелена',
+                theme_blue: 'Синя',
+                set_bg_image_label: 'Картинка заднього фону',
+                set_bg_img1_d: 'Класичний фон порталу',
+                set_bg_img2_d: 'Суворий томатний стиль',
+                set_bg_mode: 'Режим відображення фону',
                 set_bg_cover_t: 'На весь екран',
-                set_bg_cover_d: 'Одна велика усрішність',
+                set_bg_cover_d: 'Одна велика картинка',
                 set_bg_tile_t: 'Плиткою',
-                set_bg_tile_d: 'Багато усрішності всюди',
-                set_bg_pixel_t: 'Чіткі пікселі',
-                set_bg_pixel_d: 'Без розмиття шакалів',
+                set_bg_tile_d: 'Багато картинок всюди',
+                set_panel_opacity_label: 'Прозорість скляних панелей',
+                set_opacity_min: '15% (Майже прозорі)',
+                set_opacity_max: '98% (Щільні панелі)',
                 set_dim_label: 'Затемнення фону (щоб текст читався)',
                 set_dim_min: '0% (Чиста усрішність)',
                 set_dim_max: '85% (Темний режим)',
@@ -1512,11 +1783,11 @@
                 set_reset_ach: 'Скинути прогрес ачівок',
                 set_reset_bg: 'Скинути фон за замовчуванням',
                 cl_title: '📜 Історія оновлень (ChangeLog)',
-                cl_subtitle: 'Повний шлях розвитку порталу usrishnost games від першої альфи до 0.5.3а',
+                cl_subtitle: 'Повний шлях розвитку порталу usrishnost games від першої альфи до 0.6.1а',
                 cl_open_btn: '📖 Відкрити / Згорнути журнал',
-                cl_current_badge: 'Актуальна: v0.5.3а',
+                cl_current_badge: 'Актуальна: v0.6.1а',
                 footer_rights: 'Усі права усрішені.',
-                footer_version: 'Версія 0.5.3а',
+                footer_version: 'Версія 0.6.1а',
                 footer_changelog_btn: '📜 Журнал змін',
                 footer_secret_hint: 'Що тут заховано?',
                 sosiya_title: 'Секретне листування знайдено!',
@@ -1626,9 +1897,12 @@
                     bg_designer: { title: 'Дизайнер від бога', desc: 'Змінити режим або параметри усрішності в «Налаштуваннях».' },
                     polyglot: { title: 'Поліглот усрішності', desc: 'Змінити мову інтерфейсу на будь-яку іншу у вкладці «Налаштування».' },
                     clicker_first_100: { title: 'Сотня усрішності', desc: 'Набрати 100 очок у грі «УСРО-КЛІКЕР».' },
+                    clicker_1000: { title: 'Тисяча усрішності', desc: 'Набрати 1 000 очок у грі «УСРО-КЛІКЕР».' },
                     clicker_frenzy: { title: 'Режим УСРИШНОСТЬ x2', desc: 'Заповнити комбо-шкалу до 100% і активувати прискорення в клікері.' },
                     clicker_reset_ach: { title: 'Почати з чистого яблука', desc: 'Скинути очки та прогрес у першій мініігрі «УСРО-КЛІКЕР».' },
                     escape_runner: { title: 'Невловиме яблуко', desc: 'Набрати 50 очок в аркаді «Втеча від это7тпростл».' },
+                    escape_100: { title: 'Спринтер від томатів', desc: 'Набрати 100 очок в аркаді «Втеча від это7тпростл».' },
+                    escape_1000: { title: 'Бог ухилення від это7тпростл', desc: 'Набрати 500 очок в аркаді «Втеча від это7тпростл».' },
                     ai_no_internet: { title: 'Підключіться до інтернету!', desc: 'Поставити запитання штучному інтелекту без інтернету.' },
                     oracle_seeker: { title: 'Знавець долі', desc: 'Отримати перше передбачення від кулі «сосія / не сосія».' },
                     easter_apple: { title: 'Яблучний сомельє', desc: 'Пасхалка: поклікати 5 разів поспіль по логотипу в шапці.' },
@@ -1637,11 +1911,44 @@
                     easter_clicker_badge: { title: 'Таємний знавець «??»', desc: 'Пасхалка в клікері: 3 рази натиснути на загадковий значок «??» у шапці клікера.' },
                     easter_clicker_meme_tour: { title: 'Музей локальних мемів', desc: 'Пасхалка в клікері: перемкнути всі 4 меми за одну сесію.' },
                     easter_calc_secret: { title: 'Математик 7-228-67', desc: 'Пасхалка в калькуляторі: отримати число 7, 228 або 67.' },
-                    easter_calc_zero: { title: 'Володар нуля', desc: 'Пасхалка в калькуляторе: спробувати поділити число на 0.' },
+                    easter_calc_zero: { title: 'Володар нуля', desc: 'Пасхалка в калькуляторі: спробувати поділити число на 0.' },
                     easter_angry_ball: { title: 'Чого ти добиваєшся?!', desc: 'Пасхалка в Кулі передбачень: поставити одне й те саме запитання 3 рази поспіль і розізлити оракула.' },
-                    legend: { title: 'Легенда usrishnost games', desc: 'Зібрати всі інші 19 досягнень порталу!' }
+                    legend: { title: 'Легенда usrishnost games', desc: 'Зібрати всі інші 22 досягнення порталу!' }
                 },
                 cl: [
+                    {
+                        version: '0.6.1а',
+                        date: 'Патч статусів, ребалансу та мобільної стабільності',
+                        badge: 'ПАТЧ 0.6.1',
+                        badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
+                        items: [
+                            'Додано статуси — спеціальні емодзі біля ніку акаунта з можливістю вибору окремо: 🍎 Яблуко (за 100 000 очок в «УСРО-КЛІКЕР»), 🍅 Помідор (за 1 000 очок у «Втеча від это7тпростл») та 👑 Корона (за всі виконані ачівки).',
+                            'Нерф ачівки «Бог ухилення від это7тпростл»: тепер для її отримання потрібно набрати 500 очок замість 1 000.',
+                            'Стабілізовано мобільну версію сайту: покращено відступи з урахуванням безпечних зон екрана, збільшено сенсорні кнопки керування та усунено випадкові масштабування при швидких кліках.'
+                        ]
+                    },
+                    {
+                        version: '0.6а',
+                        date: 'Масштабне оновлення кастомізації та UX',
+                        badge: 'АЛЬФА 0.6',
+                        badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-400/40',
+                        items: [
+                            'Додано розширену кастомізацію: повзунок прозорості скляних панелей, 4 кольорові теми (Темна, Червона, Зелена, Синя) та вибір заднього фону («усрішність» або «это7тпростл»).',
+                            'У вкладці «Акаунт» тепер відображаються максимальні рекорди в іграх «Втеча від это7тпростл» та «УСРО-КЛІКЕР».',
+                            'Додано плавні анімації перемикання між вкладками та мінііграми.',
+                            'Оновлено мобільну версію сайту: вкладки навігації перенесено в нижню панель, а зверху залишено лише логотип та профіль.',
+                            'Додано нові ачівки: за 1 000 очок в «УСРО-КЛІКЕР», а також за 100 і 1 000 очок у «Втеча від это7тпростл».'
+                        ]
+                    },
+                    {
+                        version: '0.5.4а',
+                        date: 'Прибирання в налаштуваннях',
+                        badge: 'ПАТЧ',
+                        badgeColor: 'bg-sky-500/20 text-sky-300 border-sky-400/40',
+                        items: [
+                            'Прибрано варіант «Чіткі пікселі» з пункту «Режим зображення заднього фону» у налаштуваннях порталу.'
+                        ]
+                    },
                     {
                         version: '0.5.3а',
                         date: 'Хотфікс інтерфейсу',
@@ -1717,7 +2024,7 @@
                         badge: 'ХОТФІКС',
                         badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-400/30',
                         items: [
-                            'Виправлено баг із зникненням кнопки «купити генератор это7тпростл».'
+                            'Виправлено баг із зникненням кнопки «купить генератор это7тпростл».'
                         ]
                     },
                     {
@@ -1744,7 +2051,7 @@
                         badge: 'ХОТФІКС',
                         badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-400/30',
                         items: [
-                            'Прибрано зайву вкладку клікера з верхньої шапки.'
+                            'Прибрано зайву вкладку кликера з верхньої шапки.'
                         ]
                     },
                     {
@@ -1793,7 +2100,7 @@
                 nav_settings: '⚙️ Settings',
                 btn_login: 'Log In',
                 btn_logout: 'Log Out',
-                hero_badge: 'Version 0.5.3a • Prediction Ball is now open to everyone!',
+                hero_badge: 'Version 0.6.1a • Nickname status badges, achievement nerf & mobile stability!',
                 hero_title_prefix: 'Welcome to',
                 hero_desc_1: 'The finest browser minigames gather here. Right now',
                 hero_desc_2: 'developers are tuning usrishnost to full power — open settings, hunt Easter eggs, and collect achievements!',
@@ -1876,19 +2183,48 @@
                 acc_stat_easter_label: 'Easter Eggs Found',
                 acc_stat_time_label: 'Time on Portal',
                 acc_time_fmt: '{m} min {s} sec',
+                acc_records_title: '🏅 All-Time Game High Scores',
+                acc_records_sub: 'Personal bests',
+                acc_rec_clicker_lbl: '«USRO-CLICKER» Best Score',
+                acc_rec_escape_lbl: '«Escape from eto7tprostl» High Score',
+                acc_status_picker_btn: '✨ Choose Status',
+                acc_statuses_title: '✨ Nickname Status Badges',
+                acc_statuses_sub: 'Equip your earned emoji badge',
+                status_none_name: 'No Status',
+                status_none_req: 'Default nickname display',
+                status_apple_name: 'Usrishnost Apple',
+                status_apple_req: 'Reach 100,000 points in «USRO-CLICKER»',
+                status_tomato_name: 'eto7tprostl Tomato',
+                status_tomato_req: 'Score 1,000 points in «Escape from eto7tprostl»',
+                status_crown_name: 'Legend Crown',
+                status_crown_req: 'Complete all 23 portal achievements',
+                status_unlocked_tag: 'Unlocked',
+                status_locked_tag: 'Locked',
+                status_equipped_tag: 'Equipped',
+                toast_status_changed: 'Nickname status updated!',
+                toast_status_locked: '🔒 This status badge is not unlocked yet!',
                 acc_avatar_title: 'Quick Avatar Switch',
                 acc_avatar_sub: 'Choose your meme look',
                 acc_open_title: 'Open Account tab',
                 set_title: 'Portal Settings',
-                set_subtitle: 'Customize interface language, background usrishnost display, sounds, and profile',
+                set_subtitle: 'Customize interface language, color theme, panel opacity, and background',
                 set_lang_label: 'Язык интерфейса / Мова / Language',
-                set_bg_mode: 'Background Display Mode («usrishnost»)',
+                set_theme_label: 'Interface Color Theme',
+                theme_dark: 'Dark',
+                theme_red: 'Red',
+                theme_green: 'Green',
+                theme_blue: 'Blue',
+                set_bg_image_label: 'Background Image',
+                set_bg_img1_d: 'Classic portal wallpaper',
+                set_bg_img2_d: 'Gritty tomato style',
+                set_bg_mode: 'Background Display Mode',
                 set_bg_cover_t: 'Full Screen',
-                set_bg_cover_d: 'One giant usrishnost',
+                set_bg_cover_d: 'One giant image',
                 set_bg_tile_t: 'Tiled',
-                set_bg_tile_d: 'Usrishnost everywhere',
-                set_bg_pixel_t: 'Crisp Pixels',
-                set_bg_pixel_d: 'No blurry smoothing',
+                set_bg_tile_d: 'Images everywhere',
+                set_panel_opacity_label: 'Glass Panel Opacity',
+                set_opacity_min: '15% (Ultra transparent)',
+                set_opacity_max: '98% (Solid panels)',
                 set_dim_label: 'Background Dimming (for readability)',
                 set_dim_min: '0% (Pure usrishnost)',
                 set_dim_max: '85% (Dark mode)',
@@ -1898,11 +2234,11 @@
                 set_reset_ach: 'Reset Achievements',
                 set_reset_bg: 'Reset Background Defaults',
                 cl_title: '📜 Update History (ChangeLog)',
-                cl_subtitle: 'The complete evolution of usrishnost games from the first alpha to 0.5.3a',
+                cl_subtitle: 'The complete evolution of usrishnost games from the first alpha to 0.6.1a',
                 cl_open_btn: '📖 Open / Collapse Changelog',
-                cl_current_badge: 'Current: v0.5.3a',
+                cl_current_badge: 'Current: v0.6.1a',
                 footer_rights: 'All rights usrished.',
-                footer_version: 'Version 0.5.3a',
+                footer_version: 'Version 0.6.1a',
                 footer_changelog_btn: '📜 Changelog',
                 footer_secret_hint: 'What is hidden here?',
                 sosiya_title: 'Secret chat log discovered!',
@@ -2012,9 +2348,12 @@
                     bg_designer: { title: 'God-Tier Designer', desc: 'Change background mode or parameters in Settings.' },
                     polyglot: { title: 'Usrishnost Polyglot', desc: 'Switch the interface language to any other in Settings.' },
                     clicker_first_100: { title: 'Hundred of Usrishnost', desc: 'Reach 100 points in «USRO-CLICKER».' },
+                    clicker_1000: { title: 'Thousand of Usrishnost', desc: 'Reach 1,000 points in «USRO-CLICKER».' },
                     clicker_frenzy: { title: 'USRISHNOST x2 Mode', desc: 'Fill the combo bar to 100% and activate frenzy in the clicker.' },
                     clicker_reset_ach: { title: 'Fresh Apple Start', desc: 'Reset your score and progress in «USRO-CLICKER».' },
                     escape_runner: { title: 'Elusive Apple', desc: 'Score 50 points in «Escape from eto7tprostl».' },
+                    escape_100: { title: 'Tomato Sprinter', desc: 'Score 100 points in «Escape from eto7tprostl».' },
+                    escape_1000: { title: 'God of Dodging eto7tprostl', desc: 'Score 500 points in «Escape from eto7tprostl».' },
                     ai_no_internet: { title: 'Connect to the Internet!', desc: 'Ask a question to the offline Artificial Intelligence.' },
                     oracle_seeker: { title: 'Seeker of Fate', desc: 'Get your first prediction from the «sosiya / ne sosiya» ball.' },
                     easter_apple: { title: 'Apple Sommelier', desc: 'Easter egg: click the header logo 5 times in a row.' },
@@ -2025,9 +2364,42 @@
                     easter_calc_secret: { title: 'Mathematician 7-228-67', desc: 'Calculator Easter egg: get 7, 228, or 67 on the display.' },
                     easter_calc_zero: { title: 'Lord of Zero', desc: 'Calculator Easter egg: try dividing a number by 0.' },
                     easter_angry_ball: { title: 'Chogo Are You Trying To Do?!', desc: 'Prediction Ball Easter egg: ask the exact same question 3 times in a row to make the oracle angry.' },
-                    legend: { title: 'Legend of usrishnost games', desc: 'Collect all other 19 achievements on the portal!' }
+                    legend: { title: 'Legend of usrishnost games', desc: 'Collect all other 22 achievements on the portal!' }
                 },
                 cl: [
+                    {
+                        version: '0.6.1a',
+                        date: 'Nickname Statuses, Balance & Mobile Stability Patch',
+                        badge: 'PATCH 0.6.1',
+                        badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
+                        items: [
+                            'Added Nickname Statuses — special emoji badges next to your account name that can be equipped individually: 🍎 Apple (100,000 points in «USRO-CLICKER»), 🍅 Tomato (1,000 points in «Escape from eto7tprostl»), and 👑 Crown (all achievements completed).',
+                            'Nerfed «God of Dodging eto7tprostl» achievement: now requires 500 points instead of 1,000.',
+                            'Stabilized mobile version: improved safe-area bottom spacing, enlarged touch controls, and prevented accidental double-tap zooming.'
+                        ]
+                    },
+                    {
+                        version: '0.6a',
+                        date: 'Major Customization & UX Update',
+                        badge: 'ALPHA 0.6',
+                        badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-400/40',
+                        items: [
+                            'Added extended customization: glass panel opacity slider, 4 color themes (Dark, Red, Green, Blue), and background image selector («usrishnost» or «eto7tprostl»).',
+                            'Added maximum game high scores for «Escape from eto7tprostl» and «USRO-CLICKER» inside the Account tab.',
+                            'Added smooth transition animations when switching between tabs and minigames.',
+                            'Redesigned mobile layout: navigation tabs are now anchored at the bottom while the top bar cleanly displays only the site logo and account profile.',
+                            'Added new achievements: 1,000 points in «USRO-CLICKER», plus 100 and 1,000 points in «Escape from eto7tprostl».'
+                        ]
+                    },
+                    {
+                        version: '0.5.4a',
+                        date: 'Settings Cleanup',
+                        badge: 'PATCH',
+                        badgeColor: 'bg-sky-500/20 text-sky-300 border-sky-400/40',
+                        items: [
+                            'Removed the «Crisp Pixels» option from the «Background Display Mode» setting.'
+                        ]
+                    },
                     {
                         version: '0.5.3a',
                         date: 'UI Hotfix',
@@ -2173,7 +2545,7 @@
             }
         };
 
-        // Список ID всех достижений портала (20 ачивок)
+        // Список ID всех достижений портала (23 ачивки)
         const ACHIEVEMENTS = [
             { id: 'welcome', icon: '🍎', isEaster: false },
             { id: 'login_user', icon: '👤', isEaster: false },
@@ -2181,9 +2553,12 @@
             { id: 'bg_designer', icon: '🎨', isEaster: false },
             { id: 'polyglot', icon: '🌐', isEaster: false },
             { id: 'clicker_first_100', icon: '💯', isEaster: false },
+            { id: 'clicker_1000', icon: '💎', isEaster: false },
             { id: 'clicker_frenzy', icon: '🔥', isEaster: false },
             { id: 'clicker_reset_ach', icon: '🔄', isEaster: false },
             { id: 'escape_runner', icon: '🏃', isEaster: false },
+            { id: 'escape_100', icon: '⚡', isEaster: false },
+            { id: 'escape_1000', icon: '👑', isEaster: false },
             { id: 'ai_no_internet', icon: '📡', isEaster: false },
             { id: 'oracle_seeker', icon: '🔮', isEaster: false },
             { id: 'easter_apple', icon: '🌀', isEaster: true },
@@ -2194,7 +2569,7 @@
             { id: 'easter_calc_secret', icon: '🧮', isEaster: true },
             { id: 'easter_calc_zero', icon: '💥', isEaster: true },
             { id: 'easter_angry_ball', icon: '💢', isEaster: true },
-            { id: 'legend', icon: '👑', isEaster: false }
+            { id: 'legend', icon: '🏆', isEaster: false }
         ];
 
         // Хелпер получения перевода с подстановкой переменных
@@ -2218,12 +2593,114 @@
             avatar: 'usrishnost.jpg',
             regDate: null,
             secondsOnSite: 0,
+            theme: 'dark',
+            bgImage: 'usrishnost.jpg',
             bgMode: 'cover',
+            panelOpacity: 72,
             bgDim: 45,
             bgBlur: 0,
             soundEnabled: true,
-            unlockedAchievements: []
+            unlockedAchievements: [],
+            clickerMaxScore: 0,
+            selectedStatus: 'none'
         };
+
+        // Список статусов возле ника
+        const USER_STATUSES = [
+            { id: 'none', emoji: '🚫', nameKey: 'status_none_name', reqKey: 'status_none_req' },
+            { id: 'apple', emoji: '🍎', nameKey: 'status_apple_name', reqKey: 'status_apple_req' },
+            { id: 'tomato', emoji: '🍅', nameKey: 'status_tomato_name', reqKey: 'status_tomato_req' },
+            { id: 'crown', emoji: '👑', nameKey: 'status_crown_name', reqKey: 'status_crown_req' }
+        ];
+
+        function isStatusUnlocked(statusId) {
+            if (statusId === 'none') return true;
+            const currentClicker = Math.floor(typeof clickerState !== 'undefined' ? clickerState.score : 0);
+            const bestClicker = Math.max(state.clickerMaxScore || 0, currentClicker);
+            const bestEscape = typeof escBest !== 'undefined' ? escBest : 0;
+
+            if (statusId === 'apple') return bestClicker >= 100000;
+            if (statusId === 'tomato') return bestEscape >= 1000;
+            if (statusId === 'crown') {
+                return state.unlockedAchievements.length >= ACHIEVEMENTS.length || state.unlockedAchievements.includes('legend');
+            }
+            return false;
+        }
+
+        function getEquippedStatusEmoji() {
+            if (!state.selectedStatus || state.selectedStatus === 'none') return '';
+            if (!isStatusUnlocked(state.selectedStatus)) return '';
+            const found = USER_STATUSES.find(s => s.id === state.selectedStatus);
+            return found ? found.emoji : '';
+        }
+
+        function toggleStatusPicker() {
+            const panel = document.getElementById('acc-status-picker-panel');
+            if (!panel) return;
+            playClickSound(540);
+            const willShow = panel.classList.contains('hidden');
+            panel.classList.toggle('hidden');
+            if (willShow) {
+                panel.classList.remove('view-animate');
+                void panel.offsetWidth;
+                panel.classList.add('view-animate');
+            }
+        }
+
+        function selectUserStatus(statusId) {
+            if (!isStatusUnlocked(statusId)) {
+                playClickSound(260);
+                showToast(t('toast_status_locked'));
+                return;
+            }
+            state.selectedStatus = statusId;
+            playClickSound(640);
+            saveState();
+            renderAuthArea();
+            updateAccountView();
+            showToast(t('toast_status_changed'));
+        }
+
+        function renderStatusesGrid() {
+            const grid = document.getElementById('acc-statuses-grid');
+            if (!grid) return;
+
+            grid.innerHTML = USER_STATUSES.map(st => {
+                const unlocked = isStatusUnlocked(st.id);
+                const equipped = (state.selectedStatus || 'none') === st.id && unlocked;
+                const badgeText = equipped
+                    ? t('status_equipped_tag')
+                    : (unlocked ? t('status_unlocked_tag') : t('status_locked_tag'));
+                const badgeClass = equipped
+                    ? 'bg-orange-500/25 text-orange-300 border-orange-400/40'
+                    : (unlocked
+                        ? 'bg-emerald-500/20 text-emerald-300 border-emerald-400/30'
+                        : 'bg-zinc-800 text-zinc-400 border-white/10');
+
+                return `
+                    <button type="button" onclick="selectUserStatus('${st.id}')" class="p-3.5 rounded-xl border text-left transition-all flex items-center gap-3 cursor-pointer ${
+                        equipped
+                            ? 'bg-orange-500/20 border-orange-500 shadow-md'
+                            : (unlocked
+                                ? 'bg-zinc-900/80 border-white/15 hover:border-white/35'
+                                : 'bg-zinc-950/60 border-white/10 opacity-65')
+                    }">
+                        <div class="w-11 h-11 rounded-xl flex items-center justify-center text-2xl shrink-0 border ${
+                            unlocked ? 'bg-zinc-800/90 border-white/15' : 'bg-zinc-900 border-white/10 grayscale'
+                        }">
+                            ${st.emoji}
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="font-bold text-sm text-white truncate">${t(st.nameKey)}</span>
+                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-md border shrink-0 ${badgeClass}">${badgeText}</span>
+                            </div>
+                            <p class="text-[11px] text-zinc-400 mt-0.5 leading-snug">${t(st.reqKey)}</p>
+                        </div>
+                    </button>
+                `;
+            }).join('');
+        }
 
         let activeTab = 'games';
         let logoClicks = 0;
@@ -2308,13 +2785,58 @@
             const dimLabel = document.getElementById('dim-value-label');
             const blurSlider = document.getElementById('blur-slider');
             const blurLabel = document.getElementById('blur-value-label');
+            const opacitySlider = document.getElementById('panel-opacity-slider');
+            const opacityLabel = document.getElementById('panel-opacity-label');
             const soundBtn = document.getElementById('sound-toggle-btn');
             const soundKnob = document.getElementById('sound-toggle-knob');
 
+            // Применение цветовой темы
+            const validThemes = ['dark', 'red', 'green', 'blue'];
+            if (!validThemes.includes(state.theme)) state.theme = 'dark';
+            document.body.classList.remove('theme-dark', 'theme-red', 'theme-green', 'theme-blue');
+            document.body.classList.add(`theme-${state.theme}`);
+
+            document.querySelectorAll('.theme-btn').forEach(btn => {
+                btn.classList.remove('border-orange-500', 'bg-orange-500/20');
+                btn.classList.add('border-white/10', 'bg-zinc-900/60');
+            });
+            const activeThemeBtn = document.getElementById(`theme-btn-${state.theme}`);
+            if (activeThemeBtn) {
+                activeThemeBtn.classList.remove('border-white/10', 'bg-zinc-900/60');
+                activeThemeBtn.classList.add('border-orange-500', 'bg-orange-500/20');
+            }
+
+            // Применение прозрачности панелей
+            const rawOpacity = Number(state.panelOpacity);
+            const safeOpacity = Number.isNaN(rawOpacity) ? 72 : Math.min(98, Math.max(15, rawOpacity));
+            document.documentElement.style.setProperty('--panel-alpha', (safeOpacity / 100).toFixed(2));
+            document.documentElement.style.setProperty('--card-alpha', Math.min(0.99, (safeOpacity + 6) / 100).toFixed(2));
+            if (opacitySlider) opacitySlider.value = safeOpacity;
+            if (opacityLabel) opacityLabel.textContent = `${safeOpacity}%`;
+
+            // Выбор картинки заднего фона
+            if (state.bgImage !== 'usrishnost.jpg' && state.bgImage !== 'eto7tprostl.jpg') {
+                state.bgImage = 'usrishnost.jpg';
+            }
+            document.querySelectorAll('.bg-img-btn').forEach(btn => {
+                btn.classList.remove('border-orange-500', 'bg-orange-500/20');
+                btn.classList.add('border-white/10', 'bg-zinc-900/60');
+            });
+            const activeBgImgBtn = document.getElementById(state.bgImage === 'eto7tprostl.jpg' ? 'bg-img-eto7tprostl' : 'bg-img-usrishnost');
+            if (activeBgImgBtn) {
+                activeBgImgBtn.classList.remove('border-white/10', 'bg-zinc-900/60');
+                activeBgImgBtn.classList.add('border-orange-500', 'bg-orange-500/20');
+            }
+
+            // Если в сохранениях остался удалённый режим pixel — мягко сбрасываем на cover
+            if (state.bgMode !== 'cover' && state.bgMode !== 'tile') {
+                state.bgMode = 'cover';
+            }
+
             if (bgLayer) {
-                bgLayer.classList.remove('bg-tile', 'bg-pixel');
+                bgLayer.style.backgroundImage = `url('${state.bgImage}')`;
+                bgLayer.classList.remove('bg-tile');
                 if (state.bgMode === 'tile') bgLayer.classList.add('bg-tile');
-                if (state.bgMode === 'pixel') bgLayer.classList.add('bg-pixel');
 
                 const blurVal = Number(state.bgBlur) || 0;
                 bgLayer.style.filter = blurVal > 0 ? `blur(${blurVal}px)` : 'none';
@@ -2367,8 +2889,31 @@
             });
         }
 
+        function setTheme(themeName) {
+            state.theme = themeName;
+            playClickSound(540);
+            saveState();
+            applyAllSettings();
+            unlockAchievement('bg_designer');
+        }
+
+        function setBgImage(imgName) {
+            state.bgImage = imgName;
+            playClickSound(520);
+            saveState();
+            applyAllSettings();
+            unlockAchievement('bg_designer');
+        }
+
+        function updatePanelOpacity(val) {
+            state.panelOpacity = Number(val);
+            saveState();
+            applyAllSettings();
+            unlockAchievement('bg_designer');
+        }
+
         function setBgMode(mode) {
-            state.bgMode = mode;
+            state.bgMode = mode === 'tile' ? 'tile' : 'cover';
             playClickSound(500);
             saveState();
             applyAllSettings();
@@ -2520,14 +3065,14 @@
             playAchievementSound();
             showToast(t('toast_ach_unlocked', { title: achText.title }), true);
 
-            const others = ACHIEVEMENTS.filter(a => a.id !== 'legend').map(a => a.id);
-            const allOthersUnlocked = others.every(oid => state.unlockedAchievements.includes(oid));
-            if (allOthersUnlocked && !state.unlockedAchievements.includes('legend')) {
-                setTimeout(() => unlockAchievement('legend'), 900);
+            const nonLegendIds = ACHIEVEMENTS.filter(a => a.id !== 'legend').map(a => a.id);
+            const hasAllOthers = nonLegendIds.every(reqId => state.unlockedAchievements.includes(reqId));
+            if (hasAllOthers && !state.unlockedAchievements.includes('legend')) {
+                setTimeout(() => unlockAchievement('legend'), 600);
             }
         }
 
-        // Переключение вкладок
+        // Переключение вкладок с плавной анимацией
         function switchTab(tabName) {
             playClickSound(480);
             if (tabName !== 'escape' && typeof stopEscapeGameLoop === 'function') {
@@ -2539,19 +3084,33 @@
             views.forEach(v => {
                 const el = document.getElementById(`view-${v}`);
                 const btn = document.getElementById(`tab-btn-${v}`);
+                const mobBtn = document.getElementById(`mob-tab-btn-${v}`);
                 if (!el) return;
 
                 if (v === tabName) {
-                    el.classList.remove('hidden');
+                    el.classList.remove('hidden', 'view-animate');
+                    void el.offsetWidth;
+                    el.classList.add('view-animate');
+
                     if (btn) {
-                        btn.classList.add('bg-orange-500', 'text-white', 'shadow-sm');
+                        btn.classList.add('nav-tab-active');
                         btn.classList.remove('text-zinc-300', 'hover:text-white', 'hover:bg-white/10');
+                    }
+                    if (mobBtn) {
+                        mobBtn.classList.add('nav-tab-active');
+                        mobBtn.classList.remove('text-zinc-300', 'hover:text-white');
                     }
                 } else {
                     el.classList.add('hidden');
+                    el.classList.remove('view-animate');
+
                     if (btn) {
-                        btn.classList.remove('bg-orange-500', 'text-white', 'shadow-sm');
+                        btn.classList.remove('nav-tab-active');
                         btn.classList.add('text-zinc-300', 'hover:text-white', 'hover:bg-white/10');
+                    }
+                    if (mobBtn) {
+                        mobBtn.classList.remove('nav-tab-active');
+                        mobBtn.classList.add('text-zinc-300', 'hover:text-white');
                     }
                 }
             });
@@ -2584,6 +3143,7 @@
         function renderAuthArea() {
             const container = document.getElementById('auth-area');
             const accountTabBtn = document.getElementById('tab-btn-account');
+            const mobAccountTabBtn = document.getElementById('mob-tab-btn-account');
             const dict = I18N[state.lang] || I18N.ru;
             const isLoggedIn = Boolean(state.user);
 
@@ -2592,19 +3152,30 @@
                     accountTabBtn.classList.remove('hidden');
                 } else {
                     accountTabBtn.classList.add('hidden');
-                    if (['account', 'escape', 'calc', 'offline-ai'].includes(activeTab)) {
-                        switchTab('games');
-                    }
                 }
+            }
+            if (mobAccountTabBtn) {
+                if (isLoggedIn) {
+                    mobAccountTabBtn.classList.remove('hidden');
+                } else {
+                    mobAccountTabBtn.classList.add('hidden');
+                }
+            }
+
+            if (!isLoggedIn && ['account', 'escape', 'calc', 'offline-ai'].includes(activeTab)) {
+                switchTab('games');
             }
 
             if (container) {
                 if (isLoggedIn) {
+                    const statusEmoji = getEquippedStatusEmoji();
+                    const statusHtml = statusEmoji ? `<span class="text-sm sm:text-base shrink-0">${statusEmoji}</span>` : '';
                     container.innerHTML = `
                         <div class="flex items-center gap-2 bg-zinc-900/80 border border-white/15 rounded-xl pl-2 pr-2 py-1.5">
-                            <button onclick="switchTab('account')" class="flex items-center gap-2 hover:opacity-85 transition-opacity cursor-pointer" title="${dict.acc_open_title}">
-                                <img src="${state.avatar}" alt="Avatar" class="w-7 h-7 rounded-lg object-cover border border-white/20" onerror="this.src='https://placehold.co/60x60/ea580c/fff?text=U'">
-                                <span class="text-sm font-bold text-white max-w-[100px] sm:max-w-[140px] truncate">${escapeHtml(state.user)}</span>
+                            <button onclick="switchTab('account')" class="flex items-center gap-1.5 sm:gap-2 hover:opacity-85 transition-opacity cursor-pointer" title="${dict.acc_open_title}">
+                                <img src="${state.avatar}" alt="Avatar" class="w-7 h-7 rounded-lg object-cover border border-white/20 shrink-0" onerror="this.src='https://placehold.co/60x60/ea580c/fff?text=U'">
+                                <span class="text-sm font-bold text-white max-w-[90px] sm:max-w-[140px] truncate">${escapeHtml(state.user)}</span>
+                                ${statusHtml}
                             </button>
                             <button onclick="logoutUser()" title="${dict.btn_logout}" class="ml-1 px-2.5 py-1 rounded-lg bg-rose-500/20 hover:bg-rose-500/35 text-rose-300 text-xs font-semibold transition-colors cursor-pointer">
                                 ${dict.btn_logout}
@@ -2662,9 +3233,17 @@
         // Обновление данных на вкладке «Аккаунт»
         function updateAccountView() {
             if (!state.user) return;
-            document.getElementById('acc-username-title').textContent = state.user;
+            const titleEl = document.getElementById('acc-username-title');
+            if (titleEl) {
+                const statusEmoji = getEquippedStatusEmoji();
+                titleEl.innerHTML = statusEmoji
+                    ? `<span>${escapeHtml(state.user)}</span><span class="text-2xl sm:text-3xl">${statusEmoji}</span>`
+                    : escapeHtml(state.user);
+            }
             document.getElementById('acc-avatar-img').src = state.avatar;
             document.getElementById('acc-reg-date').textContent = `${t('acc_reg_prefix')}${state.regDate || t('acc_today')}`;
+
+            renderStatusesGrid();
 
             const total = ACHIEVEMENTS.length;
             const unlocked = state.unlockedAchievements.length;
@@ -2673,6 +3252,21 @@
             const easterIds = ['easter_apple', 'easter_sosiya', 'easter_tomato', 'easter_clicker_badge', 'easter_clicker_meme_tour', 'easter_calc_secret', 'easter_calc_zero', 'easter_angry_ball'];
             const unlockedEasters = easterIds.filter(id => state.unlockedAchievements.includes(id)).length;
             document.getElementById('acc-stat-easter').textContent = `${unlockedEasters} / ${easterIds.length}`;
+
+            // Обновление максимальных рекордов в играх
+            const localeMap = { ru: 'ru-RU', uk: 'uk-UA', en: 'en-US' };
+            const numLocale = localeMap[state.lang] || 'ru-RU';
+            const currentClicker = Math.floor(typeof clickerState !== 'undefined' ? clickerState.score : 0);
+            const bestClicker = Math.max(state.clickerMaxScore || 0, currentClicker);
+            if (bestClicker > (state.clickerMaxScore || 0)) {
+                state.clickerMaxScore = bestClicker;
+                saveState();
+            }
+
+            const recClickerEl = document.getElementById('acc-rec-clicker');
+            const recEscapeEl = document.getElementById('acc-rec-escape');
+            if (recClickerEl) recClickerEl.textContent = bestClicker.toLocaleString(numLocale);
+            if (recEscapeEl) recEscapeEl.textContent = (typeof escBest !== 'undefined' ? escBest : 0).toLocaleString(numLocale);
 
             updateAccountTimeLabel();
         }
@@ -2694,10 +3288,12 @@
             const dict = I18N[state.lang] || I18N.ru;
 
             const navBadge = document.getElementById('nav-ach-badge');
+            const mobNavBadge = document.getElementById('mob-nav-ach-badge');
             const progText = document.getElementById('ach-progress-text');
             const progBar = document.getElementById('ach-progress-bar');
 
             if (navBadge) navBadge.textContent = `${count}/${total}`;
+            if (mobNavBadge) mobNavBadge.textContent = `${count}/${total}`;
             if (progText) progText.textContent = `${count} ${dict.ach_out_of} ${total} (${percent}%)`;
             if (progBar) progBar.style.width = `${percent}%`;
 
@@ -2913,7 +3509,10 @@
         }
 
         function resetSettings() {
+            state.theme = 'dark';
+            state.bgImage = 'usrishnost.jpg';
             state.bgMode = 'cover';
+            state.panelOpacity = 72;
             state.bgDim = 45;
             state.bgBlur = 0;
             state.soundEnabled = true;
@@ -3107,17 +3706,25 @@
             if (clickerState.score >= 100) {
                 unlockAchievement('clicker_first_100');
             }
+            if (clickerState.score >= 1000) {
+                unlockAchievement('clicker_1000');
+            }
+
+            const flooredScore = Math.floor(clickerState.score);
+            if (flooredScore > (state.clickerMaxScore || 0)) {
+                state.clickerMaxScore = flooredScore;
+                saveState();
+            }
 
             const localeMap = { ru: 'ru-RU', uk: 'uk-UA', en: 'en-US' };
             const numLocale = localeMap[state.lang] || 'ru-RU';
+            const lvl = getClickerLevelInfo(clickerState.score);
 
-            document.getElementById('clicker-score').textContent = Math.floor(clickerState.score).toLocaleString(numLocale);
+            document.getElementById('clicker-score').textContent = flooredScore.toLocaleString(numLocale);
             document.getElementById('clicker-per-click').textContent = getEffectiveClickerClick().toLocaleString(numLocale);
             document.getElementById('clicker-per-sec').textContent = clickerState.autoPerSec.toLocaleString(numLocale);
             document.getElementById('clicker-mult').textContent = `x${(clickerState.multiplier * (frenzy ? 2 : 1)).toFixed(2).replace(/\.00$/, '')}`;
-
-            const lvl = getClickerLevelInfo(clickerState.score);
-            document.getElementById('clicker-level-num').textContent = lvl.level;
+            document.getElementById('clicker-level-num').textContent = String(lvl.level);
             document.getElementById('clicker-level-rank').textContent = lvl.rank;
             document.getElementById('clicker-level-progress').textContent = `${lvl.currentInLevel} / ${lvl.neededInLevel}`;
             document.getElementById('clicker-level-fill').style.width = `${lvl.pct}%`;
@@ -3433,18 +4040,6 @@
             });
         }
 
-        function updateEscapeHud() {
-            document.getElementById('esc-score').textContent = String(escScore);
-            if (escScore > escBest) {
-                escBest = escScore;
-                document.getElementById('esc-best').textContent = String(escBest);
-                try { localStorage.setItem('usrishnost_escape_best_v1', String(escBest)); } catch (e) {}
-            }
-            if (escScore >= 50) {
-                unlockAchievement('escape_runner');
-            }
-        }
-
         function updateEscapePhysics() {
             const arena = document.getElementById('escape-arena');
             if (!arena) return;
@@ -3458,29 +4053,28 @@
             if (escKeys.up) dy -= 1;
             if (escKeys.down) dy += 1;
 
-            if (dx !== 0 || dy !== 0) {
-                const len = Math.hypot(dx, dy);
-                escPlayer.x += (dx / len) * escPlayer.speed;
-                escPlayer.y += (dy / len) * escPlayer.speed;
-            } else if (escPointerTarget) {
+            if (escPointerTarget) {
                 const cx = escPlayer.x + escPlayer.size / 2;
                 const cy = escPlayer.y + escPlayer.size / 2;
                 const pdx = escPointerTarget.x - cx;
                 const pdy = escPointerTarget.y - cy;
                 const dist = Math.hypot(pdx, pdy);
                 if (dist > 4) {
-                    escPlayer.x += (pdx / dist) * Math.min(escPlayer.speed, dist);
-                    escPlayer.y += (pdy / dist) * Math.min(escPlayer.speed, dist);
+                    dx = pdx / dist;
+                    dy = pdy / dist;
                 }
+            } else if (dx !== 0 || dy !== 0) {
+                const len = Math.hypot(dx, dy);
+                dx /= len;
+                dy /= len;
             }
 
-            escPlayer.x = Math.max(4, Math.min(w - escPlayer.size - 4, escPlayer.x));
-            escPlayer.y = Math.max(4, Math.min(h - escPlayer.size - 4, escPlayer.y));
+            escPlayer.x = Math.max(4, Math.min(w - escPlayer.size - 4, escPlayer.x + dx * escPlayer.speed));
+            escPlayer.y = Math.max(4, Math.min(h - escPlayer.size - 4, escPlayer.y + dy * escPlayer.speed));
 
             const pCx = escPlayer.x + escPlayer.size / 2;
             const pCy = escPlayer.y + escPlayer.size / 2;
 
-            // Сбор бонусов
             for (let i = escBonuses.length - 1; i >= 0; i--) {
                 const b = escBonuses[i];
                 const bCx = b.x + b.size / 2;
@@ -3488,32 +4082,54 @@
                 if (Math.hypot(pCx - bCx, pCy - bCy) < (escPlayer.size + b.size) * 0.48) {
                     escBonuses.splice(i, 1);
                     escScore += 10;
-                    playClickSound(780, 0.08);
+                    playClickSound(760, 0.08);
                     updateEscapeHud();
-                    spawnEscapeBonus(w, h);
                 }
             }
 
-            // Движение томатов это7тпростл (лёгкое наведение + отскоки от стен)
             for (const en of escEnemies) {
                 const eCx = en.x + en.size / 2;
                 const eCy = en.y + en.size / 2;
-                const toPlayerAngle = Math.atan2(pCy - eCy, pCx - eCx);
-                en.vx = en.vx * 0.96 + Math.cos(toPlayerAngle) * en.speed * 0.04;
-                en.vy = en.vy * 0.96 + Math.sin(toPlayerAngle) * en.speed * 0.04;
+                const toPlayerX = pCx - eCx;
+                const toPlayerY = pCy - eCy;
+                const dist = Math.hypot(toPlayerX, toPlayerY) || 1;
+
+                en.vx = en.vx * 0.94 + (toPlayerX / dist) * en.speed * 0.06;
+                en.vy = en.vy * 0.94 + (toPlayerY / dist) * en.speed * 0.06;
+                const curSpd = Math.hypot(en.vx, en.vy) || 1;
+                en.vx = (en.vx / curSpd) * en.speed;
+                en.vy = (en.vy / curSpd) * en.speed;
 
                 en.x += en.vx;
                 en.y += en.vy;
 
-                if (en.x <= 2) { en.x = 2; en.vx = Math.abs(en.vx); }
-                if (en.x >= w - en.size - 2) { en.x = w - en.size - 2; en.vx = -Math.abs(en.vx); }
-                if (en.y <= 2) { en.y = 2; en.vy = Math.abs(en.vy); }
-                if (en.y >= h - en.size - 2) { en.y = h - en.size - 2; en.vy = -Math.abs(en.vy); }
+                if (en.x <= 2 || en.x >= w - en.size - 2) en.vx *= -1;
+                if (en.y <= 2 || en.y >= h - en.size - 2) en.vy *= -1;
+                en.x = Math.max(2, Math.min(w - en.size - 2, en.x));
+                en.y = Math.max(2, Math.min(h - en.size - 2, en.y));
 
-                if (Math.hypot(pCx - (en.x + en.size / 2), pCy - (en.y + en.size / 2)) < (escPlayer.size + en.size) * 0.38) {
+                if (Math.hypot(pCx - (en.x + en.size / 2), pCy - (en.y + en.size / 2)) < (escPlayer.size + en.size) * 0.4) {
                     finishEscapeGame();
                     return;
                 }
+            }
+        }
+
+        function updateEscapeHud() {
+            document.getElementById('esc-score').textContent = String(escScore);
+            if (escScore > escBest) {
+                escBest = escScore;
+                document.getElementById('esc-best').textContent = String(escBest);
+                try { localStorage.setItem('usrishnost_escape_best_v1', String(escBest)); } catch (e) {}
+            }
+            if (escScore >= 50) {
+                unlockAchievement('escape_runner');
+            }
+            if (escScore >= 100) {
+                unlockAchievement('escape_100');
+            }
+            if (escScore >= 500) {
+                unlockAchievement('escape_1000');
             }
         }
 
@@ -3522,21 +4138,18 @@
             if (!container) return;
 
             let html = `
-                <img src="usrishnost.jpg" alt="player" style="left:${escPlayer.x}px; top:${escPlayer.y}px; width:${escPlayer.size}px; height:${escPlayer.size}px;"
-                     class="absolute rounded-full object-cover border-2 border-emerald-400 shadow-lg pointer-events-none">
+                <img src="usrishnost.jpg" alt="Player" style="position:absolute; left:${escPlayer.x}px; top:${escPlayer.y}px; width:${escPlayer.size}px; height:${escPlayer.size}px; border-radius:12px; object-fit:cover; border:2px solid #fb923c; box-shadow:0 0 14px rgba(249,115,22,0.55); pointer-events:none;">
             `;
 
             for (const b of escBonuses) {
                 html += `
-                    <img src="${b.img}" alt="bonus" style="left:${b.x}px; top:${b.y}px; width:${b.size}px; height:${b.size}px;"
-                         class="absolute rounded-xl object-cover border border-amber-300 shadow-md animate-bounce pointer-events-none">
+                    <img src="${b.img}" alt="Bonus" style="position:absolute; left:${b.x}px; top:${b.y}px; width:${b.size}px; height:${b.size}px; border-radius:10px; object-fit:cover; border:2px solid #34d399; box-shadow:0 0 12px rgba(52,211,153,0.55); pointer-events:none;">
                 `;
             }
 
             for (const en of escEnemies) {
                 html += `
-                    <img src="eto7tprostl.jpg" alt="eto7tprostl" style="left:${en.x}px; top:${en.y}px; width:${en.size}px; height:${en.size}px;"
-                         class="absolute rounded-xl object-cover border-2 border-rose-500 shadow-lg pointer-events-none">
+                    <img src="eto7tprostl.jpg" alt="Enemy" style="position:absolute; left:${en.x}px; top:${en.y}px; width:${en.size}px; height:${en.size}px; border-radius:12px; object-fit:cover; border:2px solid #f43f5e; box-shadow:0 0 14px rgba(244,63,94,0.6); pointer-events:none;">
                 `;
             }
 
@@ -3546,6 +4159,7 @@
         function finishEscapeGame() {
             stopEscapeGameLoop();
             playClickSound(220, 0.25);
+
             const overlay = document.getElementById('escape-overlay');
             const titleEl = document.getElementById('escape-overlay-title');
             const descEl = document.getElementById('escape-overlay-desc');
@@ -3559,96 +4173,101 @@
                 overlay.classList.remove('hidden');
                 overlay.classList.add('flex');
             }
+            updateAccountView();
         }
 
         function initEscapeControls() {
-            document.getElementById('esc-best').textContent = String(escBest);
-
-            window.addEventListener('keydown', (e) => {
-                if (activeTab !== 'escape') return;
-                const k = e.key.toLowerCase();
-                if (k === 'arrowup' || k === 'w' || k === 'ц') { escKeys.up = true; escPointerTarget = null; e.preventDefault(); }
-                if (k === 'arrowdown' || k === 's' || k === 'ы' || k === 'і') { escKeys.down = true; escPointerTarget = null; e.preventDefault(); }
-                if (k === 'arrowleft' || k === 'a' || k === 'ф') { escKeys.left = true; escPointerTarget = null; e.preventDefault(); }
-                if (k === 'arrowright' || k === 'd' || k === 'в') { escKeys.right = true; escPointerTarget = null; e.preventDefault(); }
-            });
-
-            window.addEventListener('keyup', (e) => {
-                const k = e.key.toLowerCase();
-                if (k === 'arrowup' || k === 'w' || k === 'ц') escKeys.up = false;
-                if (k === 'arrowdown' || k === 's' || k === 'ы' || k === 'і') escKeys.down = false;
-                if (k === 'arrowleft' || k === 'a' || k === 'ф') escKeys.left = false;
-                if (k === 'arrowright' || k === 'd' || k === 'в') escKeys.right = false;
-            });
-
             const arena = document.getElementById('escape-arena');
             if (arena) {
-                const updatePointer = (e) => {
+                arena.addEventListener('pointerdown', (e) => {
                     if (!escRunning) return;
                     const rect = arena.getBoundingClientRect();
-                    escPointerTarget = {
-                        x: e.clientX - rect.left,
-                        y: e.clientY - rect.top
-                    };
-                };
-                arena.addEventListener('pointerdown', updatePointer);
-                arena.addEventListener('pointermove', (e) => {
-                    if (e.buttons > 0 || e.pointerType === 'touch') updatePointer(e);
+                    escPointerTarget = { x: e.clientX - rect.left, y: e.clientY - rect.top };
                 });
+                arena.addEventListener('pointermove', (e) => {
+                    if (!escRunning || !escPointerTarget) return;
+                    const rect = arena.getBoundingClientRect();
+                    escPointerTarget = { x: e.clientX - rect.left, y: e.clientY - rect.top };
+                });
+                const clearPtr = () => { escPointerTarget = null; };
+                arena.addEventListener('pointerup', clearPtr);
+                arena.addEventListener('pointercancel', clearPtr);
             }
+
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W' || e.key === 'ц' || e.key === 'Ц') { escKeys.up = true; escPointerTarget = null; }
+                if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S' || e.key === 'ы' || e.key === 'Ы' || e.key === 'і' || e.key === 'І') { escKeys.down = true; escPointerTarget = null; }
+                if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A' || e.key === 'ф' || e.key === 'Ф') { escKeys.left = true; escPointerTarget = null; }
+                if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D' || e.key === 'в' || e.key === 'В') { escKeys.right = true; escPointerTarget = null; }
+            });
+            document.addEventListener('keyup', (e) => {
+                if (e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W' || e.key === 'ц' || e.key === 'Ц') escKeys.up = false;
+                if (e.key === 'ArrowDown' || e.key === 's' || e.key === 'S' || e.key === 'ы' || e.key === 'Ы' || e.key === 'і' || e.key === 'І') escKeys.down = false;
+                if (e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A' || e.key === 'ф' || e.key === 'Ф') escKeys.left = false;
+                if (e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D' || e.key === 'в' || e.key === 'В') escKeys.right = false;
+            });
         }
 
         // ==========================================
-        // ИНСТРУМЕНТ №1: КАЛЬКУЛЯТОР С ПАСХАЛКАМИ (7, 228, 67)
+        // ИНСТРУМЕНТ №1: МЕМ-КАЛЬКУЛЯТОР
         // ==========================================
         let calcCurrent = '0';
         let calcPrev = null;
         let calcOp = null;
-        let calcShouldReset = false;
+        let calcResetNext = false;
 
         function updateCalcScreen() {
             const disp = document.getElementById('calc-display');
             const hist = document.getElementById('calc-history');
             if (disp) disp.textContent = calcCurrent;
             if (hist) {
-                const opSymbol = { '+': '+', '-': '−', '*': '×', '/': '÷' }[calcOp] || '';
-                hist.textContent = calcPrev !== null && opSymbol ? `${calcPrev} ${opSymbol}` : '';
+                const opSym = { '+': '+', '-': '−', '*': '×', '/': '÷' }[calcOp] || '';
+                hist.textContent = calcPrev !== null && calcOp ? `${calcPrev} ${opSym}` : '';
             }
-            checkCalcEasterEggs(calcCurrent);
         }
 
-        function showCalcEasterBanner(img, textKey) {
+        function hideCalcEaster() {
             const box = document.getElementById('calc-easter-box');
-            const imgEl = document.getElementById('calc-easter-img');
-            const txtEl = document.getElementById('calc-easter-text');
-            if (!box || !imgEl || !txtEl) return;
-            imgEl.src = img;
-            txtEl.textContent = t(textKey);
+            if (box) box.classList.add('hidden');
+        }
+
+        function showCalcEaster(imgSrc, text) {
+            const box = document.getElementById('calc-easter-box');
+            const img = document.getElementById('calc-easter-img');
+            const txt = document.getElementById('calc-easter-text');
+            if (!box || !img || !txt) return;
+            img.src = imgSrc;
+            txt.textContent = text;
             box.classList.remove('hidden');
         }
 
-        function checkCalcEasterEggs(valStr) {
-            const box = document.getElementById('calc-easter-box');
-            const clean = String(valStr).trim();
-            if (clean === '7') {
-                showCalcEasterBanner('eto7tprostl.jpg', 'calc_ee_7');
-                unlockAchievement('easter_calc_secret');
-            } else if (clean === '228') {
-                showCalcEasterBanner('c23b4526-88ca-4086-862d-c2639a4046bf.png', 'calc_ee_228');
-                unlockAchievement('easter_calc_secret');
-            } else if (clean === '67') {
-                showCalcEasterBanner('ba90d5bb-cfdb-4ce5-9031-3fc703cde91c.png', 'calc_ee_67');
-                unlockAchievement('easter_calc_secret');
-            } else if (box && !clean.includes('∞')) {
-                box.classList.add('hidden');
+        function calcClear() {
+            playClickSound(440);
+            calcCurrent = '0';
+            calcPrev = null;
+            calcOp = null;
+            calcResetNext = false;
+            hideCalcEaster();
+            updateCalcScreen();
+        }
+
+        function calcBackspace() {
+            playClickSound(460);
+            if (calcResetNext || calcCurrent.length <= 1) {
+                calcCurrent = '0';
+                calcResetNext = false;
+            } else {
+                calcCurrent = calcCurrent.slice(0, -1);
             }
+            updateCalcScreen();
         }
 
         function calcInputDigit(d) {
-            playClickSound(500);
-            if (calcShouldReset || calcCurrent === '0' || calcCurrent.includes('∞')) {
+            playClickSound(520);
+            hideCalcEaster();
+            if (calcResetNext || calcCurrent === '0') {
                 calcCurrent = d;
-                calcShouldReset = false;
+                calcResetNext = false;
             } else if (calcCurrent.length < 14) {
                 calcCurrent += d;
             }
@@ -3656,112 +4275,95 @@
         }
 
         function calcInputDot() {
-            playClickSound(500);
-            if (calcShouldReset || calcCurrent.includes('∞')) {
+            playClickSound(520);
+            if (calcResetNext) {
                 calcCurrent = '0.';
-                calcShouldReset = false;
+                calcResetNext = false;
             } else if (!calcCurrent.includes('.')) {
                 calcCurrent += '.';
             }
             updateCalcScreen();
         }
 
-        function calcClear() {
-            playClickSound(400);
-            calcCurrent = '0';
-            calcPrev = null;
-            calcOp = null;
-            calcShouldReset = false;
-            const box = document.getElementById('calc-easter-box');
-            if (box) box.classList.add('hidden');
-            updateCalcScreen();
-        }
-
-        function calcBackspace() {
-            playClickSound(440);
-            if (calcShouldReset || calcCurrent.includes('∞')) {
-                calcCurrent = '0';
-                calcShouldReset = false;
-            } else {
-                calcCurrent = calcCurrent.length > 1 ? calcCurrent.slice(0, -1) : '0';
-            }
-            updateCalcScreen();
-        }
-
         function calcInputOp(op) {
             playClickSound(560);
-            if (calcOp !== null && !calcShouldReset) {
-                calcCalculate();
+            if (calcPrev !== null && calcOp && !calcResetNext) {
+                calcCalculate(true);
             }
             calcPrev = parseFloat(calcCurrent);
             calcOp = op;
-            calcShouldReset = true;
+            calcResetNext = true;
             updateCalcScreen();
         }
 
-        function calcCalculate() {
-            if (calcOp === null || calcPrev === null) return;
-            const curr = parseFloat(calcCurrent);
+        function calcCalculate(fromChain = false) {
+            if (calcPrev === null || !calcOp) return;
+            const a = calcPrev;
+            const b = parseFloat(calcCurrent);
             let res = 0;
 
-            if (calcOp === '/' && curr === 0) {
+            if (calcOp === '/' && b === 0) {
                 playClickSound(200, 0.2);
-                calcCurrent = '∞ (0!)';
+                calcCurrent = '∞ УСРИШНОСТЬ';
                 calcPrev = null;
                 calcOp = null;
-                calcShouldReset = true;
+                calcResetNext = true;
                 updateCalcScreen();
-                showCalcEasterBanner('usrishnost.jpg', 'calc_ee_zero');
+                showCalcEaster('usrishnost.jpg', t('calc_ee_zero'));
                 unlockAchievement('easter_calc_zero');
                 return;
             }
 
-            if (calcOp === '+') res = calcPrev + curr;
-            if (calcOp === '-') res = calcPrev - curr;
-            if (calcOp === '*') res = calcPrev * curr;
-            if (calcOp === '/') res = calcPrev / curr;
+            if (calcOp === '+') res = a + b;
+            if (calcOp === '-') res = a - b;
+            if (calcOp === '*') res = a * b;
+            if (calcOp === '/') res = Number((a / b).toFixed(6));
 
-            res = Math.round(res * 1000000) / 1000000;
             calcCurrent = String(res);
             calcPrev = null;
             calcOp = null;
-            calcShouldReset = true;
-            playClickSound(680, 0.08);
+            calcResetNext = true;
             updateCalcScreen();
+            if (!fromChain) playClickSound(640);
+
+            if (res === 7) {
+                showCalcEaster('eto7tprostl.jpg', t('calc_ee_7'));
+                unlockAchievement('easter_calc_secret');
+            } else if (res === 228) {
+                showCalcEaster('c23b4526-88ca-4086-862d-c2639a4046bf.png', t('calc_ee_228'));
+                unlockAchievement('easter_calc_secret');
+            } else if (res === 67) {
+                showCalcEaster('ba90d5bb-cfdb-4ce5-9031-3fc703cde91c.png', t('calc_ee_67'));
+                unlockAchievement('easter_calc_secret');
+            }
         }
 
         // ==========================================
         // ИНСТРУМЕНТ №2: ИСКУССТВЕННЫЙ «НЕТУ ПОДКЛЮЧЕНИЯ К ИНТЕРНЕТУ»
         // ==========================================
         let aiChatInitialized = false;
-        let aiReplyIndex = 0;
 
         function initOfflineAiChat() {
             const box = document.getElementById('ai-chat-messages');
             if (!box || aiChatInitialized) return;
             aiChatInitialized = true;
-            appendAiBubble('bot', t('ai_welcome'));
+            appendAiMessage('ai', t('ai_welcome'));
         }
 
-        function appendAiBubble(role, text, isError = false) {
+        function appendAiMessage(sender, text) {
             const box = document.getElementById('ai-chat-messages');
             if (!box) return;
-            const wrapper = document.createElement('div');
-            wrapper.className = role === 'user' ? 'flex justify-end' : 'flex justify-start';
-
-            const bubble = document.createElement('div');
-            if (role === 'user') {
-                bubble.className = 'max-w-[82%] px-4 py-2.5 rounded-2xl rounded-br-sm bg-orange-500/25 border border-orange-400/40 text-white text-xs sm:text-sm';
-            } else if (isError) {
-                bubble.className = 'max-w-[85%] px-4 py-2.5 rounded-2xl rounded-bl-sm bg-rose-500/20 border border-rose-400/40 text-rose-200 text-xs sm:text-sm font-medium';
-            } else {
-                bubble.className = 'max-w-[85%] px-4 py-2.5 rounded-2xl rounded-bl-sm bg-zinc-900 border border-white/10 text-zinc-200 text-xs sm:text-sm';
-            }
-            bubble.textContent = text;
-            wrapper.appendChild(bubble);
-            box.appendChild(wrapper);
+            const row = document.createElement('div');
+            row.className = sender === 'user' ? 'flex justify-end' : 'flex justify-start';
+            row.innerHTML = sender === 'user'
+                ? `<div class="max-w-[82%] px-3.5 py-2.5 rounded-2xl rounded-br-sm bg-purple-600/40 border border-purple-400/40 text-xs sm:text-sm text-white">${escapeHtml(text)}</div>`
+                : `<div class="max-w-[85%] px-3.5 py-2.5 rounded-2xl rounded-bl-sm bg-zinc-900 border border-white/10 text-xs sm:text-sm text-zinc-200 flex items-start gap-2">
+                    <span class="shrink-0">📡</span>
+                    <span>${escapeHtml(text)}</span>
+                   </div>`;
+            box.appendChild(row);
             box.scrollTop = box.scrollHeight;
-            return bubble;
+            return row;
         }
 
         function sendQuickAiPrompt(i18nKey) {
@@ -3771,44 +4373,34 @@
             handleAiSubmit(new Event('submit'));
         }
 
-        function handleAiSubmit(event) {
-            event.preventDefault();
-            if (!state.user) return;
+        function handleAiSubmit(e) {
+            e.preventDefault();
             const input = document.getElementById('ai-prompt-input');
-            const question = input.value.trim();
-            if (!question) return;
+            if (!input) return;
+            const prompt = input.value.trim();
+            if (!prompt) return;
 
-            initOfflineAiChat();
-            playClickSound(560);
-            appendAiBubble('user', question);
             input.value = '';
+            playClickSound(540);
+            appendAiMessage('user', prompt);
+            unlockAchievement('ai_no_internet');
 
-            const thinkingBubble = appendAiBubble('bot', `⏳ ${t('ai_thinking')}`);
-
+            const thinkingRow = appendAiMessage('ai', t('ai_thinking'));
             setTimeout(() => {
+                if (thinkingRow) thinkingRow.remove();
                 const dict = I18N[state.lang] || I18N.ru;
                 const replies = dict.ai_offline_replies || I18N.ru.ai_offline_replies;
-                const replyText = replies[aiReplyIndex % replies.length];
-                aiReplyIndex++;
-
-                if (thinkingBubble) {
-                    thinkingBubble.className = 'max-w-[85%] px-4 py-2.5 rounded-2xl rounded-bl-sm bg-rose-500/20 border border-rose-400/40 text-rose-200 text-xs sm:text-sm font-medium';
-                    thinkingBubble.textContent = `📡 ${replyText}`;
-                }
-                const box = document.getElementById('ai-chat-messages');
-                if (box) box.scrollTop = box.scrollHeight;
-
-                playClickSound(280, 0.14);
-                unlockAchievement('ai_no_internet');
+                const reply = replies[Math.floor(Math.random() * replies.length)];
+                playClickSound(320, 0.1);
+                appendAiMessage('ai', reply);
             }, 650);
         }
 
         // ==========================================
         // ИНСТРУМЕНТ №3: ШАР ПРЕДСКАЗАНИЙ «СОСІЯ / НЕ СОСІЯ»
         // ==========================================
-        let ballLastQuestion = '';
-        let ballRepeatCount = 0;
-        let ballIsShaking = false;
+        let lastBallQuestion = '';
+        let sameBallQuestionCount = 0;
 
         function setBallPreset(i18nKey) {
             const input = document.getElementById('ball-question-input');
@@ -3818,65 +4410,49 @@
         }
 
         function shakeMagicBall() {
-            if (ballIsShaking) return;
+            const input = document.getElementById('ball-question-input');
             const orb = document.getElementById('magic-ball-orb');
-            const win = document.getElementById('magic-ball-window');
             const ansEl = document.getElementById('magic-ball-answer');
             const imgEl = document.getElementById('magic-ball-img');
             const moodEl = document.getElementById('magic-ball-mood');
-            const inputEl = document.getElementById('ball-question-input');
             if (!orb || !ansEl || !imgEl) return;
 
-            const rawQ = (inputEl ? inputEl.value : '').trim();
-            const normalizedQ = rawQ.toLowerCase().replace(/[?!.,\s]+/g, ' ').trim() || '__empty__';
+            const rawQ = input ? input.value.trim() : '';
+            const normQ = rawQ.toLowerCase() || '__empty__';
 
-            if (normalizedQ === ballLastQuestion) {
-                ballRepeatCount += 1;
+            if (normQ === lastBallQuestion) {
+                sameBallQuestionCount++;
             } else {
-                ballLastQuestion = normalizedQ;
-                ballRepeatCount = 1;
+                lastBallQuestion = normQ;
+                sameBallQuestionCount = 1;
             }
 
-            ballIsShaking = true;
-            playClickSound(440, 0.12);
+            playClickSound(580, 0.08);
             orb.classList.add('logo-easter-spin');
             ansEl.textContent = t('ball_shaking_text');
 
             setTimeout(() => {
                 orb.classList.remove('logo-easter-spin');
-                ballIsShaking = false;
-
                 const dict = I18N[state.lang] || I18N.ru;
-                const isAngry = ballRepeatCount >= 3;
+                unlockAchievement('oracle_seeker');
 
-                if (isAngry) {
+                if (sameBallQuestionCount >= 3) {
                     const angryList = dict.ball_angry_answers || I18N.ru.ball_angry_answers;
-                    const angryText = angryList[(ballRepeatCount - 3) % angryList.length];
-                    ansEl.textContent = angryText;
-                    ansEl.className = 'text-xs sm:text-sm font-black text-rose-400 leading-snug';
-                    imgEl.src = 'ba90d5bb-cfdb-4ce5-9031-3fc703cde91c.png';
-                    if (win) {
-                        win.classList.remove('border-pink-400/40');
-                        win.classList.add('border-rose-500');
-                    }
+                    ansEl.textContent = angryList[Math.floor(Math.random() * angryList.length)];
+                    imgEl.src = 'eto7tprostl.jpg';
                     if (moodEl) {
                         moodEl.textContent = t('ball_mood_angry');
-                        moodEl.className = 'mt-4 text-xs font-bold px-3 py-1 rounded-full bg-rose-500/20 border border-rose-500/40 text-rose-300';
+                        moodEl.className = 'mt-4 text-xs font-bold px-3 py-1 rounded-full bg-rose-500/20 border border-rose-400/40 text-rose-300';
                     }
-                    playClickSound(210, 0.22);
                     unlockAchievement('easter_angry_ball');
+                    playClickSound(240, 0.16);
                 } else {
-                    const answers = dict.ball_answers || I18N.ru.ball_answers;
-                    const chosen = answers[Math.floor(Math.random() * answers.length)];
-                    ansEl.textContent = chosen.text;
-                    ansEl.className = 'text-xs sm:text-sm font-extrabold text-pink-200 leading-snug';
-                    imgEl.src = chosen.img;
-                    if (win) {
-                        win.classList.remove('border-rose-500');
-                        win.classList.add('border-pink-400/40');
-                    }
+                    const pool = dict.ball_answers || I18N.ru.ball_answers;
+                    const pick = pool[Math.floor(Math.random() * pool.length)];
+                    ansEl.textContent = pick.text;
+                    imgEl.src = pick.img;
                     if (moodEl) {
-                        if (ballRepeatCount === 2) {
+                        if (sameBallQuestionCount === 2) {
                             moodEl.textContent = t('ball_mood_annoyed');
                             moodEl.className = 'mt-4 text-xs font-semibold px-3 py-1 rounded-full bg-amber-500/20 border border-amber-400/40 text-amber-300';
                         } else {
@@ -3884,21 +4460,16 @@
                             moodEl.className = 'mt-4 text-xs font-semibold px-3 py-1 rounded-full bg-zinc-900/80 border border-white/10 text-zinc-400';
                         }
                     }
-                    playClickSound(690, 0.1);
-                    unlockAchievement('oracle_seeker');
+                    playClickSound(680, 0.09);
                 }
-            }, 520);
+            }, 420);
         }
 
-        // Инициализация
+        // Инициализация всего приложения при загрузке страницы
         window.addEventListener('DOMContentLoaded', () => {
-            loadState();
             initClickerEvents();
             initEscapeControls();
-            renderClickerSwitcher();
-            renderClickerMemeVisual();
-            renderClickerFeed();
-            renderClickerUI();
+            loadState();
         });
     </script>
 </body>
