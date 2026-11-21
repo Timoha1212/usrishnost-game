@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>usrishnost games v0.6.2 — Браузерные миниигры</title>
+    <title>usrishnost games v0.7.3а — Браузерные миниигры</title>
     <link rel="icon" type="image/jpeg" href="usrishnost.jpg">
     <link rel="shortcut icon" type="image/jpeg" href="usrishnost.jpg">
     <link rel="apple-touch-icon" href="usrishnost.jpg">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -187,6 +188,23 @@
             animation: rainbowShift 3.5s linear infinite;
             filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.25));
         }
+
+        /* Эксклюзивный переливающийся никнейм создателя (tapchkawasap32) */
+        @keyframes creatorFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .creator-nick {
+            background: linear-gradient(90deg, #fde047, #fb923c, #f43f5e, #c084fc, #38bdf8, #34d399, #fde047);
+            background-size: 320% 320%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            color: transparent;
+            animation: creatorFlow 2.6s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px rgba(251, 146, 60, 0.55));
+        }
     </style>
 </head>
 <body class="theme-dark text-zinc-100 min-h-screen flex flex-col selection:bg-orange-500 selection:text-white pb-24 sm:pb-0">
@@ -218,8 +236,9 @@
                     <span data-i18n="nav_games">🎮 Игры</span>
                 </button>
                 <button id="tab-btn-achievements" onclick="switchTab('achievements')" class="px-3 py-2 rounded-lg text-sm font-semibold transition-all text-zinc-300 hover:text-white hover:bg-white/10 cursor-pointer flex items-center justify-center gap-1.5">
+                    <span id="nav-ach-lock-icon" class="text-xs">🔒</span>
                     <span data-i18n="nav_ach">🏆 Ачивки</span>
-                    <span id="nav-ach-badge" class="text-[11px] px-1.5 py-0.5 rounded-md bg-white/10 text-amber-300 font-bold">0/23</span>
+                    <span id="nav-ach-badge" class="text-[11px] px-1.5 py-0.5 rounded-md bg-white/10 text-amber-300 font-bold">0/22</span>
                 </button>
                 <button id="tab-btn-account" onclick="switchTab('account')" class="hidden px-3 py-2 rounded-lg text-sm font-semibold transition-all text-zinc-300 hover:text-white hover:bg-white/10 cursor-pointer">
                     <span data-i18n="nav_account">👤 Аккаунт</span>
@@ -243,8 +262,9 @@
                 <span data-i18n="nav_games">🎮 Игры</span>
             </button>
             <button id="mob-tab-btn-achievements" onclick="switchTab('achievements')" class="flex-1 py-2 px-1.5 rounded-xl text-[11px] font-bold transition-all text-zinc-300 hover:text-white flex items-center justify-center gap-1 cursor-pointer truncate">
+                <span id="mob-nav-ach-lock-icon" class="text-[10px]">🔒</span>
                 <span data-i18n="nav_ach">🏆 Ачивки</span>
-                <span id="mob-nav-ach-badge" class="text-[10px] px-1 py-0.2 rounded bg-white/10 text-amber-300 font-extrabold">0/23</span>
+                <span id="mob-nav-ach-badge" class="text-[10px] px-1 py-0.2 rounded bg-white/10 text-amber-300 font-extrabold">0/22</span>
             </button>
             <button id="mob-tab-btn-account" onclick="switchTab('account')" class="hidden flex-1 py-2 px-1.5 rounded-xl text-[11px] font-bold transition-all text-zinc-300 hover:text-white text-center cursor-pointer truncate">
                 <span data-i18n="nav_account">👤 Аккаунт</span>
@@ -266,7 +286,7 @@
                 <div class="space-y-2 max-w-2xl">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-400/30 text-orange-300 text-xs font-semibold">
                         <span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>
-                        <span data-i18n="hero_badge">Версия 0.6.2 • Радужный ник за 100% ачивок и секретные фишки!</span>
+                        <span data-i18n="hero_badge">Версия 0.7.3а • Фикс пасхалки это7тпростл и удобный вход</span>
                     </div>
                     <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
                         <span data-i18n="hero_title_prefix">Добро пожаловать в</span> <span class="text-orange-400">usrishnost games</span>
@@ -287,6 +307,22 @@
                 </div>
             </div>
 
+            <!-- Баннер-подсказка о блокировке в самом верху над играми (ниже приветствия, показывается только до входа в аккаунт) -->
+            <div id="tools-locked-banner" class="glass-panel rounded-2xl p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4 border border-amber-400/30">
+                <div class="flex items-center gap-4 text-center sm:text-left flex-col sm:flex-row">
+                    <div class="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-2xl shrink-0">
+                        🔒
+                    </div>
+                    <div class="space-y-1">
+                        <h3 data-i18n="tools_lock_title" class="text-base sm:text-lg font-extrabold text-white">Игры и часть инструментов закрыты на замок усришности</h3>
+                        <p data-i18n="tools_lock_desc" class="text-xs sm:text-sm text-zinc-300">Шар предсказаний уже доступен всем, а чтобы открыть мини-игры, мем-калькулятор и ИИ без интернета — войди в аккаунт!</p>
+                    </div>
+                </div>
+                <button onclick="openLoginModal()" data-i18n="tools_lock_btn" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white text-sm font-bold shadow-lg shadow-orange-500/25 shrink-0 transition-all cursor-pointer">
+                    🔑 Войти в аккаунт
+                </button>
+            </div>
+
             <!-- Секция 1: Мини-игры -->
             <div class="space-y-4">
                 <div class="flex items-center justify-between px-1">
@@ -297,13 +333,13 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <!-- Карточка 1: УСРО-КЛИКЕР (доступна всегда) -->
+                    <!-- Карточка 1: УСРО-КЛИКЕР (требует вход в аккаунт) -->
                     <div class="glass-card rounded-2xl overflow-hidden flex flex-col border-orange-500/35">
                         <div class="relative h-52 sm:h-60 bg-zinc-900/90 overflow-hidden group">
                             <img src="usrishnost.jpg" alt="УСРО-КЛИКЕР" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-300" onerror="this.src='https://placehold.co/400x240/18181b/ea580c?text=USRO+CLICKER'">
                             <div class="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/30 to-transparent"></div>
-                            <span data-i18n="card_play_now" class="absolute top-3.5 right-3.5 px-3 py-1 rounded-lg bg-emerald-500/20 border border-emerald-400/40 text-xs font-bold text-emerald-300">
-                                ИГРАТЬ СЕЙЧАС
+                            <span id="clicker-card-badge" data-i18n="card_acc_only" class="absolute top-3.5 right-3.5 px-3 py-1 rounded-lg bg-amber-500/20 border border-amber-400/40 text-xs font-bold text-amber-300">
+                                🔒 ТОЛЬКО С АККАУНТОМ
                             </span>
                         </div>
                         <div class="p-5 sm:p-6 flex-1 flex flex-col justify-between space-y-4">
@@ -311,8 +347,8 @@
                                 <h3 data-i18n="card1_title" class="font-bold text-xl text-white">УСРО-КЛИКЕР</h3>
                                 <p data-i18n="card1_desc" class="text-sm text-zinc-400 mt-1.5 leading-relaxed">Качай уровень, переключай мемы («УСРИШНОСТЬ», «ЭТО7ТПРОСТЛ», «сислі», «сосія»), лови комбо x2 и ищи скрытые пасхалки!</p>
                             </div>
-                            <button onclick="switchTab('clicker')" data-i18n="card1_btn" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white text-sm font-bold shadow-lg shadow-orange-500/25 transition-all cursor-pointer">
-                                ▶ Запустить УСРО-КЛИКЕР
+                            <button id="clicker-card-btn" onclick="launchClickerGame()" data-i18n="card1_btn_locked" class="w-full py-3 px-4 rounded-xl bg-white/10 hover:bg-orange-500/25 hover:border-orange-400/50 text-zinc-200 text-sm font-bold border border-white/15 transition-all cursor-pointer">
+                                🔒 Войти, чтобы играть
                             </button>
                         </div>
                     </div>
@@ -341,22 +377,6 @@
 
             <!-- Секция 2: Не сильно полезные Инструменты (часть доступна без аккаунта) -->
             <div class="space-y-4">
-                <!-- Баннер-подсказка для заблокированных инструментов вверху секции (показывается только до входа в аккаунт) -->
-                <div id="tools-locked-banner" class="glass-panel rounded-2xl p-5 sm:p-6 flex flex-col sm:flex-row items-center justify-between gap-4 border border-amber-400/30">
-                    <div class="flex items-center gap-4 text-center sm:text-left flex-col sm:flex-row">
-                        <div class="w-12 h-12 rounded-2xl bg-amber-500/20 border border-amber-400/40 flex items-center justify-center text-2xl shrink-0">
-                            🔒
-                        </div>
-                        <div class="space-y-1">
-                            <h3 data-i18n="tools_lock_title" class="text-base sm:text-lg font-extrabold text-white">Часть инструментов закрыта на замок усришности</h3>
-                            <p data-i18n="tools_lock_desc" class="text-xs sm:text-sm text-zinc-300">Шар предсказаний уже доступен всем, а чтобы открыть мем-калькулятор и ИИ без интернета — войди в аккаунт!</p>
-                        </div>
-                    </div>
-                    <button onclick="openLoginModal()" data-i18n="tools_lock_btn" class="px-5 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white text-sm font-bold shadow-lg shadow-orange-500/25 shrink-0 transition-all cursor-pointer">
-                        🔑 Войти в аккаунт
-                    </button>
-                </div>
-
                 <div class="flex flex-wrap items-center justify-between gap-2 px-1">
                     <h2 data-i18n="tools_section_title" class="text-lg sm:text-xl font-bold text-white drop-shadow">🧰 Не сильно полезные Инструменты</h2>
                     <span id="tools-access-badge" data-i18n="tools_badge_locked" class="text-xs font-semibold px-3 py-1 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-400/35">
@@ -570,12 +590,12 @@
             <!-- Нижняя панель кликера: лента реплик + сброс -->
             <div class="glass-panel rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                 <div class="space-y-1.5 flex-1 w-full">
+            <!-- Нижняя панель кликера: лента реплик -->
+            <div class="glass-panel rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                <div class="space-y-1.5 flex-1 w-full">
                     <div class="text-xs font-bold uppercase tracking-wider text-zinc-400" data-i18n="clicker_feed_title">Лента реплик кликера</div>
                     <div id="clicker-feed-list" class="space-y-1 text-xs sm:text-sm text-zinc-200"></div>
                 </div>
-                <button id="clicker-reset-btn" type="button" data-i18n="clicker_reset" class="px-4 py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 border border-rose-500/30 text-rose-300 text-xs font-bold shrink-0 transition-colors cursor-pointer">
-                    Сбросить кликер
-                </button>
             </div>
         </section>
 
@@ -813,7 +833,7 @@
                     </div>
                     <div class="bg-zinc-900/80 border border-white/10 rounded-xl px-4 py-2.5 text-right shrink-0">
                         <div data-i18n="ach_opened_label" class="text-xs text-zinc-400">Открыто ачивок</div>
-                        <div id="ach-progress-text" class="text-lg font-black text-amber-400">0 из 23 (0%)</div>
+                        <div id="ach-progress-text" class="text-lg font-black text-amber-400">0 из 22 (0%)</div>
                     </div>
                 </div>
 
@@ -875,7 +895,7 @@
                 <div class="grid grid-cols-2 sm:grid-cols-3 gap-3.5">
                     <div class="bg-zinc-900/75 border border-white/10 rounded-xl p-4">
                         <div data-i18n="acc_stat_ach_label" class="text-xs text-zinc-400">Открыто ачивок</div>
-                        <div id="acc-stat-ach" class="text-xl font-extrabold text-amber-400 mt-1">0 / 23</div>
+                        <div id="acc-stat-ach" class="text-xl font-extrabold text-amber-400 mt-1">0 / 22</div>
                     </div>
                     <div class="bg-zinc-900/75 border border-white/10 rounded-xl p-4">
                         <div data-i18n="acc_stat_easter_label" class="text-xs text-zinc-400">Найдено пасхалок</div>
@@ -998,6 +1018,22 @@
                     </div>
                 </div>
 
+                <!-- Плашка блокировки расширенных настроек для гостей -->
+                <div id="settings-guest-lock-banner" class="p-4 sm:p-5 rounded-2xl bg-amber-500/15 border border-amber-400/35 flex flex-col sm:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center gap-3.5 text-center sm:text-left flex-col sm:flex-row">
+                        <span class="text-2xl shrink-0">🔒</span>
+                        <div>
+                            <div data-i18n="set_guest_lock_t" class="font-extrabold text-sm sm:text-base text-amber-200">Расширенные настройки доступны с аккаунтом</div>
+                            <div data-i18n="set_guest_lock_d" class="text-xs text-zinc-300 mt-0.5">Войди в аккаунт, чтобы менять картинку заднего фона, плитку, прозрачность панелей, затемнение, размытие и звуки.</div>
+                        </div>
+                    </div>
+                    <button type="button" onclick="openLoginModal('login')" data-i18n="tools_lock_btn" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white text-xs sm:text-sm font-bold shadow shrink-0 cursor-pointer">
+                        🔑 Войти в аккаунт
+                    </button>
+                </div>
+
+                <!-- Контейнер расширенных настроек (блокируется без аккаунта) -->
+                <div id="settings-advanced-wrapper" class="space-y-6 transition-opacity">
                 <!-- Настройка: Выбор картинки заднего фона (усришность или это7тпростл) -->
                 <div class="space-y-3">
                     <label data-i18n="set_bg_image_label" class="block text-sm font-bold text-zinc-200">Картинка заднего фона</label>
@@ -1080,14 +1116,15 @@
                     </button>
                 </div>
 
-                <!-- Кнопка сброса настроек и ачивок -->
+                <!-- Кнопка сброса настроек и всех данных -->
                 <div class="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-3">
-                    <button onclick="resetAchievements()" data-i18n="set_reset_ach" class="px-4 py-2 rounded-xl bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 text-xs font-semibold border border-rose-500/30 transition-colors cursor-pointer">
-                        Сбросить прогресс ачивок
+                    <button type="button" onclick="openResetAllModal()" data-i18n="set_reset_all_btn" class="px-4 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/35 text-rose-200 text-xs font-extrabold border border-rose-500/40 transition-colors cursor-pointer">
+                        ⚠️ Сбросить все данные
                     </button>
-                    <button onclick="resetSettings()" data-i18n="set_reset_bg" class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs font-semibold border border-white/10 transition-colors cursor-pointer">
+                    <button type="button" onclick="resetSettings()" data-i18n="set_reset_bg" class="px-4 py-2 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-xs font-semibold border border-white/10 transition-colors cursor-pointer">
                         Сбросить фон по умолчанию
                     </button>
+                </div>
                 </div>
 
                 <!-- Пункт в настройках: История обновлений (ChangeLog) -->
@@ -1095,14 +1132,14 @@
                     <div class="flex flex-wrap items-center justify-between gap-3">
                         <div>
                             <h3 data-i18n="cl_title" class="text-lg sm:text-xl font-extrabold text-white">📜 История обновлений (ChangeLog)</h3>
-                            <p data-i18n="cl_subtitle" class="text-xs sm:text-sm text-zinc-400 mt-0.5">Полный путь развития портала usrishnost games от первой альфы до 0.6.2</p>
+                            <p data-i18n="cl_subtitle" class="text-xs sm:text-sm text-zinc-400 mt-0.5">Полный путь развития портала usrishnost games от первой альфы до 0.7.3а</p>
                         </div>
                         <div class="flex items-center gap-2 shrink-0">
                             <button type="button" onclick="toggleChangelogPanel()" data-i18n="cl_open_btn" class="px-3 py-1 rounded-xl bg-orange-500/20 hover:bg-orange-500/35 border border-orange-400/40 text-orange-200 text-xs font-bold transition-colors cursor-pointer">
                                 📖 Открыть / Свернуть журнал
                             </button>
                             <span data-i18n="cl_current_badge" class="px-3 py-1 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-extrabold">
-                                Актуальная: v0.6.2
+                                Актуальная: v0.7.3а
                             </span>
                         </div>
                     </div>
@@ -1125,7 +1162,7 @@
             </div>
             <div class="flex flex-wrap items-center gap-2.5 sm:gap-3">
                 <button onclick="openChangelogInSettings()" class="hover:text-orange-300 transition-colors cursor-pointer font-semibold">
-                    <span data-i18n="footer_version">Версия 0.6.2</span>
+                    <span data-i18n="footer_version">Версия 0.7.3а</span>
                 </button>
                 <span>•</span>
                 <button onclick="openChangelogInSettings()" data-i18n="footer_changelog_btn" class="px-2.5 py-0.5 rounded-md bg-white/10 hover:bg-orange-500/25 border border-white/10 hover:border-orange-400/40 text-zinc-200 hover:text-orange-200 transition-colors cursor-pointer font-semibold">
@@ -1138,6 +1175,16 @@
             </div>
         </div>
     </footer>
+
+    <!-- ОВЕРЛЕЙ ПАСХАЛКИ ЭТО7ТПРОСТЛ (вылетающий томат при клике на 7 или картинку справа от приветствия) -->
+    <div id="tomato-overlay" class="fixed inset-0 z-50 hidden items-center justify-center pointer-events-none">
+        <div class="tomato-fly flex flex-col items-center gap-2.5 bg-zinc-950/90 border-2 border-rose-500/70 rounded-3xl p-4 sm:p-5 shadow-[0_0_50px_rgba(244,63,94,0.65)] backdrop-blur-md">
+            <img src="eto7tprostl.jpg" alt="ЭТО7ТПРОСТЛ!" class="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl object-cover border border-white/20 shadow-lg" onerror="this.src='https://placehold.co/160x160/e11d48/ffffff?text=7'">
+            <span class="px-3.5 py-1 rounded-full bg-rose-500/25 border border-rose-400/40 text-rose-200 font-black text-sm sm:text-base tracking-wide">
+                🍅 ЭТО7ТПРОСТЛ!
+            </span>
+        </div>
+    </div>
 
     <!-- МОДАЛЬНОЕ ОКНО ПАСХАЛКИ №2 («Сосія чи не сосія?») -->
     <div id="sosiya-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
@@ -1156,45 +1203,49 @@
         </div>
     </div>
 
-    <!-- Всплывающий томат для Пасхалки №3 -->
-    <div id="tomato-overlay" class="fixed inset-0 z-50 pointer-events-none hidden items-center justify-center">
-        <div class="bg-zinc-950/80 p-4 rounded-3xl border-2 border-orange-500 shadow-2xl flex flex-col items-center gap-2 tomato-fly">
-            <img src="eto7tprostl.jpg" alt="ЭТО7ТПРОСТЛ" class="w-44 h-44 sm:w-56 sm:h-56 rounded-2xl object-cover" onerror="this.src='https://placehold.co/220x220/ea580c/fff?text=ЭТО7ТПРОСТЛ'">
-            <span class="font-black text-lg text-orange-400 tracking-wide">ЭТО7ТПРОСТЛ!</span>
-        </div>
-    </div>
-
-    <!-- МОДАЛЬНОЕ ОКНО ВХОДА В АККАУНТ -->
+    <!-- МОДАЛЬНОЕ ОКНО ВХОДА И РЕГИСТРАЦИИ В АККАУНТ (SUPABASE) -->
     <div id="login-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
         <div class="glass-panel rounded-2xl max-w-md w-full p-6 sm:p-7 space-y-5 relative border border-white/20 shadow-2xl">
-            <button onclick="closeLoginModal()" class="absolute top-4 right-4 w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center text-zinc-300 hover:text-white transition-colors">
+            <button onclick="closeLoginModal()" class="absolute top-4 right-4 w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center text-zinc-300 hover:text-white transition-colors cursor-pointer">
                 ✕
             </button>
 
             <div class="flex items-center gap-3">
                 <img src="usrishnost.jpg" alt="Avatar" class="w-12 h-12 rounded-xl object-cover border border-white/20" onerror="this.src='https://placehold.co/80x80/ea580c/fff?text=UG'">
                 <div>
-                    <h3 data-i18n="login_title" class="text-xl font-extrabold text-white">Вход в аккаунт</h3>
-                    <p data-i18n="login_subtitle" class="text-xs text-zinc-400">Введи любой ник и любой пароль</p>
+                    <h3 id="auth-modal-title" data-i18n="login_title" class="text-xl font-extrabold text-white">Вход в аккаунт</h3>
+                    <p id="auth-modal-subtitle" data-i18n="login_subtitle" class="text-xs text-zinc-400">Авторизация по нику и паролю (облачное сохранение)</p>
                 </div>
             </div>
 
-            <form onsubmit="handleFakeLogin(event)" class="space-y-4">
+            <!-- Переключатель режимов: Вход / Регистрация -->
+            <div class="grid grid-cols-2 gap-1.5 p-1 rounded-xl bg-zinc-950/80 border border-white/10">
+                <button type="button" id="auth-mode-login-btn" onclick="setAuthModalMode('login')" data-i18n="auth_tab_login" class="py-2 rounded-lg text-xs sm:text-sm font-extrabold bg-orange-500 text-white shadow transition-all cursor-pointer">
+                    🔑 Вход
+                </button>
+                <button type="button" id="auth-mode-register-btn" onclick="setAuthModalMode('register')" data-i18n="auth_tab_register" class="py-2 rounded-lg text-xs sm:text-sm font-extrabold text-zinc-400 hover:text-white transition-all cursor-pointer">
+                    ✨ Регистрация
+                </button>
+            </div>
+
+            <form onsubmit="handleSupabaseAuth(event)" class="space-y-4">
                 <div>
                     <label for="login-username" data-i18n="login_nick_label" class="block text-xs font-bold text-zinc-300 mb-1.5">Твой никнейм</label>
-                    <input id="login-username" type="text" required maxlength="24" data-i18n-placeholder="login_nick_ph" placeholder="Например: УсришныйИгрок" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900/90 border border-white/15 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-orange-500">
+                    <input id="login-username" type="text" required minlength="2" maxlength="24" data-i18n-placeholder="login_nick_ph" placeholder="Например: УсришныйИгрок" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900/90 border border-white/15 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-orange-500">
                 </div>
 
                 <div>
-                    <label for="login-password" data-i18n="login_pass_label" class="block text-xs font-bold text-zinc-300 mb-1.5">Пароль (любой)</label>
-                    <input id="login-password" type="password" required placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900/90 border border-white/15 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-orange-500">
+                    <label for="login-password" data-i18n="login_pass_label" class="block text-xs font-bold text-zinc-300 mb-1.5">Пароль (минимум 6 символов)</label>
+                    <input id="login-password" type="password" required minlength="6" placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl bg-zinc-900/90 border border-white/15 text-white placeholder-zinc-500 text-sm focus:outline-none focus:border-orange-500">
                 </div>
 
+                <div id="auth-error-box" class="hidden p-3 rounded-xl bg-rose-500/20 border border-rose-400/40 text-rose-200 text-xs font-semibold"></div>
+
                 <div class="pt-1 flex gap-2.5">
-                    <button type="button" onclick="closeLoginModal()" data-i18n="login_cancel" class="flex-1 py-2.5 px-4 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-sm font-semibold transition-colors">
+                    <button type="button" onclick="closeLoginModal()" data-i18n="login_cancel" class="flex-1 py-2.5 px-4 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-sm font-semibold transition-colors cursor-pointer">
                         Отмена
                     </button>
-                    <button type="submit" data-i18n="login_submit" class="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white text-sm font-bold shadow-lg shadow-orange-500/25 transition-all">
+                    <button type="submit" id="auth-submit-btn" data-i18n="login_submit" class="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white text-sm font-bold shadow-lg shadow-orange-500/25 transition-all cursor-pointer">
                         Войти
                     </button>
                 </div>
@@ -1282,12 +1333,6 @@
             <!-- 3. Ачивки, статусы и аккаунт -->
             <div class="p-3.5 rounded-xl bg-zinc-950/75 border border-white/10 space-y-2.5">
                 <div class="text-xs font-extrabold text-fuchsia-300 uppercase tracking-wider" data-i18n="cheat_sec_global">👑 Ачивки, Статусы и Профиль</div>
-                <div class="flex flex-col sm:flex-row gap-2">
-                    <input id="cheat-nickname-input" type="text" maxlength="24" placeholder="Новый ник (или авто-вход)" data-i18n-placeholder="cheat_nick_ph" class="flex-1 px-3 py-2 rounded-xl bg-zinc-900 border border-white/15 text-white text-xs sm:text-sm focus:outline-none focus:border-fuchsia-400">
-                    <button type="button" onclick="cheatSetNickname()" data-i18n="cheat_set_nick_btn" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-extrabold cursor-pointer shrink-0">
-                        Сменить ник
-                    </button>
-                </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     <button type="button" onclick="cheatUnlockAllAchievements()" data-i18n="cheat_all_ach_btn" class="py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white text-xs font-extrabold shadow cursor-pointer">
                         🏆 Открыть ВСЕ ачивки + 🌈
@@ -1301,13 +1346,42 @@
                     <button type="button" onclick="cheatMaxPortalTime()" data-i18n="cheat_add_time_btn" class="py-2 px-3 rounded-xl bg-sky-500/20 hover:bg-sky-500/35 border border-sky-400/35 text-sky-200 text-xs font-bold cursor-pointer">
                         ⏱️ +10 часов на портале
                     </button>
-                    <button type="button" onclick="cheatResetAllAchievements()" data-i18n="cheat_reset_ach_btn" class="py-2 px-3 rounded-xl bg-rose-500/20 hover:bg-rose-500/35 border border-rose-400/35 text-rose-200 text-xs font-bold cursor-pointer">
-                        🗑️ Сбросить все ачивки
+                    <button type="button" onclick="openResetAllModal()" data-i18n="cheat_reset_all_btn" class="py-2 px-3 rounded-xl bg-rose-500/20 hover:bg-rose-500/35 border border-rose-400/35 text-rose-200 text-xs font-bold cursor-pointer">
+                        ⚠️ Сбросить все данные
                     </button>
                     <button type="button" onclick="cheatHidePanelButton()" data-i18n="cheat_hide_btn" class="py-2 px-3 rounded-xl bg-zinc-800 hover:bg-zinc-700 border border-white/15 text-zinc-300 text-xs font-bold cursor-pointer">
                         🙈 Скрыть кнопку читов
                     </button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО ПОДТВЕРЖДЕНИЯ ПОЛНОГО СБРОСА ДАННЫХ -->
+    <div id="reset-all-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+        <div class="glass-panel rounded-2xl max-w-md w-full p-6 space-y-4 relative border border-rose-500/45 shadow-2xl">
+            <button type="button" onclick="closeResetAllModal()" class="absolute top-3.5 right-3.5 w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 flex items-center justify-center text-zinc-300 hover:text-white transition-colors cursor-pointer">
+                ✕
+            </button>
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-rose-500/20 border border-rose-400/40 flex items-center justify-center text-2xl shrink-0">
+                    ⚠️
+                </div>
+                <div>
+                    <h3 data-i18n="reset_modal_title" class="text-lg sm:text-xl font-black text-white">Сбросить все данные?</h3>
+                    <p data-i18n="reset_modal_sub" class="text-xs text-rose-300 font-semibold">Это действие нельзя отменить!</p>
+                </div>
+            </div>
+            <p data-i18n="reset_modal_desc" class="text-xs sm:text-sm text-zinc-300 leading-relaxed bg-zinc-950/75 p-3.5 rounded-xl border border-white/10">
+                Будут обнулены все очки и улучшения в «УСРО-КЛИКЕР», рекорд в «Побег от это7тпростл», выбранный статус, настройки и все достижения. Аккаунт станет почти как новый, а приветственная ачивка «Добро пожаловать в Усришность» выдастся заново!
+            </p>
+            <div class="flex gap-2.5 pt-1">
+                <button type="button" onclick="closeResetAllModal()" data-i18n="login_cancel" class="flex-1 py-2.5 px-4 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-sm font-bold transition-colors cursor-pointer">
+                    Отмена
+                </button>
+                <button type="button" onclick="confirmResetAllData()" data-i18n="reset_modal_confirm" class="flex-1 py-2.5 px-4 rounded-xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white text-sm font-extrabold shadow-lg shadow-rose-500/25 transition-all cursor-pointer">
+                    Да, сбросить всё
+                </button>
             </div>
         </div>
     </div>
@@ -1323,7 +1397,7 @@
                 nav_settings: '⚙️ Настройки',
                 btn_login: 'Войти',
                 btn_logout: 'Выйти',
-                hero_badge: 'Версия 0.6.2 • Радужный ник за 100% ачивок и секретные фишки!',
+                hero_badge: 'Версия 0.7.3а • Фикс пасхалки это7тпростл и удобный вход',
                 hero_title_prefix: 'Добро пожаловать в',
                 hero_desc_1: 'Здесь собираются лучшие браузерные миниигры. Пока что',
                 hero_desc_2: 'разработчиков настраивают усришность на полную мощность — заходи в настройки, ищи пасхалки и собирай ачивки!',
@@ -1339,6 +1413,7 @@
                 card1_title: 'УСРО-КЛИКЕР',
                 card1_desc: 'Качай уровень, переключай мемы («УСРИШНОСТЬ», «ЭТО7ТПРОСТЛ», «сислі», «сосія»), лови комбо x2 и ищи скрытые пасхалки!',
                 card1_btn: '▶ Запустить УСРО-КЛИКЕР',
+                card1_btn_locked: '🔒 Войти, чтобы играть',
                 card2_title: 'Побег от это7тпростл',
                 card2_desc: 'Динамичная аркада: уворачивайся яблочком усришности от толпы суровых томатов это7тпростл и собирай бонусы «сислі» и «сосія»!',
                 card2_btn_locked: '🔒 Войти, чтобы играть',
@@ -1346,8 +1421,8 @@
                 tools_section_title: '🧰 Не сильно полезные Инструменты',
                 tools_badge_locked: '🔓 Шар открыт всем • Остальное с аккаунтом',
                 tools_badge_open: '✅ Все инструменты разблокированы',
-                tools_lock_title: 'Часть инструментов закрыта на замок усришности',
-                tools_lock_desc: 'Шар предсказаний уже доступен всем, а чтобы открыть мем-калькулятор и ИИ без интернета — войди в аккаунт!',
+                tools_lock_title: 'Игры и часть инструментов закрыты на замок усришности',
+                tools_lock_desc: 'Шар предсказаний уже доступен всем, а чтобы открыть мини-игры, мем-калькулятор и ИИ без интернета — войди в аккаунт!',
                 tools_lock_btn: '🔑 Войти в аккаунт',
                 tool_tag_locked: '🔒 С АККАУНТОМ',
                 tool_tag_useless: 'НЕ СИЛЬНО ПОЛЕЗНЫЙ',
@@ -1420,7 +1495,7 @@
                 status_tomato_name: 'Томат это7тпростл',
                 status_tomato_req: 'Набрать 1 000 очков в «Побег от это7тпростл»',
                 status_crown_name: 'Корона легенды',
-                status_crown_req: 'Выполнить все 23 ачивки портала',
+                status_crown_req: 'Выполнить все 22 ачивки портала',
                 status_unlocked_tag: 'Доступно',
                 status_locked_tag: 'Закрыто',
                 status_equipped_tag: 'Надето',
@@ -1454,25 +1529,43 @@
                 set_blur_label: 'Размытие фона',
                 set_sound_t: 'Звуковые эффекты кликов',
                 set_sound_d: 'Приятные ретро-пики при нажатии на кнопки',
-                set_reset_ach: 'Сбросить прогресс ачивок',
+                set_reset_all_btn: '⚠️ Сбросить все данные',
                 set_reset_bg: 'Сбросить фон по умолчанию',
+                reset_modal_title: 'Сбросить все данные?',
+                reset_modal_sub: 'Это действие нельзя отменить!',
+                reset_modal_desc: 'Будут обнулены все очки и улучшения в «УСРО-КЛИКЕР», рекорд в «Побег от это7тпростл», выбранный статус, настройки и все достижения. Аккаунт станет почти как новый, а приветственная ачивка «Добро пожаловать в Усришность» выдастся заново!',
+                reset_modal_confirm: 'Да, сбросить всё',
+                toast_all_data_reset: '🧹 Все данные аккаунта сброшены! Добро пожаловать заново!',
+                set_guest_lock_t: 'Расширенные настройки доступны с аккаунтом',
+                set_guest_lock_d: 'Войди в аккаунт, чтобы менять картинку заднего фона, плитку, прозрачность панелей, затемнение, размытие и звуки.',
+                toast_ach_need_login: '🔒 Вкладка «Ачивки» доступна только после входа в аккаунт!',
                 cl_title: '📜 История обновлений (ChangeLog)',
-                cl_subtitle: 'Полный путь развития портала usrishnost games от первой альфы до 0.6.2',
+                cl_subtitle: 'Полный путь развития портала usrishnost games от первой альфы до 0.7.3а',
                 cl_open_btn: '📖 Открыть / Свернуть журнал',
-                cl_current_badge: 'Актуальная: v0.6.2',
+                cl_current_badge: 'Актуальная: v0.7.3а',
                 footer_rights: 'Все права усришены.',
-                footer_version: 'Версия 0.6.2',
+                footer_version: 'Версия 0.7.3а',
                 footer_changelog_btn: '📜 Журнал изменений',
                 footer_secret_hint: 'Что тут спрятано?',
                 sosiya_title: 'Секретная переписка найдена!',
                 sosiya_btn: 'Понял, ти вопще 😄',
                 login_title: 'Вход в аккаунт',
-                login_subtitle: 'Введи любой ник и любой пароль',
+                register_title: 'Регистрация аккаунта',
+                login_subtitle: 'Вход по нику и паролю • прогресс в облаке',
+                register_subtitle: 'Создай аккаунт по нику и паролю (минимум 6 символов)',
+                auth_tab_login: '🔑 Вход',
+                auth_tab_register: '✨ Регистрация',
                 login_nick_label: 'Твой никнейм',
                 login_nick_ph: 'Например: УсришныйИгрок',
-                login_pass_label: 'Пароль (любой)',
+                login_pass_label: 'Пароль (от 6 символов)',
                 login_cancel: 'Отмена',
                 login_submit: 'Войти',
+                register_submit: 'Создать аккаунт',
+                auth_loading: '⏳ Подключение...',
+                auth_err_short_pass: 'Пароль должен содержать минимум 6 символов!',
+                auth_err_invalid: 'Неверный никнейм или пароль!',
+                auth_err_taken: 'Этот никнейм уже занят! Выбери другой или нажми «Вход».',
+                toast_register_ok: '🎉 Аккаунт «{name}» успешно зарегистрирован в облаке!',
                 toast_ach_unlocked: '🏆 Ачивка получена: «{title}»!',
                 toast_need_login: '🔒 Сначала войди в аккаунт, чтобы открыть этот раздел!',
                 toast_apple_spin: '🍎 Усришность раскручена на максимум!',
@@ -1480,9 +1573,7 @@
                 toast_logout_ok: 'Вы вышли из аккаунта ({name}).',
                 toast_avatar_ok: 'Аватарка обновлена!',
                 toast_bg_reset: 'Настройки фона сброшены по умолчанию.',
-                toast_ach_reset: 'Прогресс достижений сброшен.',
                 toast_clicker_secret: '🕵️ Секрет кликера раскрыт! +{bonus} очков',
-                toast_clicker_reset: 'Прогресс «УСРО-КЛИКЕР» сброшен.',
                 clicker_title: '🍎🍅 УСРО-КЛИКЕР',
                 clicker_secret_hint: 'Хм... что это за значок?',
                 clicker_subtitle: 'Качай уровень, лови реплики и запускай режим УСРИШНОСТЬ x2',
@@ -1567,13 +1658,12 @@
                 ach: {
                     welcome: { title: 'Добро пожаловать в Усришность', desc: 'Впервые заглянуть на портал usrishnost games.' },
                     login_user: { title: 'Свой человек', desc: 'Войти в свой аккаунт на сайте.' },
-                    curious_player: { title: 'Любопытная Варвара', desc: 'Попытаться открыть закрытый режим до входа в аккаунт.' },
                     bg_designer: { title: 'Дизайнер от бога', desc: 'Изменить режим или параметры усришности в «Настройках».' },
                     polyglot: { title: 'Полиглот усришности', desc: 'Сменить язык интерфейса на любой другой во вкладке «Настройки».' },
                     clicker_first_100: { title: 'Сотня усришности', desc: 'Набрать 100 очков в игре «УСРО-КЛИКЕР».' },
                     clicker_1000: { title: 'Тысяча усришности', desc: 'Набрать 1 000 очков в игре «УСРО-КЛИКЕР».' },
                     clicker_frenzy: { title: 'Режим УСРИШНОСТЬ x2', desc: 'Заполнить комбо-шкалу до 100% и активировать ускорение в кликере.' },
-                    clicker_reset_ach: { title: 'Начать с чистого яблока', desc: 'Сбросить очки и прогресс в первой миниигре «УСРО-КЛИКЕР».' },
+                    clicker_reset_ach: { title: 'Десять тысяч усришности', desc: 'Набрать 10 000 очков в игре «УСРО-КЛИКЕР».' },
                     escape_runner: { title: 'Неуловимое яблоко', desc: 'Набрать 50 очков в аркаде «Побег от это7тпростл».' },
                     escape_100: { title: 'Спринтер от томатов', desc: 'Набрать 100 очков в аркаде «Побег от это7тпростл».' },
                     escape_1000: { title: 'Бог уклонения от это7тпростл', desc: 'Набрать 500 очков в аркаде «Побег от это7тпростл».' },
@@ -1587,7 +1677,7 @@
                     easter_calc_secret: { title: 'Математик 7-228-67', desc: 'Пасхалка в калькуляторе: получить число 7, 228 или 67.' },
                     easter_calc_zero: { title: 'Повелитель нуля', desc: 'Пасхалка в калькуляторе: попытаться разделить число на 0.' },
                     easter_angry_ball: { title: 'Чого ты добиваешься?!', desc: 'Пасхалка в Шаре предсказаний: задать один и тот же вопрос 3 раза подряд и разозлить оракула.' },
-                    legend: { title: 'Легенда usrishnost games', desc: 'Собрать все остальные 22 достижения портала!' }
+                    legend: { title: 'Легенда usrishnost games', desc: 'Собрать все остальные 21 достижение портала!' }
                 },
                 cheat_fab_btn: 'ADMIN CHEATS',
                 cheat_modal_title: 'Секретная Админ Чит-Панель',
@@ -1609,14 +1699,12 @@
                 cheat_freeze_on: '❄️ Заморозка томатов: ВКЛ',
                 cheat_freeze_off: '❄️ Заморозка томатов: ВЫКЛ',
                 cheat_sec_global: '👑 Ачивки, Статусы и Профиль',
-                cheat_nick_ph: 'Новый ник (или авто-вход)',
-                cheat_set_nick_btn: 'Сменить ник',
                 cheat_rainbow_on: '🌈 Радужный ник: ВКЛ',
                 cheat_rainbow_auto: '🌈 Радужный ник: АВТО',
                 cheat_all_ach_btn: '🏆 Открыть ВСЕ ачивки + 🌈',
                 cheat_all_statuses_btn: '✨ Разблокировать все статусы',
                 cheat_add_time_btn: '⏱️ +10 часов на портале',
-                cheat_reset_ach_btn: '🗑️ Сбросить все ачивки',
+                cheat_reset_all_btn: '⚠️ Сбросить все данные',
                 cheat_hide_btn: '🙈 Скрыть кнопку читов',
                 toast_cheat_unlocked: '🛠️ Секретный доступ активирован! Кнопка админа появилась справа снизу.',
                 toast_cheat_click_set: '🛠️ Сила нажатия в УСРО-КЛИКЕР установлена: {val}!',
@@ -1625,18 +1713,58 @@
                 toast_cheat_score_add: '🛠️ Начислено +100 000 очков в УСРО-КЛИКЕР!',
                 toast_cheat_frenzy: '🛠️ Активирован режим УСРИШНОСТЬ x2 на 60 секунд!',
                 toast_cheat_esc_set: '🛠️ Рекорд в «Побег от это7тпростл» установлен: {val}!',
-                toast_cheat_nick_set: '🛠️ Никнейм успешно изменён на «{val}»!',
-                toast_cheat_all_ach: '🛠️ Все 23 достижения открыты! Твой ник теперь радужный 🌈!',
-                toast_cheat_all_st: '🛠️ Все статусы разблокированы (100k кликов, 1000 побега, 23 ачивки)!',
+                toast_cheat_all_ach: '🛠️ Все 22 достижения открыты! Твой ник теперь радужный 🌈!',
+                toast_cheat_all_st: '🛠️ Все статусы разблокированы (100k кликов, 1000 побега, 22 ачивки)!',
                 toast_cheat_time: '🛠️ Добавлено +10 часов активности на портале!',
                 cl: [
+                    {
+                        version: '0.7.3а',
+                        date: 'Фикс пасхалки это7тпростл и баннера входа',
+                        badge: 'ПАТЧ 0.7.3',
+                        badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
+                        items: [
+                            'Исправлена пасхалка с вылетающей картинкой это7тпростл при нажатии на иконку справа от приветствия и при нажатии на цифру «7».',
+                            'Плашка с предложением войти в аккаунт перенесена на самый верх — сразу под приветствием и выше секции мини-игр.'
+                        ]
+                    },
+                    {
+                        version: '0.7.2а',
+                        date: 'Ребаланс достижений кликера',
+                        badge: 'ПАТЧ 0.7.2',
+                        badgeColor: 'bg-sky-500/20 text-sky-300 border-sky-400/40',
+                        items: [
+                            'Невыполнимая ачивка «Начать с чистого яблока» заменена на новое достижение «🚀 Десять тысяч усришности» — за набор 10 000 очков в игре «УСРО-КЛИКЕР».'
+                        ]
+                    },
+                    {
+                        version: '0.7.1а',
+                        date: 'Фикс аватарок, ник создателя и полный сброс данных',
+                        badge: 'ПАТЧ 0.7.1',
+                        badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
+                        items: [
+                            'Исправлена смена и сохранение аватарки профиля во вкладке «Аккаунт».',
+                            'Добавлен эксклюзивный переливающийся никнейм для создателя портала usrishnost games (tapchkawasap32).',
+                            'Вместо отдельных кнопок сброса ачивок и кликера добавлена единая кнопка «⚠️ Сбросить все данные» в настройках с окном подтверждения и повторной выдачей стартовой ачивки «Добро пожаловать в Усришность».'
+                        ]
+                    },
+                    {
+                        version: '0.7а',
+                        date: 'Обновление погони и исправление багов',
+                        badge: 'АЛЬФА 0.7',
+                        badgeColor: 'bg-orange-500/20 text-orange-300 border-orange-400/40',
+                        items: [
+                            'Исправлен ИИ врагов в «Побег от это7тпростл»: томаты больше не отскакивают как логотип DVD, а целенаправленно преследуют игрока!',
+                            'Убрана невыполнимая ачивка «Любопытная Варвара» (теперь на портале 22 достижения).',
+                            'Интегрирована облачная система аккаунтов через Supabase с сохранением прогресса и ачивок.'
+                        ]
+                    },
                     {
                         version: '0.6.2',
                         date: 'Обновление радужного ника',
                         badge: 'ВЕРСИЯ 0.6.2',
                         badgeColor: 'bg-fuchsia-500/20 text-fuchsia-300 border-fuchsia-400/40',
                         items: [
-                            'Добавлен переливающийся радужный никнейм в шапке и профиле при получении всех 23 достижений игры!',
+                            'Добавлен переливающийся радужный никнейм в шапке и профиле при получении всех достижений игры!',
                             'Оптимизировано отображение статусов и эффектов профиля.'
                         ]
                     },
@@ -1824,7 +1952,7 @@
                 nav_settings: '⚙️ Налаштування',
                 btn_login: 'Увійти',
                 btn_logout: 'Вийти',
-                hero_badge: 'Версія 0.6.2 • Райдужний нік за 100% ачівок та секретні фішки!',
+                hero_badge: 'Версія 0.7.3а • Фікс пасхалки это7тпростл і зручний вхід',
                 hero_title_prefix: 'Ласкаво просимо до',
                 hero_desc_1: 'Тут збираються найкращі браузерні мініігри. Поки що',
                 hero_desc_2: 'розробників налаштовують усрішність на повну потужність — заходь у налаштування, шукай пасхалки та збирай ачівки!',
@@ -1840,6 +1968,7 @@
                 card1_title: 'УСРО-КЛІКЕР',
                 card1_desc: 'Качай рівень, перемикай меми («УСРИШНОСТЬ», «ЭТО7ТПРОСТЛ», «сислі», «сосія»), лови комбо x2 та шукай приховані пасхалки!',
                 card1_btn: '▶ Запустити УСРО-КЛІКЕР',
+                card1_btn_locked: '🔒 Увійти, щоб грати',
                 card2_title: 'Втеча від это7тпростл',
                 card2_desc: 'Динамічна аркада: ухиляйся яблучком усрішності від натовпу суворих томатів это7тпростл і збирай бонуси «сислі» та «сосія»!',
                 card2_btn_locked: '🔒 Увійти, щоб грати',
@@ -1847,8 +1976,8 @@
                 tools_section_title: '🧰 Не сильно корисні Інструменти',
                 tools_badge_locked: '🔓 Куля відкрита всім • Інше з акаунтом',
                 tools_badge_open: '✅ Усі інструменти розблоковано',
-                tools_lock_title: 'Частина інструментів закрита на замок усрішності',
-                tools_lock_desc: 'Куля передбачень уже доступна всім, а щоб відкрити мем-калькулятор і ШІ без інтернету — увійди в акаунт!',
+                tools_lock_title: 'Ігри та частина інструментів закриті на замок усрішності',
+                tools_lock_desc: 'Куля передбачень уже доступна всім, а щоб відкрити міні-ігри, мем-калькулятор і ШІ без інтернету — увійди в акаунт!',
                 tools_lock_btn: '🔑 Увійти в акаунт',
                 tool_tag_locked: '🔒 З АКАУНТОМ',
                 tool_tag_useless: 'НЕ СИЛЬНО КОРИСНИЙ',
@@ -1908,6 +2037,7 @@
                 acc_stat_time_label: 'Час на порталі',
                 acc_time_fmt: '{m} хв {s} сек',
                 acc_records_title: '🏅 Максимальні рекорди в іграх',
+                acc_records_sub: 'Особисті досягнення',
                 acc_rec_clicker_lbl: 'Рекорд в «УСРО-КЛИКЕР»',
                 acc_rec_escape_lbl: 'Рекорд у «Втеча від это7тпростл»',
                 acc_status_picker_btn: '✨ Вибір статусу',
@@ -1916,11 +2046,11 @@
                 status_none_name: 'Без статусу',
                 status_none_req: 'Звичайний режим відображення ніку',
                 status_apple_name: 'Яблуко усрішності',
-                status_apple_req: 'Набрати 100 000 очок в «УСРО-КЛІКЕР»',
+                status_apple_req: 'Набрати 100 000 очок в «УСРО-КЛИКЕР»',
                 status_tomato_name: 'Томат это7тпростл',
                 status_tomato_req: 'Набрати 1 000 очок у «Втеча від это7тпростл»',
                 status_crown_name: 'Корона легенди',
-                status_crown_req: 'Виконати всі 23 ачівки порталу',
+                status_crown_req: 'Виконати всі 22 ачівки порталу',
                 status_unlocked_tag: 'Доступно',
                 status_locked_tag: 'Закрито',
                 status_equipped_tag: 'Одягнено',
@@ -1954,25 +2084,43 @@
                 set_blur_label: 'Розмиття фону',
                 set_sound_t: 'Звукові ефекти кліків',
                 set_sound_d: 'Приємні ретро-піки при натисканні на кнопки',
-                set_reset_ach: 'Скинути прогрес ачівок',
+                set_reset_all_btn: '⚠️ Скинути всі дані',
                 set_reset_bg: 'Скинути фон за замовчуванням',
+                reset_modal_title: 'Скинути всі дані?',
+                reset_modal_sub: 'Цю дію неможливо скасувати!',
+                reset_modal_desc: 'Будуть обнулені всі очки та покращення в «УСРО-КЛИКЕР», рекорд у «Втеча від это7тпростл», обраний статус, налаштування та всі досягнення. Акаунт стане майже як новий, а привітальна ачівка «Ласкаво просимо до Усрішності» видасться заново!',
+                reset_modal_confirm: 'Так, скинути все',
+                toast_all_data_reset: '🧹 Усі дані акаунта скинуто! Ласкаво просимо заново!',
+                set_guest_lock_t: 'Розширені налаштування доступні з акаунтом',
+                set_guest_lock_d: 'Увійди в акаунт, щоб змінювати картинку заднього фону, плитку, прозорість панелей, затемнення, розмиття та звуки.',
+                toast_ach_need_login: '🔒 Вкладка «Ачівки» доступна лише після входу в акаунт!',
                 cl_title: '📜 Історія оновлень (ChangeLog)',
-                cl_subtitle: 'Повний шлях розвитку порталу usrishnost games від першої альфи до 0.6.2',
+                cl_subtitle: 'Повний шлях розвитку порталу usrishnost games від першої альфи до 0.7.3а',
                 cl_open_btn: '📖 Відкрити / Згорнути журнал',
-                cl_current_badge: 'Актуальна: v0.6.2',
+                cl_current_badge: 'Актуальна: v0.7.3а',
                 footer_rights: 'Усі права усрішені.',
-                footer_version: 'Версія 0.6.2',
+                footer_version: 'Версія 0.7.3а',
                 footer_changelog_btn: '📜 Журнал змін',
                 footer_secret_hint: 'Що тут заховано?',
                 sosiya_title: 'Секретне листування знайдено!',
                 sosiya_btn: 'Зрозумів, ти вопще 😄',
                 login_title: 'Вхід в акаунт',
-                login_subtitle: 'Введи будь-який нік і будь-який пароль',
+                register_title: 'Реєстрація акаунта',
+                login_subtitle: 'Вхід за ніком і паролем • прогрес у хмарі',
+                register_subtitle: 'Створи акаунт за ніком і паролем (мінімум 6 символів)',
+                auth_tab_login: '🔑 Вхід',
+                auth_tab_register: '✨ Реєстрація',
                 login_nick_label: 'Твій нікнейм',
                 login_nick_ph: 'Наприклад: УсрішнийГравець',
-                login_pass_label: 'Пароль (будь-який)',
+                login_pass_label: 'Пароль (від 6 символів)',
                 login_cancel: 'Скасувати',
                 login_submit: 'Увійти',
+                register_submit: 'Створити акаунт',
+                auth_loading: '⏳ Підключення...',
+                auth_err_short_pass: 'Пароль має містити щонайменше 6 символів!',
+                auth_err_invalid: 'Невірний нікнейм або пароль!',
+                auth_err_taken: 'Цей нікнейм уже зайнятий! Обери інший або натисни «Вхід».',
+                toast_register_ok: '🎉 Акаунт «{name}» успішно зареєстровано у хмарі!',
                 toast_ach_unlocked: '🏆 Ачівку отримано: «{title}»!',
                 toast_need_login: '🔒 Спочатку увійди в акаунт, щоб відкрити цей розділ!',
                 toast_apple_spin: '🍎 Усрішність розкручено на максимум!',
@@ -1980,9 +2128,7 @@
                 toast_logout_ok: 'Ви вийшли з акаунта ({name}).',
                 toast_avatar_ok: 'Аватарку оновлено!',
                 toast_bg_reset: 'Налаштування фону скинуто за замовчуванням.',
-                toast_ach_reset: 'Прогрес досягнень скинуто.',
                 toast_clicker_secret: '🕵️ Секрет клікера розкрито! +{bonus} очок',
-                toast_clicker_reset: 'Прогрес «УСРО-КЛІКЕР» скинуто.',
                 clicker_title: '🍎🍅 УСРО-КЛІКЕР',
                 clicker_secret_hint: 'Хм... що це за значок?',
                 clicker_subtitle: 'Качай рівень, лови репліки та запускай режим УСРИШНОСТЬ x2',
@@ -2030,7 +2176,7 @@
                 ai_input_ph: 'Запитай що завгодно у нейромережі...',
                 ai_send_btn: 'Надіслати',
                 ai_welcome: 'Привіт! Я надпотужна нейромережа usrishnost-GPT. Постав будь-яке запитання (але одразу попереджаю — інтернету немає).',
-                ai_thinking: 'Обробляю нейронні звʼязки...',
+                ai_thinking: 'Обробляю нейронные звʼязки...',
                 ai_offline_replies: [
                     'Помилка 404: Немає підключення до інтернету. Перевірте кабель усрішності!',
                     'Я б із радістю відповів, але в мене немає підключення до інтернету 🤷‍♂️',
@@ -2048,7 +2194,7 @@
                 log_event_catch: 'Спіймано подію! Отримано +{reward} очок',
                 log_reset: 'Прогрес клікера скинуто. Починаємо заново!',
                 event_t1: '⚡ Раптове «Чого»! Забрати +{reward}',
-                event_t2: '⚡ «ти вопще» у чаті! Забрати +{reward}',
+                event_t2: '⚡ «ти вопще» у чаті! Забрать +{reward}',
                 event_t3: '⚡ Рідкісна «не сосія»! Забрати +{reward}',
                 ranks: [
                     'Новачок чату',
@@ -2067,13 +2213,12 @@
                 ach: {
                     welcome: { title: 'Ласкаво просимо до Усрішності', desc: 'Вперше зазирнути на портал usrishnost games.' },
                     login_user: { title: 'Своя людина', desc: 'Увійти у свій акаунт на сайті.' },
-                    curious_player: { title: 'Цікава Варвара', desc: 'Спробувати відкрити закритий режим до входу в акаунт.' },
                     bg_designer: { title: 'Дизайнер від бога', desc: 'Змінити режим або параметри усрішності в «Налаштуваннях».' },
                     polyglot: { title: 'Поліглот усрішності', desc: 'Змінити мову інтерфейсу на будь-яку іншу у вкладці «Налаштування».' },
                     clicker_first_100: { title: 'Сотня усрішності', desc: 'Набрати 100 очок у грі «УСРО-КЛІКЕР».' },
                     clicker_1000: { title: 'Тисяча усрішності', desc: 'Набрати 1 000 очок у грі «УСРО-КЛІКЕР».' },
                     clicker_frenzy: { title: 'Режим УСРИШНОСТЬ x2', desc: 'Заповнити комбо-шкалу до 100% і активувати прискорення в клікері.' },
-                    clicker_reset_ach: { title: 'Почати з чистого яблука', desc: 'Скинути очки та прогрес у першій мініігрі «УСРО-КЛІКЕР».' },
+                    clicker_reset_ach: { title: 'Десять тисяч усрішності', desc: 'Набрати 10 000 очок у грі «УСРО-КЛІКЕР».' },
                     escape_runner: { title: 'Невловиме яблуко', desc: 'Набрати 50 очок в аркаді «Втеча від это7тпростл».' },
                     escape_100: { title: 'Спринтер від томатів', desc: 'Набрати 100 очок в аркаді «Втеча від это7тпростл».' },
                     escape_1000: { title: 'Бог ухилення від это7тпростл', desc: 'Набрати 500 очок в аркаді «Втеча від это7тпростл».' },
@@ -2087,56 +2232,94 @@
                     easter_calc_secret: { title: 'Математик 7-228-67', desc: 'Пасхалка в калькуляторі: отримати число 7, 228 або 67.' },
                     easter_calc_zero: { title: 'Володар нуля', desc: 'Пасхалка в калькуляторі: спробувати поділити число на 0.' },
                     easter_angry_ball: { title: 'Чого ти добиваєшся?!', desc: 'Пасхалка в Кулі передбачень: поставити одне й те саме запитання 3 рази поспіль і розізлити оракула.' },
-                    legend: { title: 'Легенда usrishnost games', desc: 'Зібрати всі інші 22 досягнення порталу!' }
+                    legend: { title: 'Легенда usrishnost games', desc: 'Зібрати всі інші 21 досягнення порталу!' }
                 },
                 cheat_fab_btn: 'ADMIN CHEATS',
                 cheat_modal_title: 'Секретна Адмін Чіт-Панель',
                 cheat_modal_sub: 'Код 9222+777=9999 підтверджено • Повний доступ',
                 cheat_sec_clicker: '🍎 УСРО-КЛІКЕР: Сила та очки',
                 cheat_click_ph: 'Сила кліку (наприклад 9999)',
-                cheat_set_click_btn: 'Задати силу кліку',
-                cheat_auto_ph: 'Очок за сек (наприклад 5000)',
-                cheat_set_auto_btn: 'Задати авто-дохід/с',
+                cheat_set_click_btn: 'Задать силу кліку',
+                cheat_auto_ph: 'Очок за сек (например 5000)',
+                cheat_set_auto_btn: 'Задать авто-дохід/с',
                 cheat_mult_ph: 'Множник кліку (наприклад 50)',
-                cheat_set_mult_btn: 'Задати множник',
+                cheat_set_mult_btn: 'Задать множник',
                 cheat_add_100k: '+100 000 очок',
                 cheat_frenzy_btn: '🔥 УСРИШНОСТЬ x2 (60с)',
                 cheat_sec_escape: '🍅 Втеча від это7тпростл',
                 cheat_escape_ph: 'Новий рекорд (наприклад 1000)',
-                cheat_set_escape_btn: 'Задати рекорд',
+                cheat_set_escape_btn: 'Задать рекорд',
                 cheat_god_on: '🛡️ Безсмертя: УВІМК',
                 cheat_god_off: '🛡️ Безсмертя: ВИМК',
                 cheat_freeze_on: '❄️ Заморозка томатів: УВІМК',
                 cheat_freeze_off: '❄️ Заморозка томатів: ВИМК',
                 cheat_sec_global: '👑 Ачівки, Статуси та Профіль',
-                cheat_nick_ph: 'Новий нік (або авто-вхід)',
-                cheat_set_nick_btn: 'Змінити нік',
                 cheat_rainbow_on: '🌈 Райдужний нік: УВІМК',
                 cheat_rainbow_auto: '🌈 Райдужний нік: АВТО',
                 cheat_all_ach_btn: '🏆 Відкрити ВСІ ачівки + 🌈',
                 cheat_all_statuses_btn: '✨ Розблокувати всі статуси',
                 cheat_add_time_btn: '⏱️ +10 годин на порталі',
-                cheat_reset_ach_btn: '🗑️ Скинути всі ачівки',
+                cheat_reset_all_btn: '⚠️ Скинути всі дані',
                 cheat_hide_btn: '🙈 Сховати кнопку чітів',
                 toast_cheat_unlocked: '🛠️ Секретний доступ активовано! Кнопка адміна зʼявилася праворуч знизу.',
-                toast_cheat_click_set: '🛠️ Силу натискання в УСРО-КЛІКЕР встановлено: {val}!',
+                toast_cheat_click_set: '🛠️ Силу натискання в УСРО-КЛИКЕР встановлено: {val}!',
                 toast_cheat_auto_set: '🛠️ Авто-дохід за секунду встановлено: {val}!',
                 toast_cheat_mult_set: '🛠️ Множник кліку встановлено: x{val}!',
-                toast_cheat_score_add: '🛠️ Нараховано +100 000 очок в УСРО-КЛІКЕР!',
+                toast_cheat_score_add: '🛠️ Нараховано +100 000 очок в УСРО-КЛИКЕР!',
                 toast_cheat_frenzy: '🛠️ Активовано режим УСРИШНОСТЬ x2 на 60 секунд!',
                 toast_cheat_esc_set: '🛠️ Рекорд у «Втеча від это7тпростл» встановлено: {val}!',
-                toast_cheat_nick_set: '🛠️ Нікнейм успішно змінено на «{val}»!',
-                toast_cheat_all_ach: '🛠️ Усі 23 досягнення відкрито! Твій нік тепер райдужний 🌈!',
-                toast_cheat_all_st: '🛠️ Усі статуси розблоковано (100k кліків, 1000 втечі, 23 ачівки)!',
+                toast_cheat_all_ach: '🛠️ Усі 22 досягнення відкрито! Твій нік тепер райдужний 🌈!',
+                toast_cheat_all_st: '🛠️ Усі статуси розблоковано (100k кліків, 1000 втечі, 22 ачівки)!',
                 toast_cheat_time: '🛠️ Додано +10 годин активності на порталі!',
                 cl: [
+                    {
+                        version: '0.7.3а',
+                        date: 'Фікс пасхалки это7тпростл і банера входу',
+                        badge: 'ПАТЧ 0.7.3',
+                        badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
+                        items: [
+                            'Виправлено пасхалку з картинкою это7тпростл при натисканні на іконку праворуч від привітання та при натисканні на цифру «7».',
+                            'Плашку з пропозицією увійти в акаунт перенесено на самий верх — одразу під привітанням і вище секції міні-ігор.'
+                        ]
+                    },
+                    {
+                        version: '0.7.2а',
+                        date: 'Ребаланс досягнень клікера',
+                        badge: 'ПАТЧ 0.7.2',
+                        badgeColor: 'bg-sky-500/20 text-sky-300 border-sky-400/40',
+                        items: [
+                            'Нездійсненну ачівку «Почати з чистого яблука» замінено на нове досягнення «🚀 Десять тисяч усрішності» — за набір 10 000 очок у грі «УСРО-КЛИКЕР».'
+                        ]
+                    },
+                    {
+                        version: '0.7.1а',
+                        date: 'Фікс аватарок, нік творця та повне скидання даних',
+                        badge: 'ПАТЧ 0.7.1',
+                        badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
+                        items: [
+                            'Виправлено зміну та збереження аватарки профілю у вкладці «Акаунт».',
+                            'Додано ексклюзивний переливчастий нікнейм для творця порталу usrishnost games (tapchkawasap32).',
+                            'Замість окремих кнопок скидання ачівок і клікера додано єдину кнопку «⚠️ Скинути всі дані» в налаштуваннях із вікном підтвердження та повторною видачею стартової ачівки «Ласкаво просимо до Усрішності».'
+                        ]
+                    },
+                    {
+                        version: '0.7а',
+                        date: 'Оновлення погоні та виправлення багів',
+                        badge: 'АЛЬФА 0.7',
+                        badgeColor: 'bg-orange-500/20 text-orange-300 border-orange-400/40',
+                        items: [
+                            'Виправлено ШІ ворогів у «Втеча від это7тпростл»: томати більше не відскакують як логотип DVD, а цілеспрямовано переслідують гравця!',
+                            'Прибрано неможливу ачівку «Цікава Варвара» (тепер на порталі 22 досягнення).',
+                            'Інтегровано хмарну систему акаунтів через Supabase зі збереженням прогресу та ачівок.'
+                        ]
+                    },
                     {
                         version: '0.6.2',
                         date: 'Оновлення райдужного ніку',
                         badge: 'ВЕРСІЯ 0.6.2',
                         badgeColor: 'bg-fuchsia-500/20 text-fuchsia-300 border-fuchsia-400/40',
                         items: [
-                            'Додано райдужний нікнейм у шапці та профілі при отриманні всіх 23 досягнень гри!',
+                            'Додано райдужний нікнейм у шапці та профілі при отриманні всіх досягнень гри!',
                             'Оптимізовано відображення статусів та ефектів профілю.'
                         ]
                     },
@@ -2146,7 +2329,7 @@
                         badge: 'ПАТЧ 0.6.1',
                         badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
                         items: [
-                            'Додано статуси — спеціальні емодзі біля ніку акаунта з можливістю вибору окремо: 🍎 Яблуко (за 100 000 очок в «УСРО-КЛІКЕР»), 🍅 Помідор (за 1 000 очок у «Втеча від это7тпростл») та 👑 Корона (за всі виконані ачівки).',
+                            'Додано статуси — спеціальні емодзі біля ніку акаунта з можливістю вибору окремо: 🍎 Яблуко (за 100 000 очок в «УСРО-КЛИКЕР»), 🍅 Помідор (за 1 000 очок у «Втеча від это7тпростл») та 👑 Корона (за всі виконані ачівки).',
                             'Нерф ачівки «Бог ухилення від это7тпростл»: тепер для її отримання потрібно набрати 500 очок замість 1 000.',
                             'Стабілізовано мобільну версію сайту: покращено відступи з урахуванням безпечних зон екрана, збільшено сенсорні кнопки керування та усунено випадкові масштабування при швидких кліках.'
                         ]
@@ -2158,10 +2341,10 @@
                         badgeColor: 'bg-amber-500/20 text-amber-300 border-amber-400/40',
                         items: [
                             'Додано розширену кастомізацію: повзунок прозорості скляних панелей, 4 кольорові теми (Темна, Червона, Зелена, Синя) та вибір заднього фону («усрішність» або «это7тпростл»).',
-                            'У вкладці «Акаунт» тепер відображаються максимальні рекорди в іграх «Втеча від это7тпростл» та «УСРО-КЛІКЕР».',
+                            'У вкладці «Акаунт» тепер відображаються максимальні рекорди в іграх «Втеча від это7тпростл» та «УСРО-КЛИКЕР».',
                             'Додано плавні анімації перемикання між вкладками та мінііграми.',
-                            'Оновлено мобільну версію сайту: вкладки навігації перенесено в нижню панель, а зверху залишено лише логотип та профіль.',
-                            'Додано нові ачівки: за 1 000 очок в «УСРО-КЛІКЕР», а також за 100 і 1 000 очок у «Втеча від это7тпростл».'
+                            'Оновлено мобільну версію сайту: вкладки навігації перенесено в нижнюю панель, а зверху залишено лише логотип та профіль.',
+                            'Додано нові ачівки: за 1 000 очок в «УСРО-КЛИКЕР», а також за 100 і 1 000 очок у «Втеча від это7тпростл».'
                         ]
                     },
                     {
@@ -2170,7 +2353,7 @@
                         badge: 'ПАТЧ',
                         badgeColor: 'bg-sky-500/20 text-sky-300 border-sky-400/40',
                         items: [
-                            'Прибрано варіант «Чіткі пікселі» з пункту «Режим зображення заднього фону» у налаштуваннях порталу.'
+                            'Прибрано варіант «Чіткі пікселі» з пункту «Режим зображення заднього фону» у налаштуваннях портала.'
                         ]
                     },
                     {
@@ -2198,7 +2381,7 @@
                         badge: 'ПАТЧ',
                         badgeColor: 'bg-pink-500/20 text-pink-300 border-pink-400/40',
                         items: [
-                            'Додано новий інструмент у розділ «Не сильно корисні Інструменти» — 🔮 Куля передбачень «сосія / не сосія».',
+                            'Додано новий інструмент у розділ «Не сильно корисні Инструменти» — 🔮 Куля передбачень «сосія / не сосія».',
                             'Додано пасхалку в кулі: якщо поставити одне й те саме запитання 3 рази поспіль, куля починає злитися.',
                             'Додано 2 нові ачівки («Знавець долі» та «Чого ти добиваєшся?!»).'
                         ]
@@ -2211,7 +2394,7 @@
                         items: [
                             'Додано другу гру — «Втеча від это7тпростл» (динамічна аркада з ухиленням від томатів і збором бонусів).',
                             'Додано розділ «Не сильно корисні Інструменти»: Калькулятор (із пасхалками 7, 228, 67 та діленням на 0) і Штучний «Немає підключення до інтернету».',
-                            'Доступ до другої гри та інструментів відкривається тільки після входу в акаунт.',
+                            'Доступ до другої гри та інструментів відкривается тільки після входу в акаунт.',
                             'Додано 4 нові ачівки та пасхалки.'
                         ]
                     },
@@ -2221,7 +2404,7 @@
                         badge: 'ХОТФІКС',
                         badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-400/30',
                         items: [
-                            'Додано кнопку відкриття журналу змін, виправлено помилку та оновлено структуру версій.'
+                            'Додано кнопку відкриття журнала змін, виправлено помилку та оновлено структуру версій.'
                         ]
                     },
                     {
@@ -2275,7 +2458,7 @@
                         badge: 'ХОТФІКС',
                         badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-400/30',
                         items: [
-                            'Прибрано зайву вкладку кликера з верхньої шапки.'
+                            'Прибрано зайву вкладку кликера из верхней шапки.'
                         ]
                     },
                     {
@@ -2293,7 +2476,7 @@
                         badge: 'ПАТЧ',
                         badgeColor: 'bg-sky-500/20 text-sky-300 border-sky-400/30',
                         items: [
-                            'Виправлено перемикач звуку в налаштуваннях.'
+                            'Виправлено перемикач звука в налаштуваннях.'
                         ]
                     },
                     {
@@ -2324,7 +2507,7 @@
                 nav_settings: '⚙️ Settings',
                 btn_login: 'Log In',
                 btn_logout: 'Log Out',
-                hero_badge: 'Version 0.6.2 • Rainbow nickname for 100% achievements & secret features!',
+                hero_badge: 'Version 0.7.3a • eto7tprostl Easter egg fix & login banner move',
                 hero_title_prefix: 'Welcome to',
                 hero_desc_1: 'The finest browser minigames gather here. Right now',
                 hero_desc_2: 'developers are tuning usrishnost to full power — open settings, hunt Easter eggs, and collect achievements!',
@@ -2340,6 +2523,7 @@
                 card1_title: 'USRO-CLICKER',
                 card1_desc: 'Level up, switch memes («USRISHNOST», «ETO7TPROSTL», «sysli», «sosiya»), catch x2 combos, and find hidden secrets!',
                 card1_btn: '▶ Launch USRO-CLICKER',
+                card1_btn_locked: '🔒 Log in to play',
                 card2_title: 'Escape from eto7tprostl',
                 card2_desc: 'Fast-paced arena arcade: dodge a swarm of gritty eto7tprostl tomatoes as the usrishnost apple and grab «sysli» & «sosiya» bonuses!',
                 card2_btn_locked: '🔒 Log in to play',
@@ -2347,8 +2531,8 @@
                 tools_section_title: '🧰 Not Very Useful Tools',
                 tools_badge_locked: '🔓 Ball open to all • Others require account',
                 tools_badge_open: '✅ All tools unlocked',
-                tools_lock_title: 'Some tools are locked behind usrishnost security',
-                tools_lock_desc: 'The Prediction Ball is now free for everyone! Log into an account to unlock the meme Calculator and Offline AI.',
+                tools_lock_title: 'Games and some tools are locked behind usrishnost security',
+                tools_lock_desc: 'The Prediction Ball is free for everyone! Log into an account to unlock minigames, the meme Calculator, and Offline AI.',
                 tools_lock_btn: '🔑 Log In',
                 tool_tag_locked: '🔒 ACCOUNT ONLY',
                 tool_tag_useless: 'NOT VERY USEFUL',
@@ -2421,7 +2605,7 @@
                 status_tomato_name: 'eto7tprostl Tomato',
                 status_tomato_req: 'Score 1,000 points in «Escape from eto7tprostl»',
                 status_crown_name: 'Legend Crown',
-                status_crown_req: 'Complete all 23 portal achievements',
+                status_crown_req: 'Complete all 22 portal achievements',
                 status_unlocked_tag: 'Unlocked',
                 status_locked_tag: 'Locked',
                 status_equipped_tag: 'Equipped',
@@ -2455,25 +2639,43 @@
                 set_blur_label: 'Background Blur',
                 set_sound_t: 'Click Sound Effects',
                 set_sound_d: 'Retro synth blips when pressing buttons',
-                set_reset_ach: 'Reset Achievements',
+                set_reset_all_btn: '⚠️ Reset All Data',
                 set_reset_bg: 'Reset Background Defaults',
+                reset_modal_title: 'Reset all data?',
+                reset_modal_sub: 'This action cannot be undone!',
+                reset_modal_desc: 'All your «USRO-CLICKER» score and upgrades, «Escape from eto7tprostl» high score, equipped status, settings, and achievements will be wiped. Your account will start fresh and re-earn the «Welcome to Usrishnost» achievement!',
+                reset_modal_confirm: 'Yes, reset everything',
+                toast_all_data_reset: '🧹 All account data has been reset! Welcome back!',
+                set_guest_lock_t: 'Advanced settings require an account',
+                set_guest_lock_d: 'Log in to customize background image, tiling, panel opacity, dimming, blur, and sound effects.',
+                toast_ach_need_login: '🔒 The Achievements tab is available only after logging into an account!',
                 cl_title: '📜 Update History (ChangeLog)',
-                cl_subtitle: 'The complete evolution of usrishnost games from the first alpha to 0.6.2',
+                cl_subtitle: 'The complete evolution of usrishnost games from the first alpha to 0.7.3a',
                 cl_open_btn: '📖 Open / Collapse Changelog',
-                cl_current_badge: 'Current: v0.6.2',
+                cl_current_badge: 'Current: v0.7.3a',
                 footer_rights: 'All rights usrished.',
-                footer_version: 'Version 0.6.2',
+                footer_version: 'Version 0.7.3a',
                 footer_changelog_btn: '📜 Changelog',
                 footer_secret_hint: 'What is hidden here?',
                 sosiya_title: 'Secret chat log discovered!',
                 sosiya_btn: 'Got it, ty vopshche 😄',
                 login_title: 'Account Login',
-                login_subtitle: 'Enter any nickname and any password',
+                register_title: 'Create Account',
+                login_subtitle: 'Log in with nickname & password • cloud sync',
+                register_subtitle: 'Register with nickname & password (min 6 chars)',
+                auth_tab_login: '🔑 Log In',
+                auth_tab_register: '✨ Register',
                 login_nick_label: 'Your nickname',
                 login_nick_ph: 'Example: UsrishnyPlayer',
-                login_pass_label: 'Password (any)',
+                login_pass_label: 'Password (min 6 chars)',
                 login_cancel: 'Cancel',
                 login_submit: 'Log In',
+                register_submit: 'Create Account',
+                auth_loading: '⏳ Connecting...',
+                auth_err_short_pass: 'Password must be at least 6 characters long!',
+                auth_err_invalid: 'Invalid nickname or password!',
+                auth_err_taken: 'This nickname is already taken! Pick another or switch to Log In.',
+                toast_register_ok: '🎉 Account «{name}» registered and synced to cloud!',
                 toast_ach_unlocked: '🏆 Achievement unlocked: «{title}»!',
                 toast_need_login: '🔒 Log into your account first to unlock this mode!',
                 toast_apple_spin: '🍎 Usrishnost spun to maximum!',
@@ -2481,9 +2683,7 @@
                 toast_logout_ok: 'You have logged out ({name}).',
                 toast_avatar_ok: 'Avatar updated!',
                 toast_bg_reset: 'Background settings reset to default.',
-                toast_ach_reset: 'Achievement progress reset.',
                 toast_clicker_secret: '🕵️ Clicker secret uncovered! +{bonus} points',
-                toast_clicker_reset: '«USRO-CLICKER» progress has been reset.',
                 clicker_title: '🍎🍅 USRO-CLICKER',
                 clicker_secret_hint: 'Hmm... what is this badge?',
                 clicker_subtitle: 'Level up, catch quotes, and trigger USRISHNOST x2 frenzy',
@@ -2568,13 +2768,12 @@
                 ach: {
                     welcome: { title: 'Welcome to Usrishnost', desc: 'Visit the usrishnost games portal for the first time.' },
                     login_user: { title: 'One of Us', desc: 'Log into your account on the website.' },
-                    curious_player: { title: 'Curious Explorer', desc: 'Try opening a locked mode before logging in.' },
                     bg_designer: { title: 'God-Tier Designer', desc: 'Change background mode or parameters in Settings.' },
                     polyglot: { title: 'Usrishnost Polyglot', desc: 'Switch the interface language to any other in Settings.' },
                     clicker_first_100: { title: 'Hundred of Usrishnost', desc: 'Reach 100 points in «USRO-CLICKER».' },
                     clicker_1000: { title: 'Thousand of Usrishnost', desc: 'Reach 1,000 points in «USRO-CLICKER».' },
                     clicker_frenzy: { title: 'USRISHNOST x2 Mode', desc: 'Fill the combo bar to 100% and activate frenzy in the clicker.' },
-                    clicker_reset_ach: { title: 'Fresh Apple Start', desc: 'Reset your score and progress in «USRO-CLICKER».' },
+                    clicker_reset_ach: { title: 'Ten Thousand of Usrishnost', desc: 'Reach 10,000 points in «USRO-CLICKER».' },
                     escape_runner: { title: 'Elusive Apple', desc: 'Score 50 points in «Escape from eto7tprostl».' },
                     escape_100: { title: 'Tomato Sprinter', desc: 'Score 100 points in «Escape from eto7tprostl».' },
                     escape_1000: { title: 'God of Dodging eto7tprostl', desc: 'Score 500 points in «Escape from eto7tprostl».' },
@@ -2588,7 +2787,7 @@
                     easter_calc_secret: { title: 'Mathematician 7-228-67', desc: 'Calculator Easter egg: get 7, 228, or 67 on the display.' },
                     easter_calc_zero: { title: 'Lord of Zero', desc: 'Calculator Easter egg: try dividing a number by 0.' },
                     easter_angry_ball: { title: 'Chogo Are You Trying To Do?!', desc: 'Prediction Ball Easter egg: ask the exact same question 3 times in a row to make the oracle angry.' },
-                    legend: { title: 'Legend of usrishnost games', desc: 'Collect all other 22 achievements on the portal!' }
+                    legend: { title: 'Legend of usrishnost games', desc: 'Collect all other 21 achievements on the portal!' }
                 },
                 cheat_fab_btn: 'ADMIN CHEATS',
                 cheat_modal_title: 'Secret Admin Cheat Panel',
@@ -2610,14 +2809,12 @@
                 cheat_freeze_on: '❄️ Freeze Tomatoes: ON',
                 cheat_freeze_off: '❄️ Freeze Tomatoes: OFF',
                 cheat_sec_global: '👑 Achievements, Statuses & Profile',
-                cheat_nick_ph: 'New nickname (or auto-login)',
-                cheat_set_nick_btn: 'Change Nick',
                 cheat_rainbow_on: '🌈 Rainbow Nick: ON',
                 cheat_rainbow_auto: '🌈 Rainbow Nick: AUTO',
                 cheat_all_ach_btn: '🏆 Unlock ALL Achievements + 🌈',
                 cheat_all_statuses_btn: '✨ Unlock All Statuses',
                 cheat_add_time_btn: '⏱️ +10 Hours on Portal',
-                cheat_reset_ach_btn: '🗑️ Reset All Achievements',
+                cheat_reset_all_btn: '⚠️ Reset All Data',
                 cheat_hide_btn: '🙈 Hide Cheat Button',
                 toast_cheat_unlocked: '🛠️ Secret access activated! Admin button appeared at bottom-right.',
                 toast_cheat_click_set: '🛠️ USRO-CLICKER click power set to: {val}!',
@@ -2626,18 +2823,58 @@
                 toast_cheat_score_add: '🛠️ Added +100,000 points in USRO-CLICKER!',
                 toast_cheat_frenzy: '🛠️ USRISHNOST x2 frenzy activated for 60 seconds!',
                 toast_cheat_esc_set: '🛠️ «Escape from eto7tprostl» high score set to: {val}!',
-                toast_cheat_nick_set: '🛠️ Nickname changed to «{val}»!',
-                toast_cheat_all_ach: '🛠️ All 23 achievements unlocked! Your nickname is now rainbow 🌈!',
-                toast_cheat_all_st: '🛠️ All statuses unlocked (100k clicks, 1000 escape, 23 achievements)!',
+                toast_cheat_all_ach: '🛠️ All 22 achievements unlocked! Your nickname is now rainbow 🌈!',
+                toast_cheat_all_st: '🛠️ All statuses unlocked (100k clicks, 1000 escape, 22 achievements)!',
                 toast_cheat_time: '🛠️ Added +10 hours of portal activity!',
                 cl: [
+                    {
+                        version: '0.7.3a',
+                        date: 'eto7tprostl Easter Egg Fix & Login Banner Position',
+                        badge: 'PATCH 0.7.3',
+                        badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
+                        items: [
+                            'Fixed the pop-up eto7tprostl image Easter egg when clicking the icon to the right of the welcome banner or pressing the «7» key.',
+                            'Moved the account login prompt banner to the very top — directly below the welcome card and above the minigames section.'
+                        ]
+                    },
+                    {
+                        version: '0.7.2a',
+                        date: 'Clicker Achievements Rebalance',
+                        badge: 'PATCH 0.7.2',
+                        badgeColor: 'bg-sky-500/20 text-sky-300 border-sky-400/40',
+                        items: [
+                            'Replaced the unobtainable «Start with a Fresh Apple» achievement with «🚀 Ten Thousand of Usrishnost» — earned by reaching 10,000 points in «USRO-CLICKER».'
+                        ]
+                    },
+                    {
+                        version: '0.7.1a',
+                        date: 'Avatar Fix, Creator Nickname & Full Data Reset',
+                        badge: 'PATCH 0.7.1',
+                        badgeColor: 'bg-emerald-500/20 text-emerald-300 border-emerald-400/40',
+                        items: [
+                            'Fixed profile avatar selection and cloud saving inside the Account tab.',
+                            'Added an exclusive shimmering gradient nickname style for the creator of usrishnost games (tapchkawasap32).',
+                            'Replaced separate achievement/clicker reset buttons with a single «⚠️ Reset All Data» button in Settings with a confirmation prompt that resets the account to fresh and re-grants «Welcome to Usrishnost».'
+                        ]
+                    },
+                    {
+                        version: '0.7a',
+                        date: 'Enemy Chase AI & Bug Fixes Update',
+                        badge: 'ALPHA 0.7',
+                        badgeColor: 'bg-orange-500/20 text-orange-300 border-orange-400/40',
+                        items: [
+                            'Fixed enemy AI in «Escape from eto7tprostl»: tomatoes no longer bounce like a DVD logo and now actively chase the player!',
+                            'Removed the paradoxical «Curious Explorer» achievement (the portal now features 22 achievements).',
+                            'Integrated Supabase cloud account system with persistent progress and achievement sync.'
+                        ]
+                    },
                     {
                         version: '0.6.2',
                         date: 'Rainbow Nickname Update',
                         badge: 'VERSION 0.6.2',
                         badgeColor: 'bg-fuchsia-500/20 text-fuchsia-300 border-fuchsia-400/40',
                         items: [
-                            'Added an animated rainbow nickname in the header and profile when unlocking all 23 game achievements!',
+                            'Added an animated rainbow nickname in the header and profile when unlocking all game achievements!',
                             'Optimized profile status badges and visual effects.'
                         ]
                     },
@@ -2819,17 +3056,16 @@
             }
         };
 
-        // Список ID всех достижений портала (23 ачивки)
+        // Список ID всех достижений портала (22 ачивки)
         const ACHIEVEMENTS = [
             { id: 'welcome', icon: '🍎', isEaster: false },
             { id: 'login_user', icon: '👤', isEaster: false },
-            { id: 'curious_player', icon: '🕹️', isEaster: false },
             { id: 'bg_designer', icon: '🎨', isEaster: false },
             { id: 'polyglot', icon: '🌐', isEaster: false },
             { id: 'clicker_first_100', icon: '💯', isEaster: false },
             { id: 'clicker_1000', icon: '💎', isEaster: false },
             { id: 'clicker_frenzy', icon: '🔥', isEaster: false },
-            { id: 'clicker_reset_ach', icon: '🔄', isEaster: false },
+            { id: 'clicker_reset_ach', icon: '🚀', isEaster: false },
             { id: 'escape_runner', icon: '🏃', isEaster: false },
             { id: 'escape_100', icon: '⚡', isEaster: false },
             { id: 'escape_1000', icon: '👑', isEaster: false },
@@ -2881,7 +3117,19 @@
             cheatForceRainbow: false
         };
 
-        // Проверка: получены ли все 23 достижения (или принудительный чит) для радужного ника
+        // Проверка: является ли игрок создателем игры (tapchkawasap32)
+        function isCreatorUser() {
+            return Boolean(state.user && state.user.trim().toLowerCase() === 'tapchkawasap32');
+        }
+
+        // Возвращает CSS-класс для оформления никнейма (создатель / все ачивки / обычный)
+        function getNickDisplayClass() {
+            if (isCreatorUser()) return 'creator-nick';
+            if (hasAllAchievements()) return 'rainbow-nick';
+            return 'text-white';
+        }
+
+        // Проверка: получены ли все 22 достижения (или принудительный чит) для радужного ника
         function hasAllAchievements() {
             if (state.cheatForceRainbow) return true;
             return ACHIEVEMENTS.every(a => state.unlockedAchievements.includes(a.id));
@@ -2996,12 +3244,6 @@
                 .replace(/>/g, '&gt;')
                 .replace(/"/g, '&quot;')
                 .replace(/'/g, '&#039;');
-        }
-
-        function saveState() {
-            try {
-                localStorage.setItem(PORTAL_STORAGE_KEY, JSON.stringify(state));
-            } catch (e) {}
         }
 
         function playClickSound(freq = 520, duration = 0.05) {
@@ -3223,8 +3465,9 @@
             if (state.soundEnabled) playClickSound(640);
         }
 
-        function openLoginModal() {
+        function openLoginModal(mode = 'login') {
             playClickSound(540);
+            setAuthModalMode(mode);
             const modal = document.getElementById('login-modal');
             if (!modal) return;
             modal.classList.remove('hidden');
@@ -3259,20 +3502,21 @@
         function triggerTomatoEasterEgg() {
             playClickSound(720, 0.1);
             const overlay = document.getElementById('tomato-overlay');
-            if (!overlay) return;
-            overlay.classList.remove('hidden');
-            overlay.classList.add('flex');
-            const fly = overlay.querySelector('.tomato-fly');
-            if (fly) {
-                fly.classList.remove('tomato-fly');
-                void fly.offsetWidth;
-                fly.classList.add('tomato-fly');
+            if (overlay) {
+                overlay.classList.remove('hidden');
+                overlay.classList.add('flex');
+                const fly = overlay.querySelector('.tomato-fly');
+                if (fly) {
+                    fly.classList.remove('tomato-fly');
+                    void fly.offsetWidth;
+                    fly.classList.add('tomato-fly');
+                }
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                    overlay.classList.remove('flex');
+                }, 1450);
             }
             unlockAchievement('easter_tomato');
-            setTimeout(() => {
-                overlay.classList.add('hidden');
-                overlay.classList.remove('flex');
-            }, 1450);
         }
 
         document.addEventListener('keydown', (e) => {
@@ -3316,23 +3560,30 @@
                 }
             } catch (e) {}
 
+            // Очищаем удалённую ачивку curious_player из старых сохранений
+            if (Array.isArray(state.unlockedAchievements)) {
+                state.unlockedAchievements = state.unlockedAchievements.filter(id => ACHIEVEMENTS.some(a => a.id === id));
+            }
+
             applyAllSettings();
             applyLanguage();
-            unlockAchievement('welcome');
 
             setInterval(() => {
-                state.secondsOnSite = (state.secondsOnSite || 0) + 1;
-                if (state.secondsOnSite % 10 === 0) {
-                    saveState();
-                }
-                if (activeTab === 'account') {
-                    updateAccountTimeLabel();
+                if (state.user) {
+                    state.secondsOnSite = (state.secondsOnSite || 0) + 1;
+                    if (state.secondsOnSite % 10 === 0) {
+                        saveState();
+                    }
+                    if (activeTab === 'account') {
+                        updateAccountTimeLabel();
+                    }
                 }
             }, 1000);
         }
 
-        // Разблокировка ачивки
+        // Разблокировка ачивки (доступно только при входе в аккаунт)
         function unlockAchievement(id) {
+            if (!state.user) return;
             if (state.unlockedAchievements.includes(id)) return;
             const ach = ACHIEVEMENTS.find(a => a.id === id);
             if (!ach) return;
@@ -3357,6 +3608,12 @@
 
         // Переключение вкладок с плавной анимацией
         function switchTab(tabName) {
+            if (!state.user && ['clicker', 'escape', 'calc', 'offline-ai', 'achievements', 'account'].includes(tabName)) {
+                playClickSound(340);
+                showToast(tabName === 'achievements' ? t('toast_ach_need_login') : t('toast_need_login'));
+                openLoginModal('login');
+                return;
+            }
             playClickSound(480);
             if (tabName !== 'escape' && typeof stopEscapeGameLoop === 'function') {
                 stopEscapeGameLoop();
@@ -3424,36 +3681,42 @@
 
         // Отрисовка шапки профиля, видимости вкладки «Аккаунт» и блокировок режимов
         function renderAuthArea() {
+            const isLoggedIn = Boolean(state.user);
+            const dict = I18N[state.lang] || I18N.ru;
             const container = document.getElementById('auth-area');
             const accountTabBtn = document.getElementById('tab-btn-account');
             const mobAccountTabBtn = document.getElementById('mob-tab-btn-account');
-            const dict = I18N[state.lang] || I18N.ru;
-            const isLoggedIn = Boolean(state.user);
 
-            if (accountTabBtn) {
-                if (isLoggedIn) {
-                    accountTabBtn.classList.remove('hidden');
-                } else {
-                    accountTabBtn.classList.add('hidden');
-                }
-            }
-            if (mobAccountTabBtn) {
-                if (isLoggedIn) {
-                    mobAccountTabBtn.classList.remove('hidden');
-                } else {
-                    mobAccountTabBtn.classList.add('hidden');
-                }
-            }
+            if (accountTabBtn) accountTabBtn.classList.toggle('hidden', !isLoggedIn);
+            if (mobAccountTabBtn) mobAccountTabBtn.classList.toggle('hidden', !isLoggedIn);
 
-            if (!isLoggedIn && ['account', 'escape', 'calc', 'offline-ai'].includes(activeTab)) {
+            if (!isLoggedIn && ['account', 'achievements', 'clicker', 'escape', 'calc', 'offline-ai'].includes(activeTab)) {
                 switchTab('games');
+            }
+
+            const achLockIcon = document.getElementById('nav-ach-lock-icon');
+            const mobAchLockIcon = document.getElementById('mob-nav-ach-lock-icon');
+            const achNavBadge = document.getElementById('nav-ach-badge');
+            const mobAchNavBadge = document.getElementById('mob-nav-ach-badge');
+            if (achLockIcon) achLockIcon.classList.toggle('hidden', isLoggedIn);
+            if (mobAchLockIcon) mobAchLockIcon.classList.toggle('hidden', isLoggedIn);
+            if (achNavBadge) achNavBadge.classList.toggle('hidden', !isLoggedIn);
+            if (mobAchNavBadge) mobAchNavBadge.classList.toggle('hidden', !isLoggedIn);
+
+            const settingsGuestBanner = document.getElementById('settings-guest-lock-banner');
+            const settingsAdvWrap = document.getElementById('settings-advanced-wrapper');
+            if (settingsGuestBanner) settingsGuestBanner.classList.toggle('hidden', isLoggedIn);
+            if (settingsAdvWrap) {
+                settingsAdvWrap.classList.toggle('opacity-45', !isLoggedIn);
+                settingsAdvWrap.classList.toggle('pointer-events-none', !isLoggedIn);
+                settingsAdvWrap.classList.toggle('select-none', !isLoggedIn);
             }
 
             if (container) {
                 if (isLoggedIn) {
                     const statusEmoji = getEquippedStatusEmoji();
                     const statusHtml = statusEmoji ? `<span class="text-sm sm:text-base shrink-0">${statusEmoji}</span>` : '';
-                    const nickClass = hasAllAchievements() ? 'rainbow-nick' : 'text-white';
+                    const nickClass = getNickDisplayClass();
                     container.innerHTML = `
                         <div class="flex items-center gap-2 bg-zinc-900/80 border border-white/15 rounded-xl pl-2 pr-2 py-1.5">
                             <button onclick="switchTab('account')" class="flex items-center gap-1.5 sm:gap-2 hover:opacity-85 transition-opacity cursor-pointer" title="${dict.acc_open_title}">
@@ -3468,15 +3731,22 @@
                     `;
                 } else {
                     container.innerHTML = `
-                        <button onclick="openLoginModal()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white text-sm font-bold shadow-md shadow-orange-500/20 transition-all cursor-pointer">
-                            ${dict.btn_login}
-                        </button>
+                        <div class="flex items-center gap-1.5 sm:gap-2">
+                            <button onclick="openLoginModal('login')" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white text-xs sm:text-sm font-bold shadow-md shadow-orange-500/20 transition-all cursor-pointer">
+                                ${dict.btn_login}
+                            </button>
+                            <button onclick="openLoginModal('register')" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 border border-white/15 text-zinc-100 text-xs sm:text-sm font-bold transition-all cursor-pointer">
+                                ${dict.auth_tab_register}
+                            </button>
+                        </div>
                     `;
                 }
             }
 
             const toolsLockedBanner = document.getElementById('tools-locked-banner');
             const toolsBadge = document.getElementById('tools-access-badge');
+            const clickerBadge = document.getElementById('clicker-card-badge');
+            const clickerBtn = document.getElementById('clicker-card-btn');
             const escapeBadge = document.getElementById('escape-card-badge');
             const escapeBtn = document.getElementById('escape-card-btn');
             const tool1Tag = document.getElementById('tool1-lock-tag');
@@ -3506,6 +3776,18 @@
             if (tool2Btn) {
                 tool2Btn.textContent = isLoggedIn ? dict.tool2_btn : dict.tool2_btn_locked;
             }
+            if (clickerBadge) {
+                clickerBadge.textContent = isLoggedIn ? dict.card_play_now : dict.card_acc_only;
+                clickerBadge.className = isLoggedIn
+                    ? 'absolute top-3.5 right-3.5 px-3 py-1 rounded-lg bg-emerald-500/20 border border-emerald-400/40 text-xs font-bold text-emerald-300'
+                    : 'absolute top-3.5 right-3.5 px-3 py-1 rounded-lg bg-amber-500/20 border border-amber-400/40 text-xs font-bold text-amber-300';
+            }
+            if (clickerBtn) {
+                clickerBtn.textContent = isLoggedIn ? dict.card1_btn : dict.card1_btn_locked;
+                clickerBtn.className = isLoggedIn
+                    ? 'w-full py-3 px-4 rounded-xl bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-400 hover:to-amber-400 text-white text-sm font-bold shadow-lg shadow-orange-500/25 transition-all cursor-pointer'
+                    : 'w-full py-3 px-4 rounded-xl bg-white/10 hover:bg-orange-500/25 hover:border-orange-400/50 text-zinc-200 text-sm font-bold border border-white/15 transition-all cursor-pointer';
+            }
             if (escapeBadge) {
                 escapeBadge.textContent = isLoggedIn ? dict.card_unlocked_badge : dict.card_acc_only;
             }
@@ -3520,12 +3802,13 @@
             const titleEl = document.getElementById('acc-username-title');
             if (titleEl) {
                 const statusEmoji = getEquippedStatusEmoji();
-                const nickClass = hasAllAchievements() ? 'rainbow-nick' : 'text-white';
+                const nickClass = getNickDisplayClass();
                 titleEl.innerHTML = statusEmoji
                     ? `<span class="${nickClass}">${escapeHtml(state.user)}</span><span class="text-2xl sm:text-3xl">${statusEmoji}</span>`
                     : `<span class="${nickClass}">${escapeHtml(state.user)}</span>`;
             }
-            document.getElementById('acc-avatar-img').src = state.avatar;
+            const accImg = document.getElementById('acc-avatar-img');
+            if (accImg) accImg.src = state.avatar || 'usrishnost.jpg';
             document.getElementById('acc-reg-date').textContent = `${t('acc_reg_prefix')}${state.regDate || t('acc_today')}`;
 
             renderStatusesGrid();
@@ -3731,11 +4014,19 @@
         }
 
         // Интерактив карточек игр и инструментов
+        function launchClickerGame() {
+            if (!state.user) {
+                showToast(t('toast_need_login'));
+                openLoginModal('login');
+                return;
+            }
+            switchTab('clicker');
+        }
+
         function launchEscapeGame() {
             if (!state.user) {
-                unlockAchievement('curious_player');
                 showToast(t('toast_need_login'));
-                openLoginModal();
+                openLoginModal('login');
                 return;
             }
             switchTab('escape');
@@ -3746,50 +4037,77 @@
 
         function openToolTab(toolTab) {
             if (!state.user) {
-                unlockAchievement('curious_player');
                 showToast(t('toast_need_login'));
-                openLoginModal();
+                openLoginModal('login');
                 return;
             }
             switchTab(toolTab);
         }
 
-        function handleFakeLogin(event) {
-            event.preventDefault();
-            const usernameInput = document.getElementById('login-username');
-            const name = usernameInput.value.trim();
-            if (!name) return;
-
-            const localeMap = { ru: 'ru-RU', uk: 'uk-UA', en: 'en-US' };
-            state.user = name;
-            state.regDate = new Date().toLocaleDateString(localeMap[state.lang] || 'ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-            saveState();
-            renderAuthArea();
-            updateAccountView();
-            closeLoginModal();
-            usernameInput.value = '';
-            document.getElementById('login-password').value = '';
-            playClickSound(740, 0.12);
-            showToast(t('toast_login_ok', { name }));
-            unlockAchievement('login_user');
-        }
-
-        function logoutUser() {
+        async function logoutUser() {
             playClickSound(360);
             const oldName = state.user;
+            if (sb) {
+                try { await sb.auth.signOut(); } catch (e) {}
+            }
+            // Сбрасываем локальный прогресс сессии при выходе, чтобы он не смешивался с другим аккаунтом
             state.user = null;
-            saveState();
+            state.regDate = null;
+            state.avatar = 'usrishnost.jpg';
+            state.selectedStatus = 'none';
+            state.unlockedAchievements = [];
+            state.clickerMaxScore = 0;
+            state.secondsOnSite = 0;
+            escBest = 0;
+            clickerState = {
+                score: 0,
+                baseClick: 1,
+                autoPerSec: 0,
+                multiplier: 1,
+                upgClickCost: 10,
+                upgAutoCost: 25,
+                upgMultCost: 80,
+                upgProstlCost: 200,
+                activeMeme: 'usrishnost',
+                combo: 0
+            };
+            try {
+                localStorage.setItem(PORTAL_STORAGE_KEY, JSON.stringify(state));
+                localStorage.setItem(CLICKER_STORAGE_KEY, JSON.stringify(clickerState));
+                localStorage.setItem('usrishnost_escape_best_v1', '0');
+            } catch (e) {}
+            applyAllSettings();
             renderAuthArea();
+            renderAchievements();
+            renderClickerUI();
+            switchTab('games');
             showToast(t('toast_logout_ok', { name: oldName }));
         }
 
         function selectAvatar(filename) {
+            if (!filename) return;
             state.avatar = filename;
             playClickSound(580);
+
+            const accImg = document.getElementById('acc-avatar-img');
+            if (accImg) accImg.src = filename;
+
+            document.querySelectorAll('.avatar-option').forEach(btn => {
+                if (btn.getAttribute('data-avatar') === filename) {
+                    btn.classList.remove('border-transparent', 'hover:border-white/20');
+                    btn.classList.add('border-orange-500');
+                } else {
+                    btn.classList.remove('border-orange-500');
+                    btn.classList.add('border-transparent', 'hover:border-white/20');
+                }
+            });
+
             saveState();
-            applyAllSettings();
             renderAuthArea();
             updateAccountView();
+            if (typeof flushCloudSaveNow === 'function') {
+                flushCloudSaveNow();
+            }
             showToast(t('toast_avatar_ok'));
         }
 
@@ -3810,530 +4128,834 @@
             showToast(t('toast_bg_reset'));
         }
 
-        function resetAchievements() {
+        function openResetAllModal() {
+            playClickSound(420);
+            const modal = document.getElementById('reset-all-modal');
+            if (!modal) return;
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function closeResetAllModal() {
+            const modal = document.getElementById('reset-all-modal');
+            if (!modal) return;
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        }
+
+        async function confirmResetAllData() {
+            closeResetAllModal();
+            playClickSound(320, 0.14);
+
+            // Сбрасываем прогресс аккаунта почти до состояния нового профиля
+            state.avatar = 'usrishnost.jpg';
+            state.selectedStatus = 'none';
+            state.theme = 'dark';
+            state.bgImage = 'usrishnost.jpg';
+            state.bgMode = 'cover';
+            state.panelOpacity = 72;
+            state.bgDim = 45;
+            state.bgBlur = 0;
+            state.soundEnabled = true;
+            state.clickerMaxScore = 0;
+            state.secondsOnSite = 0;
+            state.cheatForceRainbow = false;
             state.unlockedAchievements = [];
-            saveState();
+
+            // Полный сброс УСРО-КЛИКЕР
+            clickerState = {
+                score: 0,
+                baseClick: 1,
+                autoPerSec: 0,
+                multiplier: 1,
+                upgClickCost: 10,
+                upgAutoCost: 25,
+                upgMultCost: 80,
+                upgProstlCost: 200,
+                activeMeme: 'usrishnost',
+                combo: 0
+            };
+            clickerFrenzyUntil = 0;
+            clickerVisitedMemes = new Set(['usrishnost']);
+            clickerFeedLogs = [t('log_reset')];
+
+            // Полный сброс Побег от это7тпростл
+            if (typeof stopEscapeGameLoop === 'function') stopEscapeGameLoop();
+            escBest = 0;
+            escScore = 0;
+            const bestEl = document.getElementById('esc-best');
+            const scoreEl = document.getElementById('esc-score');
+            if (bestEl) bestEl.textContent = '0';
+            if (scoreEl) scoreEl.textContent = '0';
+
+            try {
+                localStorage.setItem(CLICKER_STORAGE_KEY, JSON.stringify(clickerState));
+                localStorage.setItem('usrishnost_escape_best_v1', '0');
+                localStorage.setItem(PORTAL_STORAGE_KEY, JSON.stringify(state));
+            } catch (e) {}
+
+            applyAllSettings();
             renderAuthArea();
             renderAchievements();
+            renderClickerSwitcher();
+            renderClickerMemeVisual();
+            renderClickerFeed();
+            renderClickerUI();
             updateAccountView();
-            playClickSound(380);
-            showToast(t('toast_ach_reset'));
+
+            showToast(t('toast_all_data_reset'));
+
+            // Сразу заново выдаём стартовую ачивку «Добро пожаловать в Усришность», как у нового аккаунта
+            if (state.user) {
+                setTimeout(() => {
+                    unlockAchievement('welcome');
+                    if (typeof flushCloudSaveNow === 'function') flushCloudSaveNow();
+                }, 250);
+            }
         }
 
         // ==========================================
-        // ИНТЕГРАЦИЯ ИГРЫ «УСРО-КЛИКЕР»
+        // ПОДКЛЮЧЕНИЕ SUPABASE (АВТОРИЗАЦИЯ И ОБЛАЧНЫЕ СОХРАНЕНИЯ)
         // ==========================================
-        const CLICKER_MEME_ASSETS = [
-            { id: 'usrishnost', imgSrc: 'usrishnost.jpg' },
-            { id: 'eto7tprostl', imgSrc: 'eto7tprostl.jpg' },
-            { id: 'sisli', imgSrc: 'ba90d5bb-cfdb-4ce5-9031-3fc703cde91c.png' },
-            { id: 'sosia', imgSrc: 'c23b4526-88ca-4086-862d-c2639a4046bf.png' }
-        ];
+        const SUPABASE_URL = 'https://vvijcehikosywfpiiddt.supabase.co';
+        const SUPABASE_KEY = 'sb_publishable_wF0Ia64Yr-on8CaqqTK6pA_Q7hJATZP';
+        const sb = window.supabase ? window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY) : null;
 
-        const CLICKER_STORAGE_KEY = 'usrishnost_clicker_save_v1';
+        let authModalMode = 'login';
+        let cloudSaveTimer = null;
+
+        function buildTechEmailFromNick(username) {
+            const raw = username.trim().toLowerCase();
+            // Превращаем кириллицу/символы в безопасный ASCII-идентификатор для внутреннего email Supabase
+            const encoded = Array.from(raw).map(ch => {
+                if (/[a-z0-9_-]/.test(ch)) return ch;
+                return 'u' + ch.codePointAt(0).toString(16);
+            }).join('');
+            return `${encoded || 'player'}@usrishnost.game`;
+        }
+
+        function setAuthModalMode(mode) {
+            authModalMode = mode === 'register' ? 'register' : 'login';
+            playClickSound(520);
+            const loginBtn = document.getElementById('auth-mode-login-btn');
+            const regBtn = document.getElementById('auth-mode-register-btn');
+            const titleEl = document.getElementById('auth-modal-title');
+            const subEl = document.getElementById('auth-modal-subtitle');
+            const submitBtn = document.getElementById('auth-submit-btn');
+            const errBox = document.getElementById('auth-error-box');
+
+            if (errBox) errBox.classList.add('hidden');
+
+            if (authModalMode === 'login') {
+                if (loginBtn) {
+                    loginBtn.className = 'py-2 rounded-lg text-xs sm:text-sm font-extrabold bg-orange-500 text-white shadow transition-all cursor-pointer';
+                }
+                if (regBtn) {
+                    regBtn.className = 'py-2 rounded-lg text-xs sm:text-sm font-extrabold text-zinc-400 hover:text-white transition-all cursor-pointer';
+                }
+                if (titleEl) titleEl.textContent = t('login_title');
+                if (subEl) subEl.textContent = t('login_subtitle');
+                if (submitBtn) submitBtn.textContent = t('login_submit');
+            } else {
+                if (regBtn) {
+                    regBtn.className = 'py-2 rounded-lg text-xs sm:text-sm font-extrabold bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow transition-all cursor-pointer';
+                }
+                if (loginBtn) {
+                    loginBtn.className = 'py-2 rounded-lg text-xs sm:text-sm font-extrabold text-zinc-400 hover:text-white transition-all cursor-pointer';
+                }
+                if (titleEl) titleEl.textContent = t('register_title');
+                if (subEl) subEl.textContent = t('register_subtitle');
+                if (submitBtn) submitBtn.textContent = t('register_submit');
+            }
+        }
+
+        function saveState() {
+            try {
+                localStorage.setItem(PORTAL_STORAGE_KEY, JSON.stringify(state));
+            } catch (e) {}
+            if (typeof scheduleCloudSave === 'function') {
+                scheduleCloudSave();
+            }
+        }
+
+        function showAuthError(msg) {
+            const errBox = document.getElementById('auth-error-box');
+            if (!errBox) return;
+            errBox.textContent = msg;
+            errBox.classList.remove('hidden');
+        }
+
+        async function flushCloudSaveNow() {
+            if (!sb || !state.user) return;
+            clearTimeout(cloudSaveTimer);
+            try {
+                const { data: { user } } = await sb.auth.getUser();
+                if (!user) return;
+
+                const bestClicker = Math.max(
+                    state.clickerMaxScore || 0,
+                    Math.floor(typeof clickerState !== 'undefined' ? clickerState.score : 0)
+                );
+
+                await sb.from('profiles').upsert({
+                    id: user.id,
+                    username: state.user,
+                    avatar: state.avatar,
+                    selected_status: state.selectedStatus,
+                    clicker_score: Math.floor(typeof clickerState !== 'undefined' ? clickerState.score : 0),
+                    clicker_max_score: bestClicker,
+                    escape_best: typeof escBest !== 'undefined' ? escBest : 0,
+                    seconds_on_site: state.secondsOnSite || 0,
+                    unlocked_achievements: state.unlockedAchievements || [],
+                    updated_at: new Date().toISOString()
+                });
+            } catch (e) {}
+        }
+
+        function scheduleCloudSave() {
+            if (!sb || !state.user) return;
+            clearTimeout(cloudSaveTimer);
+            cloudSaveTimer = setTimeout(() => {
+                flushCloudSaveNow();
+            }, 2500);
+        }
+
+        async function syncProfileWithCloud(authUser, fallbackNick, isNewAccount = false) {
+            const localeMap = { ru: 'ru-RU', uk: 'uk-UA', en: 'en-US' };
+            const displayNick = (authUser.user_metadata && authUser.user_metadata.username) || fallbackNick || 'Игрок';
+            state.user = displayNick;
+            state.regDate = new Date(authUser.created_at || Date.now()).toLocaleDateString(localeMap[state.lang] || 'ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+
+            // Начинаем с чистого состояния аккаунта перед загрузкой из базы Supabase
+            state.avatar = 'usrishnost.jpg';
+            state.selectedStatus = 'none';
+            state.clickerMaxScore = 0;
+            state.secondsOnSite = 0;
+            state.unlockedAchievements = isNewAccount ? ['welcome', 'login_user'] : [];
+            escBest = 0;
+            clickerState = {
+                score: 0,
+                baseClick: 1,
+                autoPerSec: 0,
+                multiplier: 1,
+                upgClickCost: 10,
+                upgAutoCost: 25,
+                upgMultCost: 80,
+                upgProstlCost: 200,
+                activeMeme: 'usrishnost',
+                combo: 0
+            };
+
+            if (sb) {
+                try {
+                    const { data: profile } = await sb
+                        .from('profiles')
+                        .select('*')
+                        .eq('id', authUser.id)
+                        .maybeSingle();
+
+                    if (profile && !isNewAccount) {
+                        state.user = profile.username || displayNick;
+                        state.avatar = profile.avatar || 'usrishnost.jpg';
+                        state.selectedStatus = profile.selected_status || 'none';
+                        state.clickerMaxScore = Number(profile.clicker_max_score) || 0;
+                        state.secondsOnSite = Number(profile.seconds_on_site) || 0;
+                        const validIds = new Set(ACHIEVEMENTS.map(a => a.id));
+                        state.unlockedAchievements = Array.isArray(profile.unlocked_achievements)
+                            ? profile.unlocked_achievements.filter(id => validIds.has(id))
+                            : ['welcome', 'login_user'];
+                        escBest = Number(profile.escape_best) || 0;
+                        clickerState.score = Number(profile.clicker_score) || 0;
+                    } else {
+                        await sb.from('profiles').upsert({
+                            id: authUser.id,
+                            username: displayNick,
+                            avatar: state.avatar,
+                            selected_status: state.selectedStatus,
+                            clicker_score: 0,
+                            clicker_max_score: 0,
+                            escape_best: 0,
+                            seconds_on_site: 0,
+                            unlocked_achievements: state.unlockedAchievements
+                        });
+                    }
+                } catch (e) {}
+            }
+
+            try {
+                localStorage.setItem(CLICKER_STORAGE_KEY, JSON.stringify(clickerState));
+                localStorage.setItem('usrishnost_escape_best_v1', String(escBest));
+            } catch (e) {}
+
+            saveState();
+            applyAllSettings();
+            renderAuthArea();
+            renderAchievements();
+            renderClickerSwitcher();
+            renderClickerMemeVisual();
+            renderClickerUI();
+            updateAccountView();
+        }
+
+        async function restoreSupabaseSession() {
+            if (!sb) return;
+            try {
+                const { data: { session } } = await sb.auth.getSession();
+                if (session && session.user) {
+                    await syncProfileWithCloud(session.user, session.user.user_metadata && session.user.user_metadata.username);
+                }
+            } catch (e) {}
+        }
+
+        async function handleSupabaseAuth(event) {
+            event.preventDefault();
+            const usernameInput = document.getElementById('login-username');
+            const passwordInput = document.getElementById('login-password');
+            const submitBtn = document.getElementById('auth-submit-btn');
+            const errBox = document.getElementById('auth-error-box');
+
+            if (errBox) errBox.classList.add('hidden');
+
+            const rawNick = usernameInput ? usernameInput.value.trim() : '';
+            const password = passwordInput ? passwordInput.value : '';
+
+            if (rawNick.length < 2) {
+                showAuthError(t('login_nick_ph'));
+                return;
+            }
+            if (password.length < 6) {
+                showAuthError(t('auth_err_short_pass'));
+                return;
+            }
+            if (!sb) {
+                showAuthError('Supabase SDK не загружен. Проверьте подключение к сети.');
+                return;
+            }
+
+            const prevBtnText = submitBtn ? submitBtn.textContent : '';
+            if (submitBtn) {
+                submitBtn.disabled = true;
+                submitBtn.textContent = t('auth_loading');
+            }
+
+            const techEmail = buildTechEmailFromNick(rawNick);
+
+            try {
+                if (authModalMode === 'register') {
+                    const { data, error } = await sb.auth.signUp({
+                        email: techEmail,
+                        password: password,
+                        options: {
+                            data: { username: rawNick }
+                        }
+                    });
+
+                    if (error) {
+                        const msg = (error.message || '').toLowerCase();
+                        if (msg.includes('already registered') || msg.includes('already exists')) {
+                            showAuthError(t('auth_err_taken'));
+                        } else {
+                            showAuthError(error.message);
+                        }
+                        return;
+                    }
+
+                    if (data && data.user) {
+                        await syncProfileWithCloud(data.user, rawNick, true);
+                        closeLoginModal();
+                        if (usernameInput) usernameInput.value = '';
+                        if (passwordInput) passwordInput.value = '';
+                        playAchievementSound();
+                        showToast(t('toast_register_ok', { name: rawNick }), true);
+                        unlockAchievement('login_user');
+                    }
+                } else {
+                    const { data, error } = await sb.auth.signInWithPassword({
+                        email: techEmail,
+                        password: password
+                    });
+
+                    if (error) {
+                        showAuthError(t('auth_err_invalid'));
+                        return;
+                    }
+
+                    if (data && data.user) {
+                        await syncProfileWithCloud(data.user, rawNick, false);
+                        closeLoginModal();
+                        if (usernameInput) usernameInput.value = '';
+                        if (passwordInput) passwordInput.value = '';
+                        playClickSound(740, 0.12);
+                        showToast(t('toast_login_ok', { name: state.user || rawNick }));
+                        unlockAchievement('login_user');
+                    }
+                }
+            } catch (err) {
+                showAuthError(err && err.message ? err.message : 'Ошибка соединения с Supabase');
+            } finally {
+                if (submitBtn) {
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = prevBtnText;
+                }
+            }
+        }
+
+        // ==========================================
+        // МИНИИГРА №1: УСРО-КЛИКЕР
+        // ==========================================
+        const CLICKER_STORAGE_KEY = 'usrishnost_clicker_state_v1';
+        const CLICKER_MEME_KEYS = ['usrishnost', 'eto7tprostl', 'sisli', 'sosia'];
+        const CLICKER_MEME_IMAGES = {
+            usrishnost: 'usrishnost.jpg',
+            eto7tprostl: 'eto7tprostl.jpg',
+            sisli: 'ba90d5bb-cfdb-4ce5-9031-3fc703cde91c.png',
+            sosia: 'c23b4526-88ca-4086-862d-c2639a4046bf.png'
+        };
 
         let clickerState = {
             score: 0,
             baseClick: 1,
             autoPerSec: 0,
             multiplier: 1,
-            clickCost: 10,
-            autoCost: 25,
-            multCost: 80,
-            prostlCost: 200,
-            selectedMemeId: 'usrishnost'
+            upgClickCost: 10,
+            upgAutoCost: 25,
+            upgMultCost: 80,
+            upgProstlCost: 200,
+            activeMeme: 'usrishnost',
+            combo: 0
         };
 
-        try {
-            const savedClicker = localStorage.getItem(CLICKER_STORAGE_KEY);
-            if (savedClicker) {
-                clickerState = { ...clickerState, ...JSON.parse(savedClicker) };
-            }
-        } catch (e) {}
-
-        let clickerCombo = 0;
         let clickerFrenzyUntil = 0;
+        let clickerSecretClicks = 0;
+        let clickerVisitedMemes = new Set(['usrishnost']);
+        let clickerFeedLogs = [];
         let clickerEventReward = 0;
-        let clickerEventIdx = 1;
-        let clickerLogs = [{ key: 'log_welcome', vars: {} }];
-        let clickerSecretBadgeClicks = 0;
-        const visitedMemesInSession = new Set([clickerState.selectedMemeId]);
+
+        function loadClickerState() {
+            try {
+                const raw = localStorage.getItem(CLICKER_STORAGE_KEY);
+                if (raw) {
+                    clickerState = { ...clickerState, ...JSON.parse(raw) };
+                }
+            } catch (e) {}
+            clickerVisitedMemes.add(clickerState.activeMeme || 'usrishnost');
+        }
 
         function saveClickerState() {
             try {
                 localStorage.setItem(CLICKER_STORAGE_KEY, JSON.stringify(clickerState));
             } catch (e) {}
+            if (Math.floor(clickerState.score) > (state.clickerMaxScore || 0)) {
+                state.clickerMaxScore = Math.floor(clickerState.score);
+                saveState();
+            } else if (typeof scheduleCloudSave === 'function') {
+                scheduleCloudSave();
+            }
         }
 
-        function addClickerLog(key, vars = {}) {
-            clickerLogs.unshift({ key, vars });
-            clickerLogs = clickerLogs.slice(0, 4);
+        function pushClickerFeed(msg) {
+            clickerFeedLogs.unshift(msg);
+            if (clickerFeedLogs.length > 4) clickerFeedLogs.pop();
             renderClickerFeed();
         }
 
         function renderClickerFeed() {
-            const feedEl = document.getElementById('clicker-feed-list');
-            if (!feedEl) return;
-            feedEl.innerHTML = clickerLogs.map(item => {
-                const resolvedVars = { ...item.vars };
-                if (resolvedVars.memeId) {
-                    const m = getClickerMemeLocalized(resolvedVars.memeId);
-                    resolvedVars.label = m.label;
-                }
-                return `<div class="text-zinc-200">• ${escapeHtml(t(item.key, resolvedVars))}</div>`;
-            }).join('');
-        }
-
-        function getClickerMemeLocalized(memeId) {
-            const asset = CLICKER_MEME_ASSETS.find(m => m.id === memeId) || CLICKER_MEME_ASSETS[0];
-            const dict = I18N[state.lang] || I18N.ru;
-            const loc = (dict.memes && dict.memes[asset.id]) || I18N.ru.memes[asset.id];
-            return { ...asset, ...loc };
-        }
-
-        function getCurrentClickerMeme() {
-            return getClickerMemeLocalized(clickerState.selectedMemeId);
-        }
-
-        function isClickerFrenzy() {
-            return Date.now() < clickerFrenzyUntil;
-        }
-
-        function getEffectiveClickerClick() {
-            const frenzyMult = isClickerFrenzy() ? 2 : 1;
-            return Math.max(1, Math.round(clickerState.baseClick * clickerState.multiplier * frenzyMult));
-        }
-
-        function getClickerLevelInfo(score) {
-            const safeScore = Math.max(0, Math.floor(score));
-            const level = Math.floor(Math.sqrt(safeScore / 25)) + 1;
-            const currentLevelFloor = 25 * Math.pow(level - 1, 2);
-            const nextLevelFloor = 25 * Math.pow(level, 2);
-            const span = Math.max(1, nextLevelFloor - currentLevelFloor);
-            const pct = Math.min(100, Math.max(0, ((safeScore - currentLevelFloor) / span) * 100));
-            const dict = I18N[state.lang] || I18N.ru;
-            const ranksList = dict.ranks || I18N.ru.ranks;
-            const rank = ranksList[Math.min(ranksList.length - 1, Math.floor((level - 1) / 2))];
-            return {
-                level,
-                rank,
-                pct,
-                currentInLevel: safeScore - currentLevelFloor,
-                neededInLevel: span
-            };
-        }
-
-        function renderClickerMemeVisual() {
-            const meme = getCurrentClickerMeme();
-            const imgEl = document.getElementById('clicker-meme-img');
-            const whoEl = document.getElementById('clicker-quote-who');
-            const textEl = document.getElementById('clicker-quote-text');
-            const bubbleEl = document.getElementById('clicker-quote-bubble');
-
-            if (imgEl) {
-                imgEl.src = meme.imgSrc;
-                imgEl.alt = meme.label;
+            const list = document.getElementById('clicker-feed-list');
+            if (!list) return;
+            if (clickerFeedLogs.length === 0) {
+                clickerFeedLogs.push(t('log_welcome'));
             }
-            if (whoEl) whoEl.textContent = meme.who;
-            if (textEl) textEl.textContent = meme.phrases[0];
-
-            if (bubbleEl) {
-                const oldTag = bubbleEl.querySelector('.clicker-quote-tag');
-                if (oldTag) oldTag.remove();
-                if (meme.tag) {
-                    const tagSpan = document.createElement('span');
-                    tagSpan.className = 'clicker-quote-tag text-[11px] px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 font-bold';
-                    tagSpan.textContent = meme.tag;
-                    bubbleEl.insertBefore(tagSpan, textEl);
-                }
-            }
+            list.innerHTML = clickerFeedLogs.map(item => `<div class="truncate text-zinc-300">• ${escapeHtml(item)}</div>`).join('');
         }
 
         function renderClickerSwitcher() {
-            const switcher = document.getElementById('clicker-meme-switcher');
-            if (!switcher) return;
-            switcher.innerHTML = '';
+            const box = document.getElementById('clicker-meme-switcher');
+            if (!box) return;
+            const dict = I18N[state.lang] || I18N.ru;
+            const memesDict = dict.memes || I18N.ru.memes;
 
-            CLICKER_MEME_ASSETS.forEach(asset => {
-                const meme = getClickerMemeLocalized(asset.id);
-                const btn = document.createElement('button');
-                const isActive = meme.id === clickerState.selectedMemeId;
-                btn.type = 'button';
-                btn.className = `px-3 py-2 rounded-xl text-xs sm:text-sm font-bold border transition-all cursor-pointer ${
-                    isActive
-                        ? 'bg-orange-500/25 border-orange-400 text-white shadow-sm'
-                        : 'bg-zinc-900/70 border-white/10 text-zinc-300 hover:text-white hover:border-white/25'
-                }`;
-                btn.textContent = meme.label;
-                btn.onclick = () => {
-                    playClickSound(540);
-                    clickerState.selectedMemeId = meme.id;
-                    visitedMemesInSession.add(meme.id);
-                    if (visitedMemesInSession.size >= CLICKER_MEME_ASSETS.length) {
-                        unlockAchievement('easter_clicker_meme_tour');
-                    }
-                    saveClickerState();
-                    renderClickerSwitcher();
-                    renderClickerMemeVisual();
-                    addClickerLog('log_switched', { memeId: meme.id });
-                };
-                switcher.appendChild(btn);
-            });
+            box.innerHTML = CLICKER_MEME_KEYS.map(key => {
+                const m = memesDict[key];
+                const active = clickerState.activeMeme === key;
+                return `
+                    <button type="button" onclick="selectClickerMeme('${key}')" class="px-3 py-1.5 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
+                        active
+                            ? 'bg-orange-500 border-orange-400 text-white shadow'
+                            : 'bg-zinc-900/75 border-white/10 text-zinc-300 hover:bg-zinc-800'
+                    }">
+                        ${escapeHtml(m.label)}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function selectClickerMeme(key) {
+            if (!CLICKER_MEME_KEYS.includes(key)) return;
+            clickerState.activeMeme = key;
+            clickerVisitedMemes.add(key);
+            saveClickerState();
+            renderClickerSwitcher();
+            renderClickerMemeVisual();
+            playClickSound(560);
+
+            const dict = I18N[state.lang] || I18N.ru;
+            const m = (dict.memes || I18N.ru.memes)[key];
+            pushClickerFeed(t('log_switched', { label: m.label }));
+
+            if (clickerVisitedMemes.size >= CLICKER_MEME_KEYS.length) {
+                unlockAchievement('easter_clicker_meme_tour');
+            }
+        }
+
+        function renderClickerMemeVisual() {
+            const key = clickerState.activeMeme || 'usrishnost';
+            const img = document.getElementById('clicker-meme-img');
+            const whoEl = document.getElementById('clicker-quote-who');
+            const txtEl = document.getElementById('clicker-quote-text');
+            const dict = I18N[state.lang] || I18N.ru;
+            const m = (dict.memes || I18N.ru.memes)[key] || I18N.ru.memes.usrishnost;
+
+            if (img) img.src = CLICKER_MEME_IMAGES[key] || 'usrishnost.jpg';
+            if (whoEl) whoEl.textContent = m.who;
+            if (txtEl) txtEl.textContent = m.phrases[Math.floor(Math.random() * m.phrases.length)];
+        }
+
+        function handleClickerSecretBadge() {
+            clickerSecretClicks++;
+            playClickSound(640);
+            if (clickerSecretClicks >= 3) {
+                clickerSecretClicks = 0;
+                const bonus = 77;
+                clickerState.score += bonus;
+                saveClickerState();
+                renderClickerUI();
+                unlockAchievement('easter_clicker_badge');
+                pushClickerFeed(t('log_secret', { bonus }));
+                showToast(t('toast_clicker_secret', { bonus }));
+            }
+        }
+
+        function getClickerGainPerClick() {
+            const frenzyMult = Date.now() < clickerFrenzyUntil ? 2 : 1;
+            return Math.max(1, Math.round(clickerState.baseClick * clickerState.multiplier * frenzyMult));
         }
 
         function renderClickerUI() {
-            const frenzy = isClickerFrenzy();
-            const targetBtn = document.getElementById('clicker-target');
-            if (targetBtn) {
-                targetBtn.classList.toggle('border-amber-400', frenzy);
-                targetBtn.classList.toggle('shadow-amber-400/30', frenzy);
-            }
+            const scoreEl = document.getElementById('clicker-score');
+            const perClickEl = document.getElementById('clicker-per-click');
+            const perSecEl = document.getElementById('clicker-per-sec');
+            const multEl = document.getElementById('clicker-mult');
+            if (!scoreEl) return;
 
-            if (clickerState.score >= 100) {
-                unlockAchievement('clicker_first_100');
-            }
-            if (clickerState.score >= 1000) {
-                unlockAchievement('clicker_1000');
-            }
+            const isFrenzy = Date.now() < clickerFrenzyUntil;
+            const frenzyMult = isFrenzy ? 2 : 1;
+            const gain = getClickerGainPerClick();
+            const secGain = Math.round(clickerState.autoPerSec * frenzyMult);
 
-            const flooredScore = Math.floor(clickerState.score);
-            if (flooredScore > (state.clickerMaxScore || 0)) {
-                state.clickerMaxScore = flooredScore;
-                saveState();
-            }
+            scoreEl.textContent = Math.floor(clickerState.score).toLocaleString();
+            if (perClickEl) perClickEl.textContent = gain.toLocaleString();
+            if (perSecEl) perSecEl.textContent = secGain.toLocaleString();
+            if (multEl) multEl.textContent = `x${(clickerState.multiplier * frenzyMult).toFixed(2).replace(/\.00$/, '')}`;
 
-            const localeMap = { ru: 'ru-RU', uk: 'uk-UA', en: 'en-US' };
-            const numLocale = localeMap[state.lang] || 'ru-RU';
-            const lvl = getClickerLevelInfo(clickerState.score);
+            // Уровень
+            const level = Math.floor(Math.sqrt(clickerState.score / 25)) + 1;
+            const prevThresh = Math.pow(level - 1, 2) * 25;
+            const nextThresh = Math.pow(level, 2) * 25;
+            const pct = Math.min(100, Math.max(0, Math.round(((clickerState.score - prevThresh) / (nextThresh - prevThresh)) * 100)));
 
-            document.getElementById('clicker-score').textContent = flooredScore.toLocaleString(numLocale);
-            document.getElementById('clicker-per-click').textContent = getEffectiveClickerClick().toLocaleString(numLocale);
-            document.getElementById('clicker-per-sec').textContent = clickerState.autoPerSec.toLocaleString(numLocale);
-            document.getElementById('clicker-mult').textContent = `x${(clickerState.multiplier * (frenzy ? 2 : 1)).toFixed(2).replace(/\.00$/, '')}`;
-            document.getElementById('clicker-level-num').textContent = String(lvl.level);
-            document.getElementById('clicker-level-rank').textContent = lvl.rank;
-            document.getElementById('clicker-level-progress').textContent = `${lvl.currentInLevel} / ${lvl.neededInLevel}`;
-            document.getElementById('clicker-level-fill').style.width = `${lvl.pct}%`;
+            const dict = I18N[state.lang] || I18N.ru;
+            const ranks = dict.ranks || I18N.ru.ranks;
+            const rankTitle = ranks[Math.min(ranks.length - 1, Math.floor((level - 1) / 2))];
 
-            const comboLabel = document.getElementById('clicker-combo-label');
+            const lvlNum = document.getElementById('clicker-level-num');
+            const lvlRank = document.getElementById('clicker-level-rank');
+            const lvlProg = document.getElementById('clicker-level-progress');
+            const lvlFill = document.getElementById('clicker-level-fill');
+            if (lvlNum) lvlNum.textContent = String(level);
+            if (lvlRank) lvlRank.textContent = rankTitle;
+            if (lvlProg) lvlProg.textContent = `${Math.floor(clickerState.score)} / ${nextThresh}`;
+            if (lvlFill) lvlFill.style.width = `${pct}%`;
+
+            // Комбо
+            const comboLbl = document.getElementById('clicker-combo-label');
             const comboPct = document.getElementById('clicker-combo-pct');
             const comboFill = document.getElementById('clicker-combo-fill');
-
-            if (frenzy) {
-                const secLeft = Math.max(0.1, (clickerFrenzyUntil - Date.now()) / 1000).toFixed(1);
-                comboLabel.textContent = t('clicker_frenzy_label', { sec: secLeft });
-                comboPct.textContent = 'MAX';
-                comboFill.style.width = '100%';
+            if (isFrenzy) {
+                const secLeft = Math.max(1, Math.ceil((clickerFrenzyUntil - Date.now()) / 1000));
+                if (comboLbl) comboLbl.textContent = t('clicker_frenzy_label', { sec: secLeft });
+                if (comboPct) comboPct.textContent = 'x2!';
+                if (comboFill) comboFill.style.width = '100%';
             } else {
-                comboLabel.textContent = t('clicker_combo_label');
-                comboPct.textContent = `${Math.floor(clickerCombo)}%`;
-                comboFill.style.width = `${clickerCombo}%`;
+                if (comboLbl) comboLbl.textContent = t('clicker_combo_label');
+                if (comboPct) comboPct.textContent = `${Math.round(clickerState.combo)}%`;
+                if (comboFill) comboFill.style.width = `${Math.min(100, clickerState.combo)}%`;
             }
 
-            const banner = document.getElementById('clicker-event-banner');
-            if (banner && clickerEventReward > 0) {
-                banner.textContent = t(`event_t${clickerEventIdx}`, { reward: clickerEventReward });
-            }
-
+            // Кнопки улучшений
             const bClick = document.getElementById('buy-click');
             const bAuto = document.getElementById('buy-auto');
             const bMult = document.getElementById('buy-mult');
             const bProstl = document.getElementById('buy-prostl');
 
-            bClick.textContent = `${clickerState.clickCost}`;
-            bClick.disabled = clickerState.score < clickerState.clickCost;
-
-            bAuto.textContent = `${clickerState.autoCost}`;
-            bAuto.disabled = clickerState.score < clickerState.autoCost;
-
-            bMult.textContent = `${clickerState.multCost}`;
-            bMult.disabled = clickerState.score < clickerState.multCost;
-
-            bProstl.textContent = `${clickerState.prostlCost}`;
-            bProstl.disabled = clickerState.score < clickerState.prostlCost;
-        }
-
-        function handleClickerSecretBadge() {
-            clickerSecretBadgeClicks++;
-            playClickSound(620 + clickerSecretBadgeClicks * 70);
-            if (clickerSecretBadgeClicks >= 3) {
-                clickerSecretBadgeClicks = 0;
-                const bonus = Math.max(25, getEffectiveClickerClick() * 5);
-                clickerState.score += bonus;
-                unlockAchievement('easter_clicker_badge');
-                addClickerLog('log_secret', { bonus });
-                showToast(t('toast_clicker_secret', { bonus }));
-                saveClickerState();
-                renderClickerUI();
+            if (bClick) {
+                bClick.textContent = clickerState.upgClickCost.toLocaleString();
+                bClick.disabled = clickerState.score < clickerState.upgClickCost;
             }
+            if (bAuto) {
+                bAuto.textContent = clickerState.upgAutoCost.toLocaleString();
+                bAuto.disabled = clickerState.score < clickerState.upgAutoCost;
+            }
+            if (bMult) {
+                bMult.textContent = clickerState.upgMultCost.toLocaleString();
+                bMult.disabled = clickerState.score < clickerState.upgMultCost;
+            }
+            if (bProstl) {
+                bProstl.textContent = clickerState.upgProstlCost.toLocaleString();
+                bProstl.disabled = clickerState.score < clickerState.upgProstlCost;
+            }
+
+            if (clickerState.score >= 100) unlockAchievement('clicker_first_100');
+            if (clickerState.score >= 1000) unlockAchievement('clicker_1000');
+            if (clickerState.score >= 10000) unlockAchievement('clicker_reset_ach');
         }
 
         function initClickerEvents() {
-            document.getElementById('clicker-target').addEventListener('click', (e) => {
-                const gained = getEffectiveClickerClick();
-                clickerState.score += gained;
-                playClickSound(560, 0.045);
+            loadClickerState();
+            const target = document.getElementById('clicker-target');
+            if (target) {
+                target.addEventListener('click', (e) => {
+                    const gain = getClickerGainPerClick();
+                    clickerState.score += gain;
+                    playClickSound(540 + Math.random() * 140, 0.045);
 
-                if (!isClickerFrenzy()) {
-                    clickerCombo = Math.min(100, clickerCombo + 9);
-                    if (clickerCombo >= 100) {
-                        clickerCombo = 0;
-                        clickerFrenzyUntil = Date.now() + 8000;
-                        unlockAchievement('clicker_frenzy');
-                        addClickerLog('log_frenzy');
+                    if (Date.now() >= clickerFrenzyUntil) {
+                        clickerState.combo = Math.min(100, clickerState.combo + 8);
+                        if (clickerState.combo >= 100) {
+                            clickerState.combo = 0;
+                            clickerFrenzyUntil = Date.now() + 8000;
+                            unlockAchievement('clicker_frenzy');
+                            pushClickerFeed(t('log_frenzy'));
+                        }
                     }
-                }
 
-                const meme = getCurrentClickerMeme();
-                const phrase = meme.phrases[Math.floor(Math.random() * meme.phrases.length)];
-                document.getElementById('clicker-quote-text').textContent = phrase;
+                    const rect = target.getBoundingClientRect();
+                    const fx = e.clientX || (rect.left + rect.width / 2);
+                    const fy = e.clientY || (rect.top + rect.height / 2);
+                    spawnClickerFloatingText(fx, fy, `+${gain}`);
 
-                const rect = e.currentTarget.getBoundingClientRect();
-                const x = e.clientX || rect.left + rect.width / 2;
-                const y = e.clientY || rect.top + rect.height / 2;
-                spawnClickerFloatingText(x, y, `+${gained}`);
+                    renderClickerMemeVisual();
+                    saveClickerState();
+                    renderClickerUI();
+                });
+            }
 
-                saveClickerState();
-                renderClickerUI();
-            });
+            const buyClick = document.getElementById('buy-click');
+            if (buyClick) {
+                buyClick.addEventListener('click', () => {
+                    if (clickerState.score < clickerState.upgClickCost) return;
+                    clickerState.score -= clickerState.upgClickCost;
+                    clickerState.baseClick += 1;
+                    clickerState.upgClickCost = Math.round(clickerState.upgClickCost * 1.55);
+                    playClickSound(660);
+                    pushClickerFeed(t('log_upg_click'));
+                    saveClickerState();
+                    renderClickerUI();
+                });
+            }
 
-            document.getElementById('buy-click').addEventListener('click', () => {
-                if (clickerState.score < clickerState.clickCost) return;
-                clickerState.score -= clickerState.clickCost;
-                clickerState.baseClick += 1;
-                clickerState.clickCost = Math.round(clickerState.clickCost * 1.5);
-                playClickSound(640);
-                addClickerLog('log_upg_click');
-                saveClickerState();
-                renderClickerUI();
-            });
+            const buyAuto = document.getElementById('buy-auto');
+            if (buyAuto) {
+                buyAuto.addEventListener('click', () => {
+                    if (clickerState.score < clickerState.upgAutoCost) return;
+                    clickerState.score -= clickerState.upgAutoCost;
+                    clickerState.autoPerSec += 1;
+                    clickerState.upgAutoCost = Math.round(clickerState.upgAutoCost * 1.6);
+                    playClickSound(660);
+                    pushClickerFeed(t('log_upg_auto'));
+                    saveClickerState();
+                    renderClickerUI();
+                });
+            }
 
-            document.getElementById('buy-auto').addEventListener('click', () => {
-                if (clickerState.score < clickerState.autoCost) return;
-                clickerState.score -= clickerState.autoCost;
-                clickerState.autoPerSec += 1;
-                clickerState.autoCost = Math.round(clickerState.autoCost * 1.55);
-                playClickSound(680);
-                addClickerLog('log_upg_auto');
-                saveClickerState();
-                renderClickerUI();
-            });
+            const buyMult = document.getElementById('buy-mult');
+            if (buyMult) {
+                buyMult.addEventListener('click', () => {
+                    if (clickerState.score < clickerState.upgMultCost) return;
+                    clickerState.score -= clickerState.upgMultCost;
+                    clickerState.multiplier = Number((clickerState.multiplier + 0.25).toFixed(2));
+                    clickerState.upgMultCost = Math.round(clickerState.upgMultCost * 1.85);
+                    playClickSound(700);
+                    pushClickerFeed(t('log_upg_mult'));
+                    saveClickerState();
+                    renderClickerUI();
+                });
+            }
 
-            document.getElementById('buy-mult').addEventListener('click', () => {
-                if (clickerState.score < clickerState.multCost) return;
-                clickerState.score -= clickerState.multCost;
-                clickerState.multiplier = Number((clickerState.multiplier + 0.25).toFixed(2));
-                clickerState.multCost = Math.round(clickerState.multCost * 1.7);
-                playClickSound(720);
-                addClickerLog('log_upg_mult');
-                saveClickerState();
-                renderClickerUI();
-            });
+            const buyProstl = document.getElementById('buy-prostl');
+            if (buyProstl) {
+                buyProstl.addEventListener('click', () => {
+                    if (clickerState.score < clickerState.upgProstlCost) return;
+                    clickerState.score -= clickerState.upgProstlCost;
+                    clickerState.autoPerSec += 5;
+                    clickerState.upgProstlCost = Math.round(clickerState.upgProstlCost * 1.75);
+                    playClickSound(720);
+                    pushClickerFeed(t('log_upg_prostl'));
+                    saveClickerState();
+                    renderClickerUI();
+                });
+            }
 
-            document.getElementById('buy-prostl').addEventListener('click', () => {
-                if (clickerState.score < clickerState.prostlCost) return;
-                clickerState.score -= clickerState.prostlCost;
-                clickerState.autoPerSec += 5;
-                clickerState.prostlCost = Math.round(clickerState.prostlCost * 1.65);
-                playClickSound(780);
-                addClickerLog('log_upg_prostl');
-                saveClickerState();
-                renderClickerUI();
-            });
+            const eventBtn = document.getElementById('clicker-event-banner');
+            if (eventBtn) {
+                eventBtn.addEventListener('click', () => {
+                    if (clickerEventReward <= 0) return;
+                    const rw = clickerEventReward;
+                    clickerEventReward = 0;
+                    eventBtn.classList.add('hidden');
+                    clickerState.score += rw;
+                    playAchievementSound();
+                    pushClickerFeed(t('log_event_catch', { reward: rw }));
+                    saveClickerState();
+                    renderClickerUI();
+                });
+            }
 
-            document.getElementById('clicker-event-banner').addEventListener('click', () => {
-                if (clickerEventReward <= 0) return;
-                clickerState.score += clickerEventReward;
-                playClickSound(820, 0.12);
-                addClickerLog('log_event_catch', { reward: clickerEventReward });
-                clickerEventReward = 0;
-                document.getElementById('clicker-event-banner').classList.add('hidden');
-                saveClickerState();
-                renderClickerUI();
-            });
-
-            document.getElementById('clicker-reset-btn').addEventListener('click', () => {
-                try { localStorage.removeItem(CLICKER_STORAGE_KEY); } catch (e) {}
-                clickerState = {
-                    score: 0,
-                    baseClick: 1,
-                    autoPerSec: 0,
-                    multiplier: 1,
-                    clickCost: 10,
-                    autoCost: 25,
-                    multCost: 80,
-                    prostlCost: 200,
-                    selectedMemeId: 'usrishnost'
-                };
-                clickerCombo = 0;
-                clickerFrenzyUntil = 0;
-                clickerEventReward = 0;
-                document.getElementById('clicker-event-banner').classList.add('hidden');
-                clickerLogs = [{ key: 'log_reset', vars: {} }];
-                playClickSound(360);
-                renderClickerSwitcher();
-                renderClickerMemeVisual();
-                renderClickerFeed();
-                renderClickerUI();
-                unlockAchievement('clicker_reset_ach');
-                showToast(t('toast_clicker_reset'));
-            });
-
+            // Пассивный тик кликера
             setInterval(() => {
+                const isFrenzy = Date.now() < clickerFrenzyUntil;
                 if (clickerState.autoPerSec > 0) {
-                    clickerState.score += clickerState.autoPerSec;
+                    clickerState.score += clickerState.autoPerSec * (isFrenzy ? 2 : 1);
                     saveClickerState();
                 }
-                if (!isClickerFrenzy() && clickerCombo > 0) {
-                    clickerCombo = Math.max(0, clickerCombo - 2.5);
+                if (!isFrenzy && clickerState.combo > 0) {
+                    clickerState.combo = Math.max(0, clickerState.combo - 2);
                 }
-
-                const banner = document.getElementById('clicker-event-banner');
-                if (banner && clickerEventReward <= 0 && Math.random() < 0.14) {
-                    clickerEventReward = Math.max(15, getEffectiveClickerClick() * 6 + clickerState.autoPerSec * 4);
-                    clickerEventIdx = Math.floor(Math.random() * 3) + 1;
-                    banner.textContent = t(`event_t${clickerEventIdx}`, { reward: clickerEventReward });
-                    banner.classList.remove('hidden');
-                }
-
                 if (activeTab === 'clicker') {
                     renderClickerUI();
+                    if (clickerEventReward === 0 && Math.random() < 0.04 && eventBtn) {
+                        clickerEventReward = Math.max(15, Math.round(getClickerGainPerClick() * 12));
+                        const evKeys = ['event_t1', 'event_t2', 'event_t3'];
+                        eventBtn.textContent = t(evKeys[Math.floor(Math.random() * evKeys.length)], { reward: clickerEventReward });
+                        eventBtn.classList.remove('hidden');
+                    }
                 }
             }, 1000);
         }
 
         // ==========================================
-        // ИГРА №2: ПОБЕГ ОТ ЭТО7ТПРОСТЛ
+        // МИНИИГРА №2: ПОБЕГ ОТ ЭТО7ТПРОСТЛ
         // ==========================================
-        let escAnimId = null;
-        let escScoreTimer = null;
-        let escRunning = false;
-        let escScore = 0;
         let escBest = 0;
-        try {
-            escBest = Number(localStorage.getItem('usrishnost_escape_best_v1')) || 0;
-        } catch (e) {}
+        try { escBest = Number(localStorage.getItem('usrishnost_escape_best_v1')) || 0; } catch (e) {}
 
-        const escKeys = { up: false, down: false, left: false, right: false };
-        const escTouchDir = { x: 0, y: 0 };
-        let escPointerTarget = null;
+        let escScore = 0;
+        let escRunning = false;
+        let escAnimId = null;
+        let escLastFrame = 0;
+        let escScoreAcc = 0;
         let escCheatGodMode = false;
         let escCheatFreeze = false;
 
-        let escPlayer = { x: 160, y: 160, size: 38, speed: 4.4 };
+        let escPlayer = { x: 160, y: 160, size: 38, speed: 270 };
         let escEnemies = [];
         let escBonuses = [];
+        let escKeys = { up: false, down: false, left: false, right: false };
+        let escTouchDir = { x: 0, y: 0 };
+        let escPointerTarget = null;
 
         function setEscapeTouchDir(dx, dy) {
-            escTouchDir.x = dx;
-            escTouchDir.y = dy;
-            escPointerTarget = null;
+            escTouchDir = { x: dx, y: dy };
+            if (dx !== 0 || dy !== 0) escPointerTarget = null;
         }
 
-        function stopEscapeGameLoop() {
-            escRunning = false;
-            if (escAnimId) cancelAnimationFrame(escAnimId);
-            if (escScoreTimer) clearInterval(escScoreTimer);
-            escAnimId = null;
-            escScoreTimer = null;
-        }
-
-        function startEscapeGame() {
-            if (!state.user) return;
-            const arena = document.getElementById('escape-arena');
-            const overlay = document.getElementById('escape-overlay');
-            if (!arena || !overlay) return;
-
-            stopEscapeGameLoop();
-            playClickSound(620, 0.08);
-            overlay.classList.add('hidden');
-            overlay.classList.remove('flex');
-
-            const w = arena.clientWidth || 600;
-            const h = arena.clientHeight || 380;
-
-            escScore = 0;
-            escPointerTarget = null;
-            escPlayer = { x: w / 2 - 19, y: h / 2 - 19, size: 38, speed: 4.5 };
-            escEnemies = [];
-            escBonuses = [];
-
-            spawnEscapeEnemy(w, h);
-            spawnEscapeBonus(w, h);
-
-            document.getElementById('esc-score').textContent = '0';
-            document.getElementById('esc-best').textContent = String(escBest);
-            document.getElementById('esc-enemies-count').textContent = String(escEnemies.length);
-
-            escRunning = true;
-
-            escScoreTimer = setInterval(() => {
-                if (!escRunning) return;
-                escScore += 1;
-                updateEscapeHud();
-
-                // Каждые 12 очков появляется новый томат это7тпростл (до 7 штук)
-                if (escScore % 12 === 0 && escEnemies.length < 7) {
-                    const cw = arena.clientWidth || 600;
-                    const ch = arena.clientHeight || 380;
-                    spawnEscapeEnemy(cw, ch);
-                    document.getElementById('esc-enemies-count').textContent = String(escEnemies.length);
-                }
-                if (escBonuses.length < 2 && Math.random() < 0.45) {
-                    const cw = arena.clientWidth || 600;
-                    const ch = arena.clientHeight || 380;
-                    spawnEscapeBonus(cw, ch);
-                }
-            }, 350);
-
-            function gameLoop() {
-                if (!escRunning) return;
-                updateEscapePhysics();
-                renderEscapeEntities();
-                escAnimId = requestAnimationFrame(gameLoop);
-            }
-            escAnimId = requestAnimationFrame(gameLoop);
-        }
-
-        function spawnEscapeEnemy(w, h) {
+        function spawnEscapeEnemy(arenaW, arenaH) {
+            const size = 40;
             const side = Math.floor(Math.random() * 4);
-            let x = 10, y = 10;
-            if (side === 0) { x = Math.random() * (w - 44); y = 6; }
-            if (side === 1) { x = w - 48; y = Math.random() * (h - 44); }
-            if (side === 2) { x = Math.random() * (w - 44); y = h - 48; }
-            if (side === 3) { x = 6; y = Math.random() * (h - 44); }
+            let x = 0, y = 0;
+            if (side === 0) { x = Math.random() * (arenaW - size); y = 4; }
+            else if (side === 1) { x = arenaW - size - 4; y = Math.random() * (arenaH - size); }
+            else if (side === 2) { x = Math.random() * (arenaW - size); y = arenaH - size - 4; }
+            else { x = 4; y = Math.random() * (arenaH - size); }
 
-            const baseSpeed = 1.65 + Math.min(2.2, escEnemies.length * 0.25);
-            const angle = Math.random() * Math.PI * 2;
+            // Направляем томат сразу в сторону игрока + задаём индивидуальную скорость преследования
+            const px = escPlayer.x + escPlayer.size / 2;
+            const py = escPlayer.y + escPlayer.size / 2;
+            const angle = Math.atan2(py - (y + size / 2), px - (x + size / 2));
+            const speed = 115 + Math.random() * 65;
             escEnemies.push({
-                x,
-                y,
-                size: 40,
-                vx: Math.cos(angle) * baseSpeed,
-                vy: Math.sin(angle) * baseSpeed,
-                speed: baseSpeed
+                x, y, size,
+                speed,
+                vx: Math.cos(angle) * speed,
+                vy: Math.sin(angle) * speed,
+                wobbleSeed: Math.random() * Math.PI * 2
             });
+            const countEl = document.getElementById('esc-enemies-count');
+            if (countEl) countEl.textContent = String(escEnemies.length);
         }
 
-        function spawnEscapeBonus(w, h) {
-            const imgs = [
-                'ba90d5bb-cfdb-4ce5-9031-3fc703cde91c.png',
-                'c23b4526-88ca-4086-862d-c2639a4046bf.png'
-            ];
+        function spawnEscapeBonus(arenaW, arenaH) {
+            const size = 32;
+            const imgs = ['ba90d5bb-cfdb-4ce5-9031-3fc703cde91c.png', 'c23b4526-88ca-4086-862d-c2639a4046bf.png'];
             escBonuses.push({
-                x: 24 + Math.random() * Math.max(40, w - 72),
-                y: 24 + Math.random() * Math.max(40, h - 72),
-                size: 32,
+                x: 20 + Math.random() * Math.max(40, arenaW - size - 40),
+                y: 20 + Math.random() * Math.max(40, arenaH - size - 40),
+                size,
                 img: imgs[Math.floor(Math.random() * imgs.length)]
             });
         }
 
-        function updateEscapePhysics() {
+        function stopEscapeGameLoop() {
+            escRunning = false;
+            if (escAnimId) {
+                cancelAnimationFrame(escAnimId);
+                escAnimId = null;
+            }
+        }
+
+        function startEscapeGame() {
+            const arena = document.getElementById('escape-arena');
+            const overlay = document.getElementById('escape-overlay');
+            if (!arena) return;
+
+            const w = arena.clientWidth || 360;
+            const h = arena.clientHeight || 360;
+
+            escScore = 0;
+            escScoreAcc = 0;
+            escEnemies = [];
+            escBonuses = [];
+            escPointerTarget = null;
+            escPlayer = { x: Math.round(w / 2 - 19), y: Math.round(h / 2 - 19), size: 38, speed: 275 };
+
+            const bestEl = document.getElementById('esc-best');
+            if (bestEl) bestEl.textContent = String(escBest);
+            updateEscapeHud();
+
+            spawnEscapeEnemy(w, h);
+            spawnEscapeBonus(w, h);
+
+            if (overlay) {
+                overlay.classList.add('hidden');
+                overlay.classList.remove('flex');
+            }
+
+            escRunning = true;
+            escLastFrame = performance.now();
+            playClickSound(620, 0.08);
+            escAnimId = requestAnimationFrame(escapeGameLoop);
+        }
+
+        function escapeGameLoop(now) {
+            if (!escRunning) return;
+            const dt = Math.min(0.05, (now - escLastFrame) / 1000);
+            escLastFrame = now;
+
             const arena = document.getElementById('escape-arena');
             if (!arena) return;
-            const w = arena.clientWidth || 600;
-            const h = arena.clientHeight || 380;
+            const w = arena.clientWidth || 360;
+            const h = arena.clientHeight || 360;
 
+            // Движение игрока
             let dx = escTouchDir.x;
             let dy = escTouchDir.y;
             if (escKeys.left) dx -= 1;
@@ -4341,68 +4963,125 @@
             if (escKeys.up) dy -= 1;
             if (escKeys.down) dy += 1;
 
-            if (escPointerTarget) {
+            if (dx !== 0 || dy !== 0) {
+                const len = Math.hypot(dx, dy);
+                escPlayer.x += (dx / len) * escPlayer.speed * dt;
+                escPlayer.y += (dy / len) * escPlayer.speed * dt;
+            } else if (escPointerTarget) {
                 const cx = escPlayer.x + escPlayer.size / 2;
                 const cy = escPlayer.y + escPlayer.size / 2;
-                const pdx = escPointerTarget.x - cx;
-                const pdy = escPointerTarget.y - cy;
-                const dist = Math.hypot(pdx, pdy);
+                const tx = escPointerTarget.x - cx;
+                const ty = escPointerTarget.y - cy;
+                const dist = Math.hypot(tx, ty);
                 if (dist > 4) {
-                    dx = pdx / dist;
-                    dy = pdy / dist;
-                }
-            } else if (dx !== 0 || dy !== 0) {
-                const len = Math.hypot(dx, dy);
-                dx /= len;
-                dy /= len;
-            }
-
-            escPlayer.x = Math.max(4, Math.min(w - escPlayer.size - 4, escPlayer.x + dx * escPlayer.speed));
-            escPlayer.y = Math.max(4, Math.min(h - escPlayer.size - 4, escPlayer.y + dy * escPlayer.speed));
-
-            const pCx = escPlayer.x + escPlayer.size / 2;
-            const pCy = escPlayer.y + escPlayer.size / 2;
-
-            for (let i = escBonuses.length - 1; i >= 0; i--) {
-                const b = escBonuses[i];
-                const bCx = b.x + b.size / 2;
-                const bCy = b.y + b.size / 2;
-                if (Math.hypot(pCx - bCx, pCy - bCy) < (escPlayer.size + b.size) * 0.48) {
-                    escBonuses.splice(i, 1);
-                    escScore += 10;
-                    playClickSound(760, 0.08);
-                    updateEscapeHud();
+                    const step = Math.min(dist, escPlayer.speed * 1.15 * dt);
+                    escPlayer.x += (tx / dist) * step;
+                    escPlayer.y += (ty / dist) * step;
                 }
             }
 
-            for (const en of escEnemies) {
+            escPlayer.x = Math.max(2, Math.min(w - escPlayer.size - 2, escPlayer.x));
+            escPlayer.y = Math.max(2, Math.min(h - escPlayer.size - 2, escPlayer.y));
+
+            // Начисление очков за выживание
+            escScoreAcc += dt * 10;
+            if (escScoreAcc >= 1) {
+                const add = Math.floor(escScoreAcc);
+                escScore += add;
+                escScoreAcc -= add;
+                updateEscapeHud();
+
+                const desiredEnemies = Math.min(12, 1 + Math.floor(escScore / 35));
+                while (escEnemies.length < desiredEnemies) {
+                    spawnEscapeEnemy(w, h);
+                }
+            }
+
+            // Погоня томатов за игроком (с плавным разворотом и разделением друг от друга)
+            const playerCx = escPlayer.x + escPlayer.size / 2;
+            const playerCy = escPlayer.y + escPlayer.size / 2;
+
+            for (let i = 0; i < escEnemies.length; i++) {
+                const en = escEnemies[i];
                 if (!escCheatFreeze) {
-                    const eCx = en.x + en.size / 2;
-                    const eCy = en.y + en.size / 2;
-                    const toPlayerX = pCx - eCx;
-                    const toPlayerY = pCy - eCy;
-                    const dist = Math.hypot(toPlayerX, toPlayerY) || 1;
+                    const ex = en.x + en.size / 2;
+                    const ey = en.y + en.size / 2;
+                    const toPlayerX = playerCx - ex;
+                    const toPlayerY = playerCy - ey;
+                    const distToPlayer = Math.hypot(toPlayerX, toPlayerY) || 1;
 
-                    en.vx = en.vx * 0.94 + (toPlayerX / dist) * en.speed * 0.06;
-                    en.vy = en.vy * 0.94 + (toPlayerY / dist) * en.speed * 0.06;
-                    const curSpd = Math.hypot(en.vx, en.vy) || 1;
-                    en.vx = (en.vx / curSpd) * en.speed;
-                    en.vy = (en.vy / curSpd) * en.speed;
+                    // Базовый вектор погони за игроком + лёгкое рыскание, чтобы враги окружали игрока
+                    const wobbleAngle = Math.sin(now * 0.003 + (en.wobbleSeed || 0)) * 0.28;
+                    const baseAngle = Math.atan2(toPlayerY, toPlayerX) + wobbleAngle;
+                    let dirX = Math.cos(baseAngle);
+                    let dirY = Math.sin(baseAngle);
 
-                    en.x += en.vx;
-                    en.y += en.vy;
+                    // Отталкивание от соседних томатов, чтобы они не слипались в одну точку
+                    for (let j = 0; j < escEnemies.length; j++) {
+                        if (i === j) continue;
+                        const other = escEnemies[j];
+                        const ox = ex - (other.x + other.size / 2);
+                        const oy = ey - (other.y + other.size / 2);
+                        const d = Math.hypot(ox, oy);
+                        const minSep = en.size * 1.15;
+                        if (d > 0 && d < minSep) {
+                            const push = (minSep - d) / minSep;
+                            dirX += (ox / d) * push * 1.4;
+                            dirY += (oy / d) * push * 1.4;
+                        }
+                    }
 
-                    if (en.x <= 2 || en.x >= w - en.size - 2) en.vx *= -1;
-                    if (en.y <= 2 || en.y >= h - en.size - 2) en.vy *= -1;
+                    const norm = Math.hypot(dirX, dirY) || 1;
+                    const chaseSpeed = (en.speed || 150) + Math.min(55, escScore * 0.08);
+                    const targetVx = (dirX / norm) * chaseSpeed;
+                    const targetVy = (dirY / norm) * chaseSpeed;
+
+                    // Плавная инерция разворота (можно обмануть резким манёвром!)
+                    const turnRate = Math.min(1, dt * 4.2);
+                    en.vx += (targetVx - en.vx) * turnRate;
+                    en.vy += (targetVy - en.vy) * turnRate;
+
+                    en.x += en.vx * dt;
+                    en.y += en.vy * dt;
+
                     en.x = Math.max(2, Math.min(w - en.size - 2, en.x));
                     en.y = Math.max(2, Math.min(h - en.size - 2, en.y));
                 }
 
-                if (!escCheatGodMode && Math.hypot(pCx - (en.x + en.size / 2), pCy - (en.y + en.size / 2)) < (escPlayer.size + en.size) * 0.4) {
-                    finishEscapeGame();
-                    return;
+                if (!escCheatGodMode) {
+                    const pad = 6;
+                    if (
+                        escPlayer.x + pad < en.x + en.size - pad &&
+                        escPlayer.x + escPlayer.size - pad > en.x + pad &&
+                        escPlayer.y + pad < en.y + en.size - pad &&
+                        escPlayer.y + escPlayer.size - pad > en.y + pad
+                    ) {
+                        renderEscapeEntities();
+                        finishEscapeGame();
+                        return;
+                    }
                 }
             }
+
+            // Подбор бонусов
+            for (let i = escBonuses.length - 1; i >= 0; i--) {
+                const b = escBonuses[i];
+                if (
+                    escPlayer.x < b.x + b.size &&
+                    escPlayer.x + escPlayer.size > b.x &&
+                    escPlayer.y < b.y + b.size &&
+                    escPlayer.y + escPlayer.size > b.y
+                ) {
+                    escBonuses.splice(i, 1);
+                    escScore += 15;
+                    playClickSound(760, 0.07);
+                    updateEscapeHud();
+                    spawnEscapeBonus(w, h);
+                }
+            }
+
+            renderEscapeEntities();
+            escAnimId = requestAnimationFrame(escapeGameLoop);
         }
 
         function updateEscapeHud() {
@@ -4411,6 +5090,7 @@
                 escBest = escScore;
                 document.getElementById('esc-best').textContent = String(escBest);
                 try { localStorage.setItem('usrishnost_escape_best_v1', String(escBest)); } catch (e) {}
+                if (typeof scheduleCloudSave === 'function') scheduleCloudSave();
             }
             if (escScore >= 50) {
                 unlockAchievement('escape_runner');
@@ -4664,12 +5344,10 @@
             const autoInput = document.getElementById('cheat-auto-sec-input');
             const multInput = document.getElementById('cheat-mult-input');
             const escInput = document.getElementById('cheat-escape-best-input');
-            const nickInput = document.getElementById('cheat-nickname-input');
             if (clickInput) clickInput.value = clickerState.baseClick;
             if (autoInput) autoInput.value = clickerState.autoPerSec;
             if (multInput) multInput.value = clickerState.multiplier;
             if (escInput) escInput.value = escBest;
-            if (nickInput && state.user) nickInput.value = state.user;
             syncCheatToggleButtons();
             modal.classList.remove('hidden');
             modal.classList.add('flex');
@@ -4745,22 +5423,6 @@
             playClickSound(640);
         }
 
-        function cheatSetNickname() {
-            const input = document.getElementById('cheat-nickname-input');
-            const name = input ? input.value.trim() : '';
-            if (!name) return;
-            const localeMap = { ru: 'ru-RU', uk: 'uk-UA', en: 'en-US' };
-            state.user = name;
-            if (!state.regDate) {
-                state.regDate = new Date().toLocaleDateString(localeMap[state.lang] || 'ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
-            }
-            saveState();
-            renderAuthArea();
-            updateAccountView();
-            playClickSound(740, 0.09);
-            showToast(t('toast_cheat_nick_set', { val: name }));
-        }
-
         function cheatToggleForceRainbow() {
             state.cheatForceRainbow = !state.cheatForceRainbow;
             saveState();
@@ -4768,27 +5430,6 @@
             renderAuthArea();
             updateAccountView();
             playClickSound(740, 0.09);
-        }
-
-        function cheatResetAllAchievements() {
-            resetAchievements();
-        }
-
-        function closeCheatModal() {
-            const modal = document.getElementById('cheat-modal');
-            if (!modal) return;
-            modal.classList.add('hidden');
-            modal.classList.remove('flex');
-        }
-
-        function cheatSetClickPower() {
-            const input = document.getElementById('cheat-click-power-input');
-            const val = Math.max(1, Math.floor(Number(input ? input.value : 1) || 1));
-            clickerState.baseClick = val;
-            saveClickerState();
-            renderClickerUI();
-            playClickSound(760, 0.09);
-            showToast(t('toast_cheat_click_set', { val: val.toLocaleString() }));
         }
 
         function cheatAddClickerScore(amount) {
@@ -4822,6 +5463,7 @@
             if (escBest >= 50) unlockAchievement('escape_runner');
             if (escBest >= 100) unlockAchievement('escape_100');
             if (escBest >= 500) unlockAchievement('escape_1000');
+            saveState();
             updateAccountView();
             playClickSound(760, 0.09);
             showToast(t('toast_cheat_esc_set', { val: val.toLocaleString() }));
@@ -5008,6 +5650,7 @@
             initEscapeControls();
             loadState();
             syncCheatFabVisibility();
+            restoreSupabaseSession();
         });
     </script>
 </body>
