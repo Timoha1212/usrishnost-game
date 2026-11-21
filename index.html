@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>usrishnost games v0.7.4а — Браузерные миниигры</title>
+    <title>usrishnost games v0.7.5а — Браузерные миниигры</title>
     <link rel="icon" type="image/jpeg" href="usrishnost.jpg">
     <link rel="shortcut icon" type="image/jpeg" href="usrishnost.jpg">
     <link rel="apple-touch-icon" href="usrishnost.jpg">
@@ -319,7 +319,7 @@
                 <div class="space-y-2 max-w-2xl">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-orange-500/20 border border-orange-400/30 text-orange-300 text-xs font-semibold">
                         <span class="w-2 h-2 rounded-full bg-orange-400 animate-pulse"></span>
-                        <span data-i18n="hero_badge">Версия 0.7.4а • Компактный мобильный UI и кнопка скрытия панелей</span>
+                        <span data-i18n="hero_badge">Версия 0.7.5а • Хотфикс скорости томатов это7тпростл</span>
                     </div>
                     <h1 class="text-2xl sm:text-4xl font-extrabold tracking-tight text-white">
                         <span data-i18n="hero_title_prefix">Добро пожаловать в</span> <span class="text-orange-400">usrishnost games</span>
@@ -1162,14 +1162,14 @@
                     <div class="flex flex-wrap items-center justify-between gap-3">
                         <div>
                             <h3 data-i18n="cl_title" class="text-lg sm:text-xl font-extrabold text-white">📜 История обновлений (ChangeLog)</h3>
-                            <p data-i18n="cl_subtitle" class="text-xs sm:text-sm text-zinc-400 mt-0.5">Полный путь развития портала usrishnost games от первой альфы до 0.7.4а</p>
+                            <p data-i18n="cl_subtitle" class="text-xs sm:text-sm text-zinc-400 mt-0.5">Полный путь развития портала usrishnost games от первой альфы до 0.7.5а</p>
                         </div>
                         <div class="flex items-center gap-2 shrink-0">
                             <button type="button" onclick="toggleChangelogPanel()" data-i18n="cl_open_btn" class="px-3 py-1 rounded-xl bg-orange-500/20 hover:bg-orange-500/35 border border-orange-400/40 text-orange-200 text-xs font-bold transition-colors cursor-pointer">
                                 📖 Открыть / Свернуть журнал
                             </button>
                             <span data-i18n="cl_current_badge" class="px-3 py-1 rounded-xl bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-xs font-extrabold">
-                                Актуальная: v0.7.4а
+                                Актуальная: v0.7.5а
                             </span>
                         </div>
                     </div>
@@ -1192,7 +1192,7 @@
             </div>
             <div class="flex flex-wrap items-center gap-2.5 sm:gap-3">
                 <button onclick="openChangelogInSettings()" class="hover:text-orange-300 transition-colors cursor-pointer font-semibold">
-                    <span data-i18n="footer_version">Версия 0.7.4а</span>
+                    <span data-i18n="footer_version">Версия 0.7.5а</span>
                 </button>
                 <span>•</span>
                 <button onclick="openChangelogInSettings()" data-i18n="footer_changelog_btn" class="px-2.5 py-0.5 rounded-md bg-white/10 hover:bg-orange-500/25 border border-white/10 hover:border-orange-400/40 text-zinc-200 hover:text-orange-200 transition-colors cursor-pointer font-semibold">
@@ -1429,7 +1429,7 @@
                 nav_settings: '⚙️ Настройки',
                 btn_login: 'Войти',
                 btn_logout: 'Выйти',
-                hero_badge: 'Версия 0.7.4а • Компактный мобильный UI и кнопка скрытия панелей',
+                hero_badge: 'Версия 0.7.5а • Хотфикс скорости томатов это7тпростл',
                 hero_title_prefix: 'Добро пожаловать в',
                 hero_desc_1: 'Здесь собираются лучшие браузерные миниигры. Пока что',
                 hero_desc_2: 'разработчиков настраивают усришность на полную мощность — заходи в настройки, ищи пасхалки и собирай ачивки!',
@@ -1572,11 +1572,11 @@
                 set_guest_lock_d: 'Войди в аккаунт, чтобы менять картинку заднего фона, плитку, прозрачность панелей, затемнение, размытие и звуки.',
                 toast_ach_need_login: '🔒 Вкладка «Ачивки» доступна только после входа в аккаунт!',
                 cl_title: '📜 История обновлений (ChangeLog)',
-                cl_subtitle: 'Полный путь развития портала usrishnost games от первой альфы до 0.7.4а',
+                cl_subtitle: 'Полный путь развития портала usrishnost games от первой альфы до 0.7.5а',
                 cl_open_btn: '📖 Открыть / Свернуть журнал',
-                cl_current_badge: 'Актуальная: v0.7.4а',
+                cl_current_badge: 'Актуальная: v0.7.5а',
                 footer_rights: 'Все права усришены.',
-                footer_version: 'Версия 0.7.4а',
+                footer_version: 'Версия 0.7.5а',
                 footer_changelog_btn: '📜 Журнал изменений',
                 footer_secret_hint: 'Что тут спрятано?',
                 sosiya_title: 'Секретная переписка найдена!',
@@ -1749,6 +1749,15 @@
                 toast_cheat_all_st: '🛠️ Все статусы разблокированы (100k кликов, 1000 побега, 22 ачивки)!',
                 toast_cheat_time: '🛠️ Добавлено +10 часов активности на портале!',
                 cl: [
+                    {
+                        version: '0.7.5а',
+                        date: 'Хотфикс скорости томатов это7тпростл',
+                        badge: 'ХОТФИКС',
+                        badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-400/40',
+                        items: [
+                            'Хотфикс баланса в «Побег от это7тпростл»: теперь все томаты двигаются с абсолютно одинаковой синхронизированной скоростью, которая никогда не превышает скорость игрока.'
+                        ]
+                    },
                     {
                         version: '0.7.4а',
                         date: 'Компактный мобильный UI и скрытие панелей',
@@ -1997,7 +2006,7 @@
                 nav_settings: '⚙️ Налаштування',
                 btn_login: 'Увійти',
                 btn_logout: 'Вийти',
-                hero_badge: 'Версія 0.7.4а • Компактний мобільний UI та кнопка приховування панелей',
+                hero_badge: 'Версія 0.7.5а • Хотфікс швидкості томатів это7тпростл',
                 hero_title_prefix: 'Ласкаво просимо до',
                 hero_desc_1: 'Тут збираються найкращі браузерні мініігри. Поки що',
                 hero_desc_2: 'розробників налаштовують усрішність на повну потужність — заходь у налаштування, шукай пасхалки та збирай ачівки!',
@@ -2140,11 +2149,11 @@
                 set_guest_lock_d: 'Увійди в акаунт, щоб змінювати картинку заднього фону, плитку, прозорість панелей, затемнення, розмиття та звуки.',
                 toast_ach_need_login: '🔒 Вкладка «Ачівки» доступна лише після входу в акаунт!',
                 cl_title: '📜 Історія оновлень (ChangeLog)',
-                cl_subtitle: 'Повний шлях розвитку порталу usrishnost games від першої альфи до 0.7.4а',
+                cl_subtitle: 'Повний шлях розвитку порталу usrishnost games від першої альфи до 0.7.5а',
                 cl_open_btn: '📖 Відкрити / Згорнути журнал',
-                cl_current_badge: 'Актуальна: v0.7.4а',
+                cl_current_badge: 'Актуальна: v0.7.5а',
                 footer_rights: 'Усі права усрішені.',
-                footer_version: 'Версія 0.7.4а',
+                footer_version: 'Версія 0.7.5а',
                 footer_changelog_btn: '📜 Журнал змін',
                 footer_secret_hint: 'Що тут заховано?',
                 sosiya_title: 'Секретне листування знайдено!',
@@ -2317,6 +2326,15 @@
                 toast_cheat_all_st: '🛠️ Усі статуси розблоковано (100k кліків, 1000 втечі, 22 ачівки)!',
                 toast_cheat_time: '🛠️ Додано +10 годин активності на порталі!',
                 cl: [
+                    {
+                        version: '0.7.5а',
+                        date: 'Хотфікс швидкості томатів это7тпростл',
+                        badge: 'ХОТФІКС',
+                        badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-400/40',
+                        items: [
+                            'Хотфікс балансу у «Втеча від это7тпростл»: тепер усі томати рухаються з абсолютно однаковою синхронізованою швидкістю, яка ніколи не перевищує швидкість гравця.'
+                        ]
+                    },
                     {
                         version: '0.7.4а',
                         date: 'Компактний мобільний UI та приховування панелей',
@@ -2565,7 +2583,7 @@
                 nav_settings: '⚙️ Settings',
                 btn_login: 'Log In',
                 btn_logout: 'Log Out',
-                hero_badge: 'Version 0.7.4a • Compact mobile UI & hide bars toggle',
+                hero_badge: 'Version 0.7.5a • Hotfix for eto7tprostl tomato speed',
                 hero_title_prefix: 'Welcome to',
                 hero_desc_1: 'The finest browser minigames gather here. Right now',
                 hero_desc_2: 'developers are tuning usrishnost to full power — open settings, hunt Easter eggs, and collect achievements!',
@@ -2708,11 +2726,11 @@
                 set_guest_lock_d: 'Log in to customize background image, tiling, panel opacity, dimming, blur, and sound effects.',
                 toast_ach_need_login: '🔒 The Achievements tab is available only after logging into an account!',
                 cl_title: '📜 Update History (ChangeLog)',
-                cl_subtitle: 'The complete evolution of usrishnost games from the first alpha to 0.7.4a',
+                cl_subtitle: 'The complete evolution of usrishnost games from the first alpha to 0.7.5a',
                 cl_open_btn: '📖 Open / Collapse Changelog',
-                cl_current_badge: 'Current: v0.7.4a',
+                cl_current_badge: 'Current: v0.7.5a',
                 footer_rights: 'All rights usrished.',
-                footer_version: 'Version 0.7.4a',
+                footer_version: 'Version 0.7.5a',
                 footer_changelog_btn: '📜 Changelog',
                 footer_secret_hint: 'What is hidden here?',
                 sosiya_title: 'Secret chat log discovered!',
@@ -2885,6 +2903,15 @@
                 toast_cheat_all_st: '🛠️ All statuses unlocked (100k clicks, 1000 escape, 22 achievements)!',
                 toast_cheat_time: '🛠️ Added +10 hours of portal activity!',
                 cl: [
+                    {
+                        version: '0.7.5a',
+                        date: 'Hotfix for eto7tprostl Tomato Speed',
+                        badge: 'HOTFIX',
+                        badgeColor: 'bg-rose-500/20 text-rose-300 border-rose-400/40',
+                        items: [
+                            'Balance hotfix in «Escape from eto7tprostl»: all tomatoes now move at the exact same synchronized speed, strictly capped below the player’s movement speed.'
+                        ]
+                    },
                     {
                         version: '0.7.4a',
                         date: 'Compact Mobile UI & Hide Panels Button',
@@ -3242,7 +3269,7 @@
             touchDir: { x: 0, y: 0 },
             pointerTarget: null,
             enemies: [],
-            bonus: null,
+            bonuses: [],
             spawnTimer: 0
         };
 
@@ -3896,19 +3923,40 @@
             document.getElementById('esc-enemies-count').textContent = '1';
         }
 
-        function spawnEscapeEnemy(arenaW, arenaH) {
-            const side = Math.floor(Math.random() * 4);
-            let x = 20, y = 20;
-            if (side === 0) { x = Math.random() * (arenaW - 44); y = 6; }
-            if (side === 1) { x = Math.random() * (arenaW - 44); y = arenaH - 48; }
-            if (side === 2) { x = 6; y = Math.random() * (arenaH - 44); }
-            if (side === 3) { x = arenaW - 48; y = Math.random() * (arenaH - 44); }
+        function getEscapeEnemySpeed() {
+            const playerSpeed = (escapeGame.player && escapeGame.player.speed) ? escapeGame.player.speed : 280;
+            // Единая скорость для всех томатов, строго не превышающая скорость игрока (макс. ~82% от скорости игрока)
+            return Math.min(playerSpeed * 0.82, 130 + escapeGame.score * 0.65);
+        }
 
-            // Начальный вектор направлен прямо в сторону игрока, чтобы томаты сразу преследовали его
-            const targetX = escapeGame.player ? escapeGame.player.x : arenaW / 2;
-            const targetY = escapeGame.player ? escapeGame.player.y : arenaH / 2;
-            const angle = Math.atan2(targetY - y, targetX - x) + (Math.random() - 0.5) * 0.45;
-            const speed = 115 + Math.min(130, escapeGame.score * 1.1) + Math.random() * 25;
+        function spawnEscapeEnemy(arenaW, arenaH) {
+            const margin = 12;
+            const maxX = Math.max(margin + 10, arenaW - 48);
+            const maxY = Math.max(margin + 10, arenaH - 48);
+            const pX = escapeGame.player ? escapeGame.player.x : arenaW / 2;
+            const pY = escapeGame.player ? escapeGame.player.y : arenaH / 2;
+
+            let x = margin;
+            let y = margin;
+            // Выбираем точку спавна у края арены подальше от игрока и других томатов
+            for (let attempt = 0; attempt < 12; attempt++) {
+                const side = Math.floor(Math.random() * 4);
+                let cx = margin;
+                let cy = margin;
+                if (side === 0) { cx = margin + Math.random() * (maxX - margin); cy = margin; }
+                if (side === 1) { cx = margin + Math.random() * (maxX - margin); cy = maxY; }
+                if (side === 2) { cx = margin; cy = margin + Math.random() * (maxY - margin); }
+                if (side === 3) { cx = maxX; cy = margin + Math.random() * (maxY - margin); }
+
+                const farFromPlayer = Math.hypot(cx - pX, cy - pY) > 125;
+                const farFromOthers = escapeGame.enemies.every(en => Math.hypot(cx - en.x, cy - en.y) > 48);
+                x = cx;
+                y = cy;
+                if (farFromPlayer && farFromOthers) break;
+            }
+
+            const angle = Math.atan2(pY - y, pX - x) + (Math.random() - 0.5) * 0.5;
+            const speed = getEscapeEnemySpeed();
             escapeGame.enemies.push({
                 x,
                 y,
@@ -3919,13 +3967,14 @@
             });
         }
 
-        function spawnEscapeBonus(arenaW, arenaH) {
-            const isSisli = Math.random() < 0.5;
-            escapeGame.bonus = {
+        function createEscapeBonus(arenaW, arenaH, forceSisli = null) {
+            const isSisli = forceSisli !== null ? forceSisli : Math.random() < 0.5;
+            return {
                 x: 24 + Math.random() * Math.max(60, arenaW - 84),
                 y: 24 + Math.random() * Math.max(60, arenaH - 84),
                 size: 38,
-                points: isSisli ? 15 : 25,
+                points: 10,
+                isSisli,
                 img: isSisli ? 'ba90d5bb-cfdb-4ce5-9031-3fc703cde91c.png' : 'c23b4526-88ca-4086-862d-c2639a4046bf.png'
             };
         }
@@ -3948,7 +3997,11 @@
             escapeGame.player = { x: w / 2 - 21, y: h / 2 - 21, size: 42, speed: 280 };
             escapeGame.enemies = [];
             spawnEscapeEnemy(w, h);
-            spawnEscapeBonus(w, h);
+            // Всегда спавним 2 золотых бонуса: «сислі» и «сосія не сосія», по 10 очков каждый
+            escapeGame.bonuses = [
+                createEscapeBonus(w, h, true),
+                createEscapeBonus(w, h, false)
+            ];
 
             document.getElementById('escape-overlay').classList.add('hidden');
             escapeGame.lastTime = performance.now();
@@ -4043,19 +4096,23 @@
             const pCenterX = escapeGame.player.x + escapeGame.player.size / 2;
             const pCenterY = escapeGame.player.y + escapeGame.player.size / 2;
 
-            // Сбор бонуса
-            if (escapeGame.bonus) {
-                const bCenterX = escapeGame.bonus.x + escapeGame.bonus.size / 2;
-                const bCenterY = escapeGame.bonus.y + escapeGame.bonus.size / 2;
+            // Сбор двух золотых бонусов («сислі» и «сосія не сосія»), каждый по 10 очков
+            for (let i = 0; i < escapeGame.bonuses.length; i++) {
+                const b = escapeGame.bonuses[i];
+                const bCenterX = b.x + b.size / 2;
+                const bCenterY = b.y + b.size / 2;
                 if (Math.hypot(pCenterX - bCenterX, pCenterY - bCenterY) < 34) {
-                    escapeGame.score += escapeGame.bonus.points;
-                    playTone(760, 0.08, 'triangle', 0.09);
-                    spawnEscapeBonus(w, h);
+                    escapeGame.score += 10;
+                    playTone(780, 0.08, 'triangle');
+                    escapeGame.bonuses[i] = createEscapeBonus(w, h, b.isSisli);
                 }
             }
 
-            // Движение томатов это7тпростл: активная погоня за игроком (с учётом чита заморозки и бессмертия)
-            for (const en of escapeGame.enemies) {
+            // Движение томатов это7тпростл: единая скорость для всех томатов (не выше скорости игрока) + взаимное отталкивание
+            const uniformTomatoSpeed = getEscapeEnemySpeed();
+            for (let i = 0; i < escapeGame.enemies.length; i++) {
+                const en = escapeGame.enemies[i];
+                en.speed = uniformTomatoSpeed;
                 if (!state.escapeFreezeEnemies) {
                     const eCenterX = en.x + en.size / 2;
                     const eCenterY = en.y + en.size / 2;
@@ -4063,24 +4120,50 @@
                     const toPlayerY = pCenterY - eCenterY;
                     const distToPlayer = Math.hypot(toPlayerX, toPlayerY) || 1;
 
-                    const chaseSpeed = en.speed || 135;
-                    const desiredVx = (toPlayerX / distToPlayer) * chaseSpeed;
-                    const desiredVy = (toPlayerY / distToPlayer) * chaseSpeed;
+                    let desiredVx = (toPlayerX / distToPlayer) * uniformTomatoSpeed;
+                    let desiredVy = (toPlayerY / distToPlayer) * uniformTomatoSpeed;
 
-                    // Плавное подруливание за игроком, чтобы томаты целенаправленно преследовали яблоко
-                    const turnRate = Math.min(1, dt * 3.4);
+                    // Сила расталкивания между соседними томатами
+                    for (let j = 0; j < escapeGame.enemies.length; j++) {
+                        if (i === j) continue;
+                        const other = escapeGame.enemies[j];
+                        const diffX = en.x - other.x;
+                        const diffY = en.y - other.y;
+                        const dist = Math.hypot(diffX, diffY);
+                        const minDist = en.size * 1.15;
+                        if (dist > 0.01 && dist < minDist) {
+                            const push = ((minDist - dist) / minDist) * 180;
+                            desiredVx += (diffX / dist) * push;
+                            desiredVy += (diffY / dist) * push;
+                        }
+                    }
+
+                    // Нормализуем итоговую скорость так, чтобы все томаты двигались с одинаковой скоростью
+                    const desiredLen = Math.hypot(desiredVx, desiredVy) || 1;
+                    desiredVx = (desiredVx / desiredLen) * uniformTomatoSpeed;
+                    desiredVy = (desiredVy / desiredLen) * uniformTomatoSpeed;
+
+                    const turnRate = Math.min(1, dt * 4.5);
                     en.vx += (desiredVx - en.vx) * turnRate;
                     en.vy += (desiredVy - en.vy) * turnRate;
 
+                    const currentVelLen = Math.hypot(en.vx, en.vy) || 1;
+                    en.vx = (en.vx / currentVelLen) * uniformTomatoSpeed;
+                    en.vy = (en.vy / currentVelLen) * uniformTomatoSpeed;
+
                     en.x += en.vx * dt;
                     en.y += en.vy * dt;
-                    en.x = Math.max(2, Math.min(w - en.size - 2, en.x));
-                    en.y = Math.max(2, Math.min(h - en.size - 2, en.y));
+
+                    // Мягкий отскок от стенок арены без залипания в углах
+                    if (en.x < 4) { en.x = 4; en.vx = Math.abs(en.vx); }
+                    if (en.x > w - en.size - 4) { en.x = w - en.size - 4; en.vx = -Math.abs(en.vx); }
+                    if (en.y < 4) { en.y = 4; en.vy = Math.abs(en.vy); }
+                    if (en.y > h - en.size - 4) { en.y = h - en.size - 4; en.vy = -Math.abs(en.vy); }
                 }
 
                 const eCenterX = en.x + en.size / 2;
                 const eCenterY = en.y + en.size / 2;
-                if (!state.escapeGodMode && Math.hypot(pCenterX - eCenterX, pCenterY - eCenterY) < 30) {
+                if (!state.escapeGodMode && Math.hypot(pCenterX - eCenterX, pCenterY - eCenterY) < 28) {
                     finishEscapeGame();
                     return;
                 }
@@ -4105,9 +4188,9 @@
             let html = `
                 <img src="usrishnost.jpg" alt="Player" style="left:${escapeGame.player.x}px; top:${escapeGame.player.y}px; width:${escapeGame.player.size}px; height:${escapeGame.player.size}px;" class="absolute rounded-xl object-cover border-2 border-emerald-400 shadow-lg pointer-events-none">
             `;
-            if (escapeGame.bonus) {
+            for (const b of escapeGame.bonuses) {
                 html += `
-                    <img src="${escapeGame.bonus.img}" alt="Bonus" style="left:${escapeGame.bonus.x}px; top:${escapeGame.bonus.y}px; width:${escapeGame.bonus.size}px; height:${escapeGame.bonus.size}px;" class="absolute rounded-xl object-cover border-2 border-amber-300 shadow-md animate-pulse pointer-events-none">
+                    <img src="${b.img}" alt="Bonus" style="left:${b.x}px; top:${b.y}px; width:${b.size}px; height:${b.size}px;" class="absolute rounded-xl object-cover border-2 border-amber-300 shadow-[0_0_14px_rgba(252,211,77,0.75)] animate-pulse pointer-events-none">
                 `;
             }
             for (const en of escapeGame.enemies) {
